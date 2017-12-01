@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion "$compilesdk_version".toInteger()
     defaultConfig {
@@ -35,6 +37,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    kapt "com.android.databinding:compiler:3.1.0-alpha04"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$androidsdk_version"
     implementation "com.android.support:design:$androidsdk_version"

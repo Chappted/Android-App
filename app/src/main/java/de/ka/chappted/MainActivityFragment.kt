@@ -5,14 +5,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.ka.chappted.databinding.FragmentMainBinding
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class MainActivityFragment : Fragment() {
 
+    private var binding: FragmentMainBinding? = null
+
+    companion object {
+        fun newInstance(): MainActivityFragment {
+            return MainActivityFragment()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        binding = FragmentMainBinding.inflate(inflater)
+
+        context?.let {
+            binding?.viewModel = MainFragmentViewModel(it)
+        }
+
+        return binding?.root
     }
 }
