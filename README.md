@@ -10,8 +10,7 @@ Challange Accepted! Search, create or participate challanging events with your f
 - [Retrofit](http://square.github.io/retrofit/) / [OkHttp](http://square.github.io/okhttp/)
 - [Google Play Services](https://developers.google.com/android/guides/overview)
 - [Timber](https://github.com/JakeWharton/timber)
-- [Appium-STudio](https://experitest.com/mobile-test-automation/appium-studio/) for UI tests
-- [Realm](
+- [Appium-Studio](https://experitest.com/mobile-test-automation/appium-studio/) for UI tests
 - ... to be continued ...
 
 ## License
