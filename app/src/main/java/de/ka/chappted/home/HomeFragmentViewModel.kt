@@ -1,16 +1,16 @@
-package de.ka.chappted
+package de.ka.chappted.home
 
 import android.content.Context
 import de.ka.chappted.commons.ViewModel
 
 /**
- * A viewmodel for showing the main content.
+ * A view model for showing the home content.
  *
  * Created by Thomas Hofmann on 30.11.17.
  *
  * @param context the base context
  */
-class MainFragmentViewModel(context: Context) : ViewModel(context){
+class HomeFragmentViewModel(context: Context) : ViewModel(context){
 
     fun getText() : String = "hallo"
 }

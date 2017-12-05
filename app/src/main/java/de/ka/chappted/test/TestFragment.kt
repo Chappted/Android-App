@@ -1,22 +1,22 @@
-package de.ka.chappted
+package de.ka.chappted.test
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import de.ka.chappted.databinding.FragmentMainBinding
+import de.ka.chappted.databinding.FragmentTestBinding
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainActivityFragment : Fragment() {
+class TestFragment : Fragment() {
 
-    private var binding: FragmentMainBinding? = null
+    private var binding: FragmentTestBinding? = null
 
     companion object {
-        fun newInstance(): MainActivityFragment {
-            return MainActivityFragment()
+        fun newInstance(): TestFragment {
+            return TestFragment()
         }
     }
 
@@ -25,11 +25,7 @@ class MainActivityFragment : Fragment() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentMainBinding.inflate(inflater)
-
-        context?.let {
-            binding?.viewModel = MainFragmentViewModel(it)
-        }
+        binding = FragmentTestBinding.inflate(inflater)
 
         return binding?.root
     }
