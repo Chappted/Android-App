@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
      * Selects the current selection optically.
      */
     private fun showCurrentSelection() {
+
         currentlyShownMainView?.actionId?.let {
             bottomNavigation?.selectedItemId = it
         }
@@ -81,26 +82,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
      */
     private fun navigateTo(item: MainViews) {
 
-        var isAlreadyShowingThatItem = false
+        val isAlreadyShowingThatItem = item.tag == currentlyShownMainView?.tag
 
-        if (currentlyShownMainView == null) {
-            currentlyShownMainView = item
-        } else if (item.tag == currentlyShownMainView?.tag) {
-            isAlreadyShowingThatItem = true
-        }
+        currentlyShownMainView = item
 
         if (!isAlreadyShowingThatItem
                 && !isChangingConfigurations
                 && !isFinishing) {
-
-            currentlyShownMainView = item
 
             val fragmentToChangeTo = item.fragment
 
             val manager = supportFragmentManager
             val backStackFragment = manager.findFragmentByTag(item.tag)
 
-            if (backStackFragment != null) {
+            backStackFragment?.let {
                 manager.popBackStackImmediate(item.tag, 0)
 
                 showCurrentSelection()
