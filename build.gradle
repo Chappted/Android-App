@@ -9,7 +9,7 @@ buildscript {
     ext.minsdk_version = 21
     ext.targetsdk_version = 27
 
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.2.0'
     ext.androidsdk_version = '27.0.2'
 
     repositories {
