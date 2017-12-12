@@ -26,10 +26,7 @@ class HomeFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding = FragmentMainBinding.inflate(inflater)
-
-        context?.let {
-            binding?.viewModel = HomeFragmentViewModel(it)
-        }
+        binding?.viewModel = HomeFragmentViewModel()
 
         return binding?.root
     }

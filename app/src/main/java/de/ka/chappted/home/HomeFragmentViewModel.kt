@@ -1,7 +1,6 @@
 package de.ka.chappted.home
 
-import android.content.Context
-import de.ka.chappted.commons.ViewModel
+import de.ka.chappted.commons.base.BaseViewModel
 
 /**
  * A view model for showing the home content.
@@ -10,7 +9,7 @@ import de.ka.chappted.commons.ViewModel
  *
  * @param context the base context
  */
-class HomeFragmentViewModel(context: Context) : ViewModel(context){
+class HomeFragmentViewModel : BaseViewModel(){
 
     fun getText() : String = "hallo"
 }
