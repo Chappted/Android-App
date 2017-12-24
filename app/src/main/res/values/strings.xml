@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Chappted</string>
 
-    <string name="account_type" translatable="false">Chappted Acctount Type</string>
+    <string name="account_type" translatable="false">Default Account Type</string>
+
+    <string name="account_error_tokentype">Invalid token type</string>
+    <string name="account_token_label">Chappted Account</string>
 </resources>

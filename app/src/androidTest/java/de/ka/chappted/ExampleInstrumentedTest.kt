@@ -21,4 +21,6 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("de.ka.chappted", appContext.packageName)
     }
+
+
 }

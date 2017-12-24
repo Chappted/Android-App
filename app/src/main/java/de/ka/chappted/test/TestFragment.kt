@@ -26,6 +26,8 @@ class TestFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding = FragmentTestBinding.inflate(inflater)
+        binding?.viewModel = TestFragmentViewModel(activity!!)
+
 
         return binding?.root
     }

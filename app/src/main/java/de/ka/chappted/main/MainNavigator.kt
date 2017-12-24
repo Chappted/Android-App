@@ -7,28 +7,20 @@ import de.ka.chappted.commons.navigation.Navigator
 import de.ka.chappted.home.HomeFragment
 import de.ka.chappted.test.TestFragment
 
-fun getItems(): List<NavigationItem> {
-
-    // main items
-    val mainItems = ArrayList<NavigationItem>()
-    mainItems.add(NavigationItem(HomeFragment.newInstance(), R.id.action_favorites, "home"))
-    mainItems.add(NavigationItem(TestFragment.newInstance(), R.id.action_schedules, "test"))
-    mainItems.add(NavigationItem(HomeFragment.newInstance(), R.id.action_music, "settings"))
-
-    return mainItems
-}
+val mainNavItems = mutableListOf<NavigationItem>()
+        .apply {
+            add(NavigationItem(HomeFragment.newInstance(), R.id.action_favorites, "home"))
+            add(NavigationItem(TestFragment.newInstance(), R.id.action_schedules, "test"))
+            add(NavigationItem(HomeFragment.newInstance(), R.id.action_music, "settings"))
+        }
 
 /**
  * A navigator for the main navigation.
  *
  * Created by Thomas Hofmann on 12.12.17.
  */
-class MainNavigator : Navigator<NavigationItem>(getItems()) {
+class MainNavigator : Navigator<NavigationItem>(mainNavItems) {
 
-    /**
-     * Navigates to the specified element
-     *
-     */
     override fun navigateTo(elementTo: Any, elementFrom: Any, source: AppCompatActivity) {
 
         val item: NavigationItem? = {
@@ -38,8 +30,6 @@ class MainNavigator : Navigator<NavigationItem>(getItems()) {
                 null
             }
         }()
-
-        //val item =
 
         val isAlreadyShowingThatItem = item?.tag == currentNavItem?.tag
 

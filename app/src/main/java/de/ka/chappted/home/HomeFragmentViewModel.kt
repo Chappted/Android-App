@@ -1,5 +1,6 @@
 package de.ka.chappted.home
 
+import android.view.View
 import de.ka.chappted.commons.base.BaseViewModel
 
 /**
@@ -12,4 +13,8 @@ import de.ka.chappted.commons.base.BaseViewModel
 class HomeFragmentViewModel : BaseViewModel(){
 
     fun getText() : String = "hallo"
+
+    fun onSubmit(): View.OnClickListener {
+        return View.OnClickListener {}
+    }
 }
