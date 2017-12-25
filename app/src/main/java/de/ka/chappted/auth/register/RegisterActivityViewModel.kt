@@ -1,17 +1,15 @@
 package de.ka.chappted.auth.register
 
-import android.accounts.AccountManager
 import android.content.Intent
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import de.ka.chappted.auth.login.LoginActivity
 import de.ka.chappted.commons.base.BaseViewModel
 import de.ka.chappted.api.Repository
 import de.ka.chappted.api.model.User
+import de.ka.chappted.auth.OAuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +50,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
     private fun register() {
 
-        val data = Bundle()
+
 
         loadingProgress.set(View.VISIBLE)
 
@@ -63,10 +61,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
                 if (response.body() != null) {
 
-                    data.putString(AccountManager.KEY_ACCOUNT_NAME, userName.get())
-                    data.putString(LoginActivity.EXTRA_USER_PASS, userPass.get())
-
-                    listener.onRegistered(Intent().putExtras(data))
+                    listener.onRegistered(OAuthUtils.instance.getRegisterIntent(userName.get(), userPass.get()))
                 }
 
 

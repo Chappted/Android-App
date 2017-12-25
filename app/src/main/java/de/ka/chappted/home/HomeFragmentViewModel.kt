@@ -1,6 +1,8 @@
 package de.ka.chappted.home
 
+import android.content.Context
 import android.view.View
+import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.commons.base.BaseViewModel
 
 /**
@@ -10,11 +12,15 @@ import de.ka.chappted.commons.base.BaseViewModel
  *
  * @param context the base context
  */
-class HomeFragmentViewModel : BaseViewModel(){
+class HomeFragmentViewModel(private val context: Context?) : BaseViewModel(){
 
-    fun getText() : String = "hallo"
+    fun getText() = OAuthUtils.instance.getName(context!!)
+
 
     fun onSubmit(): View.OnClickListener {
-        return View.OnClickListener {}
+        return View.OnClickListener {
+
+            OAuthUtils.instance.deleteOAuthAccount(context!!)
+        }
     }
 }

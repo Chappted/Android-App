@@ -11,7 +11,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import de.ka.chappted.R;
 import de.ka.chappted.api.model.OAuthToken;
@@ -19,6 +21,8 @@ import de.ka.chappted.auth.login.LoginActivity;
 import timber.log.Timber;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
+import static android.accounts.AccountManager.KEY_ERROR_CODE;
+import static android.accounts.AccountManager.KEY_ERROR_MESSAGE;
 import static android.accounts.AccountManager.get;
 
 /**
@@ -37,8 +41,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
     // An expired/revoked refreshToken leads to a new registration/login to get a new one.
 
     public static final String AUTH_TOKEN_TYPE = "Access";
-    public static final String KEY_USERDATA_ACCESS_TOKEN = "access_token";
 
+    private final Handler mHandler = new Handler();
     private final Context mContext;
 
     /**
@@ -58,14 +62,32 @@ public class Authenticator extends AbstractAccountAuthenticator {
                              String[] requiredFeatures,
                              Bundle options) throws NetworkErrorException {
 
+        final Bundle result = new Bundle();
+
+        if (getAccount(mContext) != null) {
+            final String errorHint = mContext.getString(R.string.account_error_multiple_accounts);
+
+            result.putInt(AccountManager.KEY_ERROR_CODE, 30);
+            result.putString(AccountManager.KEY_ERROR_MESSAGE, errorHint);
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, errorHint, Toast.LENGTH_LONG).show();
+                }
+            });
+
+            return result;
+        }
+        //TODO use the refresh token as password!
+
 
         final Intent intent = new Intent(mContext, LoginActivity.class);
-        intent.putExtra(LoginActivity.EXTRA_IS_ADDING_NEW_ACCOUNT, true);
+        intent.putExtra(OAuthUtils.EXTRA_IS_ADDING_NEW_ACCOUNT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 
-        final Bundle bundle = new Bundle();
-        bundle.putParcelable(AccountManager.KEY_INTENT, intent);
-        return bundle;
+        result.putParcelable(AccountManager.KEY_INTENT, intent);
+        return result;
     }
 
     @Override
@@ -78,6 +100,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
         // case 1: authTokenType is invalid
         if (authTokenType != null && !authTokenType.equals(AUTH_TOKEN_TYPE)) {
+            result.putInt(AccountManager.KEY_ERROR_CODE, 31);
             result.putString(AccountManager.KEY_ERROR_MESSAGE, mContext.getString(R.string.account_error_tokentype));
             return result;
         }
@@ -87,8 +110,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
         // if account is available
         if (account != null) {
 
-            String accessToken = accountManager.getUserData(account, KEY_USERDATA_ACCESS_TOKEN);
-            String refreshToken = accountManager.peekAuthToken(account, authTokenType);
+            String accessToken = accountManager.peekAuthToken(account, authTokenType);
+            String refreshToken = accountManager.getPassword(account);
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
 
@@ -99,7 +122,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
             // case 3: access token is not available but refresh token is, fetch a new accesstoken!
             if (refreshToken != null) {
-                OAuthUtils.get().fetchNewAccessTokenBlocking(mContext);
+                OAuthUtils.Companion.getInstance().fetchNewAccessTokenBlocking(mContext);
                 return result;
             }
 
@@ -149,7 +172,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Stores the access token fro this account.
+     * Stores the access token for this account.
      *
      * @param context     the base context
      * @param accessToken the access token to store
@@ -158,14 +181,14 @@ public class Authenticator extends AbstractAccountAuthenticator {
         Account account = Authenticator.getAccount(context);
 
         if (account != null) {
-            get(context).setUserData(account, KEY_USERDATA_ACCESS_TOKEN, accessToken);
+            get(context).setAuthToken(account, AUTH_TOKEN_TYPE, accessToken);
         }
     }
 
     /**
-     * Fires a request for o auth. Will lead to a registeration screen, if not authenticated
+     * Fires a request for o auth. Will lead to a login/registration screen, if not authenticated
      * already. Else, might lead to a new access token. Will <b>NOT</b> notify on any
-     * success / failure as this is intended to be called if a new registration / login is
+     * success/failure as this is intended to be called if a new login/registration is
      * wanted.
      *
      * @param activity a activity to start the login / registration process
@@ -205,16 +228,16 @@ public class Authenticator extends AbstractAccountAuthenticator {
             return null;
         }
 
-        token.setRefreshToken(get(context).peekAuthToken(account, AUTH_TOKEN_TYPE));
-        token.setAccessToken(get(context).getUserData(account, KEY_USERDATA_ACCESS_TOKEN));
+        token.setRefreshToken(get(context).getPassword(account));
+        token.setAccessToken(get(context).peekAuthToken(account, AUTH_TOKEN_TYPE));
 
         return token;
 
     }
 
     /**
-     * If there is an account, invalidates the refresh token which also consumes the current accessToken.
-     * This makes a new login/register for o auth mandatory.
+     * If there is an account, invalidates the refresh token which also consumes the
+     * current accessToken. This makes a new login/register for o auth mandatory.
      *
      * @param context the base context
      */
@@ -229,8 +252,43 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
         String token = accountManager.peekAuthToken(account, AUTH_TOKEN_TYPE);
 
-        accountManager.setUserData(account, KEY_USERDATA_ACCESS_TOKEN, null);
+        accountManager.setPassword(account, null);
         accountManager.invalidateAuthToken(AUTH_TOKEN_TYPE, token);
+    }
+
+    /**
+     * Retrieves the current account name or an empty string if there is no account.
+     *
+     * @return the account name or empty string
+     */
+    static String getAccountName(Context context) {
+
+        Account account = getAccount(context);
+
+        if (account != null) {
+            return account.name;
+        }
+
+        return "";
+    }
+
+    /**
+     * Removes the current account.
+     *
+     * @param context the base context
+     * @return true if there was something to remove, false otherwise
+     */
+    static boolean removeCurrentAccount(Context context) {
+
+        Account account = getAccount(context);
+
+        if (account != null) {
+
+            get(context).removeAccount(account, null, null);
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -244,7 +302,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
     private static Account getAccount(Context context) {
         AccountManager accountManager = get(context);
 
-        Account[] availableAccounts = accountManager.getAccountsByType(context.getString(R.string.account_type));
+        Account[] availableAccounts
+                = accountManager.getAccountsByType(context.getString(R.string.account_type));
 
         if (availableAccounts.length > 0) {
             return availableAccounts[0];

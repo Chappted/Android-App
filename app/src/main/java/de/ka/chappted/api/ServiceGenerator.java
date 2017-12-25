@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A service generator for creating and reusing multiple networking clients.
  * Created by Thomas Hofmann on 21.12.17.
  */
-public class ServiceGenerator {
+class ServiceGenerator {
 
     /**
      * Creates a new service generator.
@@ -38,7 +38,7 @@ public class ServiceGenerator {
      * @param <S>          the client to build
      * @return the built client
      */
-    public static <S> S createNonAuthenticatedService(String baseUrl, Class<S> serviceClass) {
+    static <S> S createNonAuthenticatedService(String baseUrl, Class<S> serviceClass) {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -64,7 +64,7 @@ public class ServiceGenerator {
      * @param <S>          the client to build
      * @return the built client
      */
-    public static <S> S createAuthenticatedService(String baseUrl, Class<S> serviceClass, final Context context) {
+    static <S> S createAuthenticatedService(String baseUrl, Class<S> serviceClass, final Context context) {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -83,7 +83,7 @@ public class ServiceGenerator {
                 // forces a 401 if there is no oauth token
                 String accessToken = "empty";
 
-                OAuthToken token = OAuthUtils.get().peek(context);
+                OAuthToken token = OAuthUtils.Companion.getInstance().peek(context);
 
                 if (token != null) {
                     accessToken = token.getAccessToken();
@@ -115,7 +115,7 @@ public class ServiceGenerator {
                 }
 
                 // fetch a new access token on the first 401
-                String accessToken = OAuthUtils.get().fetchNewAccessTokenBlocking(context);
+                String accessToken = OAuthUtils.Companion.getInstance().fetchNewAccessTokenBlocking(context);
 
                 Request.Builder builder = response.request().newBuilder();
 

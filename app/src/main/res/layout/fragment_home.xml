@@ -21,7 +21,7 @@
             android:id="@+id/nix"
             android:onClick="@{viewModel.onSubmit()}"
             android:layout_width="wrap_content"
-            android:text="macht nix"
+            android:text="Delete Account!"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content" />
 
