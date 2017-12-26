@@ -16,8 +16,7 @@ class TestFragmentViewModel(private val activity: Activity) : BaseViewModel() {
     fun onSubmit(): View.OnClickListener {
         return View.OnClickListener { view ->
 
-
-            Repository.get().getAuthenticatedClient(activity).getUser(2).enqueue(
+            Repository.instance.getAuthenticatedClient(activity)?.getUser(2)?.enqueue(
                     object : retrofit2.Callback<Void> {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             Timber.e("YAY!");

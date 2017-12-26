@@ -21,11 +21,13 @@ android {
             minifyEnabled false
             applicationIdSuffix ".android.debug"
             buildConfigField "boolean", "LOGS_ENABLED", "true"
+            buildConfigField "String", "BASE_URL", "\"https://aqueous-thicket-54699.herokuapp.com/v1/\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "LOGS_ENABLED", "false"
+            buildConfigField "String", "BASE_URL", "\"https://aqueous-thicket-54699.herokuapp.com/v1/\""
         }
     }
 

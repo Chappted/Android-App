@@ -51,17 +51,18 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
     private fun register() {
 
 
-
         loadingProgress.set(View.VISIBLE)
 
-        Repository.get().nonAuthorizedClient.register(User(userName.get(), userPass.get())).enqueue(object : Callback<User> {
+        Repository.instance.getNonAuthenticatedClient()?.
+                register(User(userName.get(), userPass.get()))?.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 loadingProgress.set(View.GONE)
 
                 if (response.body() != null) {
 
-                    listener.onRegistered(OAuthUtils.instance.getRegisterIntent(userName.get(), userPass.get()))
+                    listener.onRegistered(
+                            OAuthUtils.instance.getRegisterIntent(userName.get(), userPass.get()))
                 }
 
 

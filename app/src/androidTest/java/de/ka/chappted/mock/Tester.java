@@ -44,7 +44,7 @@ public class Tester extends InstrumentationTestCase {
         server.start();
 
         HttpUrl baseUrl = server.url("/v1/chat/");
-        Repository.init(baseUrl.toString());
+        Repository.Companion.init(baseUrl.toString());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class Tester extends InstrumentationTestCase {
 
         final CountDownLatch latch = new CountDownLatch(1);
 
-        Repository.get().getAuthenticatedClient(mActivityRule.getActivity()).getNothing().enqueue(new Callback<Void>() {
+        Repository.Companion.get().getAuthenticatedClient(mActivityRule.getActivity()).getNothing().enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 

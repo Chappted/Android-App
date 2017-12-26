@@ -44,8 +44,8 @@ class LoginActivity : AccountAuthenticatorActivity(), LoginActivityViewModel.Log
         binding.viewModel = viewModel
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK && data != null) {
             viewModel?.login(
                     this,
                     data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME),

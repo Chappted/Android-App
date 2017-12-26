@@ -19,7 +19,6 @@ class HomeFragmentViewModel(private val context: Context?) : BaseViewModel(){
 
     fun onSubmit(): View.OnClickListener {
         return View.OnClickListener {
-
             OAuthUtils.instance.deleteOAuthAccount(context!!)
         }
     }

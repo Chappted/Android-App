@@ -73,11 +73,11 @@ class OAuthUtils private constructor() {
     fun fetchNewAccessTokenBlocking(context: Context): String? {
 
         try {
-            val response = Repository.get().nonAuthorizedClient.getNewAccessToken(
+            val response = Repository.instance.getNonAuthenticatedClient()?.getNewAccessToken(
                     mOAuthToken.refreshToken,
                     mOAuthToken.clientID,
                     mOAuthToken.clientSecret,
-                    "refresh_token").execute()
+                    "refresh_token")?.execute()
 
             if (response?.body() != null) {
 
@@ -107,19 +107,18 @@ class OAuthUtils private constructor() {
 
     fun fetchAllTokensAsync(username: String, password: String, callback: Callback<OAuthToken>) {
         val token = OAuthToken()
-        Repository.get().nonAuthorizedClient.getNewTokens(
+        Repository.instance.getNonAuthenticatedClient()?.getNewTokens(
                 username,
                 password,
                 token.clientID,
                 token.clientSecret,
-                "password").enqueue(callback)
+                "password")?.enqueue(callback)
     }
 
     /**
      * Retrieves a successful logged in intent.
      *
      * @param username the username
-     * @param password the password
      * @param context the base context
      * @param token the o auth token
      * @return the intent
