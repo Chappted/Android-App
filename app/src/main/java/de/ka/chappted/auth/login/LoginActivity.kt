@@ -5,6 +5,7 @@ import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import de.ka.chappted.api.Repository
 import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.auth.register.RegisterActivity
 import de.ka.chappted.databinding.ActivityLoginBinding
@@ -77,5 +78,10 @@ class LoginActivity : AccountAuthenticatorActivity(), LoginActivityViewModel.Log
         setResult(Activity.RESULT_OK, loginIntent)
         finish()
 
+    }
+
+    override fun onBackPressed() {
+        Repository.instance.stop()
+        super.onBackPressed()
     }
 }

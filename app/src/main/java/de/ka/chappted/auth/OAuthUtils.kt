@@ -32,7 +32,7 @@ class OAuthUtils private constructor() {
         val INSTANCE = OAuthUtils()
     }
 
-    private var mOAuthToken = OAuthToken()
+    private var oAuthToken = OAuthToken()
 
     /**
      * Retrieves the o auth token. Will auto-load the current o auth token, if there is any and
@@ -45,19 +45,19 @@ class OAuthUtils private constructor() {
     fun peek(context: Context): OAuthToken? {
 
         // on first load, we peek if there is a refresh token stored here
-        if (mOAuthToken.refreshToken == null) {
+        if (oAuthToken.refreshToken == null) {
 
             // if not, we load it from the account
             updateOAuthForAccount(context)
 
             // if there is none, we have to register first
-            if (mOAuthToken.refreshToken == null && context is Activity) {
+            if (oAuthToken.refreshToken == null && context is Activity) {
                 Authenticator.requestNewOAuth(context)
                 return null
             }
         }
 
-        return mOAuthToken
+        return oAuthToken
     }
 
 
@@ -73,11 +73,7 @@ class OAuthUtils private constructor() {
     fun fetchNewAccessTokenBlocking(context: Context): String? {
 
         try {
-            val response = Repository.instance.getNonAuthenticatedClient()?.getNewAccessToken(
-                    mOAuthToken.refreshToken,
-                    mOAuthToken.clientID,
-                    mOAuthToken.clientSecret,
-                    "refresh_token")?.execute()
+            val response = Repository.instance.getNewAcessTokenBlocking(oAuthToken)
 
             if (response?.body() != null) {
 
@@ -85,10 +81,10 @@ class OAuthUtils private constructor() {
 
                 val accessToken = token.accessToken
 
-                mOAuthToken.accessToken = accessToken
-                mOAuthToken.expiry = token.expiry
-                mOAuthToken.scope = token.scope
-                mOAuthToken.tokenType = token.tokenType
+                oAuthToken.accessToken = accessToken
+                oAuthToken.expiry = token.expiry
+                oAuthToken.scope = token.scope
+                oAuthToken.tokenType = token.tokenType
 
                 Authenticator.storeAccessToken(context, accessToken)
                 return accessToken
@@ -106,13 +102,7 @@ class OAuthUtils private constructor() {
     }
 
     fun fetchAllTokensAsync(username: String, password: String, callback: Callback<OAuthToken>) {
-        val token = OAuthToken()
-        Repository.instance.getNonAuthenticatedClient()?.getNewTokens(
-                username,
-                password,
-                token.clientID,
-                token.clientSecret,
-                "password")?.enqueue(callback)
+        Repository.instance.getNewTokens(username, password, callback)
     }
 
     /**
@@ -164,8 +154,8 @@ class OAuthUtils private constructor() {
     fun deleteOAuthAccount(context: Context) {
         Authenticator.invalidateOAuth(context)
 
-        mOAuthToken.accessToken = null
-        mOAuthToken.refreshToken = null
+        oAuthToken.accessToken = null
+        oAuthToken.refreshToken = null
 
         Authenticator.removeCurrentAccount(context)
     }
@@ -207,7 +197,7 @@ class OAuthUtils private constructor() {
         val token = Authenticator.retrieveOAuth(context)
 
         if (token != null) {
-            mOAuthToken = token
+            oAuthToken = token
         }
     }
 }

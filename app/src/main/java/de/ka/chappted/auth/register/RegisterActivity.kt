@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.content.Intent
 import android.app.Activity
+import de.ka.chappted.api.Repository
 import de.ka.chappted.databinding.ActivityRegisterBinding
 
 
@@ -37,6 +38,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityViewModel.Register
 
 
     override fun onBackPressed() {
+        Repository.instance.stop()
         setResult(Activity.RESULT_CANCELED)
         super.onBackPressed()
     }

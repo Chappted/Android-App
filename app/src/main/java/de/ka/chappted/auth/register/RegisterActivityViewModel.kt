@@ -50,11 +50,9 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
     private fun register() {
 
-
         loadingProgress.set(View.VISIBLE)
 
-        Repository.instance.getNonAuthenticatedClient()?.
-                register(User(userName.get(), userPass.get()))?.enqueue(object : Callback<User> {
+        Repository.instance.register(User(userName.get(), userPass.get()), object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 loadingProgress.set(View.GONE)

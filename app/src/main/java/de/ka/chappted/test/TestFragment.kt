@@ -5,12 +5,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.ka.chappted.commons.base.BaseFragment
 import de.ka.chappted.databinding.FragmentTestBinding
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class TestFragment : Fragment() {
+class TestFragment : BaseFragment() {
 
     private var binding: FragmentTestBinding? = null
 
@@ -24,6 +25,8 @@ class TestFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         super.onCreateView(inflater, container, savedInstanceState)
+
+        enableAutoRepositoryStopping(true)
 
         binding = FragmentTestBinding.inflate(inflater)
         binding?.viewModel = TestFragmentViewModel(activity!!)
