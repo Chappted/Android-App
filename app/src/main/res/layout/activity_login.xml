@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.chappted.auth.login.LoginActivityViewModel" />
+    </data>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/loginTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/usernameEdit"
+                app:addTextChangedListener="@{viewModel.getUserNameWatcher()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/passwordEdit"
+                android:layout_width="wrap_content"
+                app:addTextChangedListener="@{viewModel.getPasswordWatcher()}"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usernameEdit"
+                android:password="true" />
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passwordEdit"
+                android:onClick="@{viewModel.onSubmit()}"
+                tools:text="Login" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login"
+                android:onClick="@{viewModel.onRegister()}"
+                android:text="to the register"
+                tools:text="Login" />
+
+        </RelativeLayout>
+</layout>

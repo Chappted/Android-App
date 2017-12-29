@@ -1,6 +1,5 @@
-package de.ka.chappted.commons
+package de.ka.chappted.commons.base
 
-import android.content.Context
 import android.databinding.BaseObservable
 
 /**
@@ -9,4 +8,4 @@ import android.databinding.BaseObservable
  *
  * Created by Thomas Hofmann on 30.11.17.
  */
-abstract class ViewModel(val context: Context) : BaseObservable()
+abstract class BaseViewModel : BaseObservable()

@@ -1,119 +1,62 @@
 package de.ka.chappted.main
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
 import de.ka.chappted.R
+import de.ka.chappted.auth.OAuthUtils
+import de.ka.chappted.commons.navigation.NavigationableViewModel
 import de.ka.chappted.databinding.ActivityMainBinding
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+
 
 /**
  * The main activity offering a bottom navigation.
  * Will auto switch to the first main view.
  */
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),
+        NavigationableViewModel.NavigationListener{
 
-    private var bottomNavigation: BottomNavigationView? = null
-    private var currentlyShownMainView: MainViews? = null
+    private val viewModel by lazy { MainActivityViewModel(this) }
+
+    private val navigator by lazy { MainNavigator() }
+
+    private val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //OAuthUtils.get().peek(this) // TODO this will open up register/login if none is available
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        val viewModel = MainActivityViewModel(this)
-
         binding.viewModel = viewModel
 
-        bottomNavigation = binding.bottomNavigation
-        bottomNavigation?.setOnNavigationItemSelectedListener(this)
-
         if (savedInstanceState == null) {
-            navigateTo(MainViews.HOME) // after initializing, we navigate to the first main view
+            navigator.navigateTo(R.id.action_favorites, R.id.content, this)
+        }
+
+        navigator.observedNavItem?.subscribe { item ->
+            item.id?.let { viewModel.selectedActionId.set(item.id) }
+        }?.addTo(compositeDisposable)
+
+    }
+
+    override fun onNavigateTo(element: Any?) {
+        if (element is Int) {
+            navigator.navigateTo(element, R.id.content, this)
         }
     }
 
     override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager
-
-        val backStackCount = fragmentManager.backStackEntryCount
-        if (backStackCount > 1) {
-            fragmentManager.popBackStack()
-
-            val entry = fragmentManager.getBackStackEntryAt(backStackCount - 2)
-
-            currentlyShownMainView = MainViews.values().firstOrNull { it.tag == entry.name }
-            showCurrentSelection()
-
-        } else {
-            finish()
-        }
+        navigator.navigateBack(this)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var mainView: MainViews = MainViews.HOME
+    override fun onDestroy() {
+        super.onDestroy()
 
-        when (item.itemId) {
-            R.id.action_schedules -> mainView = MainViews.TEST
-            R.id.action_music -> mainView = MainViews.SETTINGS
-        }
-
-        navigateTo(mainView)
-
-        return true
+        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
-
-    /**
-     * Selects the current selection optically.
-     */
-    private fun showCurrentSelection() {
-
-        currentlyShownMainView?.actionId?.let {
-            bottomNavigation?.selectedItemId = it
-        }
-    }
-
-    /**
-     * Switches the current view to the main item specified.
-     *
-     * @param item           the main item to switch to
-     */
-    private fun navigateTo(item: MainViews) {
-
-        val isAlreadyShowingThatItem = item.tag == currentlyShownMainView?.tag
-
-        currentlyShownMainView = item
-
-        if (!isAlreadyShowingThatItem
-                && !isChangingConfigurations
-                && !isFinishing) {
-
-            val fragmentToChangeTo = item.fragment
-
-            val manager = supportFragmentManager
-            val backStackFragment = manager.findFragmentByTag(item.tag)
-
-            backStackFragment?.let {
-                manager.popBackStackImmediate(item.tag, 0)
-
-                showCurrentSelection()
-
-                return
-            }
-
-            val fragmentTransaction = manager.beginTransaction()
-
-            fragmentTransaction.replace(
-                    R.id.content,
-                    fragmentToChangeTo,
-                    item.tag)
-
-            fragmentTransaction.addToBackStack(item.tag)
-
-            fragmentTransaction.commitAllowingStateLoss()
-        }
-    }
-
 }

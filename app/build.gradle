@@ -21,11 +21,13 @@ android {
             minifyEnabled false
             applicationIdSuffix ".android.debug"
             buildConfigField "boolean", "LOGS_ENABLED", "true"
+            buildConfigField "String", "BASE_URL", "\"https://aqueous-thicket-54699.herokuapp.com/v1/\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "LOGS_ENABLED", "false"
+            buildConfigField "String", "BASE_URL", "\"https://aqueous-thicket-54699.herokuapp.com/v1/\""
         }
     }
 
@@ -37,7 +39,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    kapt "com.android.databinding:compiler:3.1.0-alpha04"
+    kapt "com.android.databinding:compiler:3.1.0-alpha05"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$androidsdk_version"
     implementation "com.android.support:design:$androidsdk_version"
@@ -47,4 +49,19 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // logging
+    compile 'com.jakewharton.timber:timber:4.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    // networking
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    androidTestCompile "com.squareup.retrofit2:retrofit-mock:2.3.0"
+    androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.8.0'
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
 }

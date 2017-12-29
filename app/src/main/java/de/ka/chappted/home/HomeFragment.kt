@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import de.ka.chappted.databinding.FragmentMainBinding
+import de.ka.chappted.databinding.FragmentHomeBinding
 
 /**
  * The home fragment.
  */
 class HomeFragment : Fragment() {
 
-    private var binding: FragmentMainBinding? = null
+    private var binding: FragmentHomeBinding? = null
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -25,11 +25,8 @@ class HomeFragment : Fragment() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentMainBinding.inflate(inflater)
-
-        context?.let {
-            binding?.viewModel = HomeFragmentViewModel(it)
-        }
+        binding = FragmentHomeBinding.inflate(inflater)
+        binding?.viewModel = HomeFragmentViewModel(activity?.baseContext)
 
         return binding?.root
     }

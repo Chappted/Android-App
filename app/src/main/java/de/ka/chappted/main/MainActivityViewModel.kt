@@ -1,18 +1,26 @@
 package de.ka.chappted.main
 
-import android.content.Context
+import android.databinding.ObservableInt
 import android.support.design.widget.BottomNavigationView
-import android.view.MenuItem
-import android.widget.Toast
-import de.ka.chappted.commons.ViewModel
+import de.ka.chappted.commons.navigation.NavigationableViewModel
 
 /**
- * A view model for showing the main content.
+ * A view model for showing and manipulating the main content.
  *
  * Created by Thomas Hofmann on 01.12.17.
  *
- * @param context the base context
+ * @param navigationListener a listener for navigational events
  */
-class MainActivityViewModel(context: Context) : ViewModel(context) {
+class MainActivityViewModel(navigationListener: NavigationableViewModel.NavigationListener) : NavigationableViewModel(navigationListener) {
+
+    var selectedActionId: ObservableInt = ObservableInt()
+
+    fun navigationItemSelectionListener(): BottomNavigationView.OnNavigationItemSelectedListener {
+        return BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            navigationListener.onNavigateTo(item.itemId)
+            true
+        }
+    }
+
 
 }
