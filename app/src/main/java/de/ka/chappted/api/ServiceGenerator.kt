@@ -77,10 +77,10 @@ internal object ServiceGenerator {
             // forces a 401 if there is no oauth token
             var accessToken = "empty"
 
-            val token = OAuthUtils.instance.peek(context)
+            val token = OAuthUtils.instance.peek(context)?.accessToken
 
             if (token != null) {
-                accessToken = token.accessToken
+                accessToken = token
             }
 
             val original = chain.request()

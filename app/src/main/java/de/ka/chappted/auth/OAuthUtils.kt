@@ -120,8 +120,8 @@ class OAuthUtils private constructor() {
         val result = Bundle()
         result.putString(AccountManager.KEY_ACCOUNT_NAME, username)
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, context.getString(R.string.account_type))
-        result.putString(EXTRA_REFRESH_TOKEN, token.refreshToken)
         result.putString(AccountManager.KEY_AUTHTOKEN, token.accessToken)
+        result.putString(EXTRA_REFRESH_TOKEN, token.refreshToken)
 
         return Intent().putExtras(result)
     }
@@ -176,13 +176,15 @@ class OAuthUtils private constructor() {
         val refreshToken = loginIntent.getStringExtra(EXTRA_REFRESH_TOKEN)
         val accessToken = loginIntent.getStringExtra(AccountManager.KEY_AUTHTOKEN)
 
+        mAccountManager?.setAuthToken(account, Authenticator.AUTH_TOKEN_TYPE, accessToken)
+        mAccountManager?.setPassword(account, refreshToken)
+
         if (isAddingNew) {
             val userdata = Bundle()
             mAccountManager?.addAccountExplicitly(account, refreshToken, userdata)
         }
 
-        mAccountManager?.setAuthToken(account, Authenticator.AUTH_TOKEN_TYPE, accessToken)
-        mAccountManager?.setPassword(account, refreshToken)
+        Authenticator.storeAccessToken(context, accessToken)
 
         updateOAuthForAccount(context)
     }
