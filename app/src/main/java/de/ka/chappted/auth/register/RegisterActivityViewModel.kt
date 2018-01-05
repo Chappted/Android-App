@@ -60,7 +60,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
                 if (response.body() != null) {
 
                     listener.onRegistered(
-                            OAuthUtils.instance.getRegisterIntent(userName.get(), userPass.get()))
+                            OAuthUtils.instance.getOAuthRegisterIntent(userName.get(), userPass.get()))
                 }
 
 

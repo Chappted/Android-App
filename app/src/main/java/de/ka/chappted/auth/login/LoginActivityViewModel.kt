@@ -83,14 +83,14 @@ class LoginActivityViewModel(var name: String?,
 
 
     fun login(context: Context, username: String, password: String) {
-        OAuthUtils.instance.fetchAllTokensAsync(username, password, object : Callback<OAuthToken> {
+        OAuthUtils.instance.fetchAllOAuthTokensAsync(username, password, object : Callback<OAuthToken> {
             override fun onResponse(call: Call<OAuthToken>, response: Response<OAuthToken>) {
 
                 if (response.body() != null) {
 
                     val token = response.body() as OAuthToken
 
-                    listener.onAccountLoginCompleted(OAuthUtils.instance.getLoginIntent(
+                    listener.onAccountLoginCompleted(OAuthUtils.instance.getOAuthLoginIntent(
                             username,
                             context,
                             token))

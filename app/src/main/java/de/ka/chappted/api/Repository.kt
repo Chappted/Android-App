@@ -48,17 +48,19 @@ class Repository private constructor() {
     }
 
     /**
-     * Retrieves a new access token blocking the calling thread. NOT intended to be called on the
-     * main thread!
+     * Retrieves a new access token blocking the calling thread. **NOT** intended to be called on
+     * the main thread!
      *
-     * @param token the current oauth token, needed to fetch a new access token
+     * @param refreshToken the current refresh token, needed to fetch a new access token
      * @return the response with a new oauth token with the access token, if the call was successful
      */
-    fun getNewAcessTokenBlocking(token: OAuthToken): Response<OAuthToken>? {
+    fun getNewAccessTokenBlocking(refreshToken: String): Response<OAuthToken>? {
+
+        val token = OAuthToken()
 
         val caller: Call<OAuthToken>?
                 = Repository.instance.getNonAuthenticatedClient()?.getNewAccessToken(
-                token.refreshToken,
+                refreshToken,
                 token.clientID,
                 token.clientSecret,
                 "refresh_token")

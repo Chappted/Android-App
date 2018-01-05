@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //OAuthUtils.get().peek(this) // TODO this will open up register/login if none is available
+        //OAuthUtils.get().peekOAuthToken(this) // TODO this will open up register/login if none is available
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
 

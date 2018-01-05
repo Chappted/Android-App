@@ -74,10 +74,11 @@ internal object ServiceGenerator {
 
         // adds a interceptor for adding authentication to every request
         httpClient.addInterceptor { chain ->
+
             // forces a 401 if there is no oauth token
             var accessToken = "empty"
 
-            val token = OAuthUtils.instance.peek(context)?.accessToken
+            val token = OAuthUtils.instance.peekOAuthToken(context)?.accessToken
 
             if (token != null) {
                 accessToken = token
@@ -99,13 +100,14 @@ internal object ServiceGenerator {
 
         // adds a response-code 401 authenticator
         httpClient.authenticator(Authenticator { _, response ->
+
             // responding two times with a 401 should not be tolerated, so we exit
             if (response == response.priorResponse()) {
                 return@Authenticator null
             }
 
             // fetch a new access token on the first 401
-            val accessToken = OAuthUtils.instance.fetchNewAccessTokenBlocking(context)
+            val accessToken = OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(context)
 
             val responseBuilder = response.request().newBuilder()
 

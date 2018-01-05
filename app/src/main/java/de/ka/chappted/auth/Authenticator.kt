@@ -92,7 +92,7 @@ class Authenticator internal constructor(private val context: Context) : Abstrac
 
             // case 3: access token is not available but refresh token is, fetch a new accesstoken!
             if (refreshToken != null) {
-                OAuthUtils.instance.fetchNewAccessTokenBlocking(context)
+                OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(context)
                 return result
             }
 

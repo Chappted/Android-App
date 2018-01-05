@@ -71,7 +71,7 @@ class LoginActivity : AccountAuthenticatorActivity(), LoginActivityViewModel.Log
             return
         }
 
-        OAuthUtils.instance.createOrUpdateAccountFromLogin(
+        OAuthUtils.instance.createOrUpdateOAuthAccountFromLogin(
                 isAddingNewAccount,
                 this,
                 loginIntent)

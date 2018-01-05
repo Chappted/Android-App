@@ -14,7 +14,7 @@ import de.ka.chappted.commons.base.BaseViewModel
  */
 class HomeFragmentViewModel(private val context: Context?) : BaseViewModel(){
 
-    fun getText() = OAuthUtils.instance.getName(context!!)
+    fun getText() = OAuthUtils.instance.getOAuthAccountName(context!!)
 
 
     fun onSubmit(): View.OnClickListener {
