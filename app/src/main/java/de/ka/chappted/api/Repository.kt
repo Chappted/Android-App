@@ -1,6 +1,6 @@
 package de.ka.chappted.api
 
-import android.content.Context
+import android.app.Activity
 import de.ka.chappted.BuildConfig
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.model.User
@@ -23,30 +23,6 @@ class Repository private constructor() {
 
     private val pendingCalls = ArrayList<Call<*>?>()
 
-    private object Holder {
-        val INSTANCE = Repository()
-    }
-
-    companion object {
-        val instance: Repository by lazy { Holder.INSTANCE }
-
-        /**
-         * Initializes the repository. Note that this step is not mandatory, but if called
-         * it will recreate all services with the new defined initial data.
-         *
-         * @param baseUrl a new base url to use
-         * @param logsEnabled set to true to enable logs, false otherwise
-         */
-        fun init(baseUrl: String, logsEnabled: Boolean) {
-
-            instance.authenticatedClient = null
-            instance.nonAuthorizedClient = null
-
-            instance.baseUrl = baseUrl
-            instance.logsEnabled = logsEnabled
-        }
-    }
-
     /**
      * Retrieves a new access token blocking the calling thread. **NOT** intended to be called on
      * the main thread!
@@ -61,7 +37,7 @@ class Repository private constructor() {
         val caller: Call<OAuthToken>?
                 = Repository.instance.getNonAuthenticatedClient()?.getNewAccessToken(
                 refreshToken,
-                token.clientID,
+                token.clientId,
                 token.clientSecret,
                 "refresh_token")
 
@@ -92,7 +68,7 @@ class Repository private constructor() {
                 = getNonAuthenticatedClient()?.getNewTokens(
                 username,
                 password,
-                token.clientID,
+                token.clientId,
                 token.clientSecret,
                 "password")
 
@@ -116,12 +92,11 @@ class Repository private constructor() {
     /**
      * Starts an async call to retrieve a specific user.
      *
-     * @param context the base context
      * @param callback the callback of the async call
      */
-    fun getUser(context: Context, callback: Callback<Void>) {
+    fun getUser(callback: Callback<Void>) {
 
-        val caller: Call<Void>? = getAuthenticatedClient(context)?.getUser(2)
+        val caller: Call<Void>? = getAuthenticatedClient()?.getUser(2)
 
         caller?.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -180,14 +155,13 @@ class Repository private constructor() {
     /**
      * Retrieves the authorized client for making calls with authentication.
      *
-     * @param context the base context
      * @return the client
      */
-    private fun getAuthenticatedClient(context: Context): Client? {
+    private fun getAuthenticatedClient(): Client? {
 
         if (authenticatedClient == null) {
             authenticatedClient = ServiceGenerator.createAuthenticatedService(
-                    baseUrl, logsEnabled, Client::class.java, context)
+                    baseUrl, logsEnabled, Client::class.java)
         }
 
         return authenticatedClient
@@ -196,7 +170,6 @@ class Repository private constructor() {
     /**
      * Retrieves the non authorized client for making calls without authentication.
      *
-     * @param context the base context
      * @return the client
      */
     private fun getNonAuthenticatedClient(): Client? {
@@ -207,5 +180,29 @@ class Repository private constructor() {
         }
 
         return nonAuthorizedClient
+    }
+
+    private object Holder {
+        val INSTANCE = Repository()
+    }
+
+    companion object {
+        val instance: Repository by lazy { Holder.INSTANCE }
+
+        /**
+         * Initializes the repository. Note that this step is not mandatory, but if called
+         * it will recreate all services with the new defined initial data.
+         *
+         * @param baseUrl a new base url to use
+         * @param logsEnabled set to true to enable logs, false otherwise
+         */
+        fun init(baseUrl: String, logsEnabled: Boolean) {
+
+            instance.authenticatedClient = null
+            instance.nonAuthorizedClient = null
+
+            instance.baseUrl = baseUrl
+            instance.logsEnabled = logsEnabled
+        }
     }
 }

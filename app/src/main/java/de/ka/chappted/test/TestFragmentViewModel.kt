@@ -1,6 +1,7 @@
 package de.ka.chappted.test
 
 import android.app.Activity
+import android.content.Intent
 import android.view.View
 import de.ka.chappted.api.Repository
 import de.ka.chappted.commons.base.BaseViewModel
@@ -14,13 +15,20 @@ import timber.log.Timber
 class TestFragmentViewModel(private val activity: Activity) : BaseViewModel() {
 
     fun onSubmit(): View.OnClickListener {
-        return View.OnClickListener { view ->
+        return View.OnClickListener { _ ->
 
 
-            Repository.instance.getUser(activity,
+            Repository.instance.getUser(
                     object : retrofit2.Callback<Void> {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             Timber.e("YAY!")
+
+                            val intent = Intent(activity, TesterActivity::class.java)
+
+                            activity.startActivity(intent)
+
+                            activity.finish()
+
                         }
 
                         override fun onFailure(call: Call<Void>, t: Throwable) {

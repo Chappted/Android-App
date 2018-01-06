@@ -239,14 +239,12 @@ class Authenticator internal constructor(private val context: Context) : Abstrac
 
             if (account != null) {
 
-                if (context is Activity) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        get(context).removeAccount(account, context, null, null)
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    get(context).removeAccount(account, null, null, null)
                 } else {
+                    @Suppress("DEPRECATION")
                     get(context).removeAccount(account, null, null)
                 }
-
                 return true
             }
 

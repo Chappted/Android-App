@@ -1,6 +1,6 @@
 package de.ka.chappted.api
 
-import android.content.Context
+import de.ka.chappted.commons.ContextHelper
 
 import de.ka.chappted.auth.OAuthUtils
 import okhttp3.Authenticator
@@ -52,14 +52,12 @@ internal object ServiceGenerator {
      * @param baseUrl      the base url
      * @param logsEnabled  true if logs are enabled, false otherwise
      * @param serviceClass the api service
-     * @param context      the base context, used for authentication purposes
      * @param <S>          the client to build
      * @return the built client
      */
     fun <S> createAuthenticatedService(baseUrl: String,
                                        logsEnabled: Boolean,
-                                       serviceClass: Class<S>,
-                                       context: Context): S {
+                                       serviceClass: Class<S>): S {
         val httpClient = OkHttpClient.Builder()
         val builder = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -78,7 +76,7 @@ internal object ServiceGenerator {
             // forces a 401 if there is no oauth token
             var accessToken = "empty"
 
-            val token = OAuthUtils.instance.peekOAuthToken(context)?.accessToken
+            val token = OAuthUtils.instance.peekOAuthToken()?.accessToken
 
             if (token != null) {
                 accessToken = token
@@ -102,12 +100,14 @@ internal object ServiceGenerator {
         httpClient.authenticator(Authenticator { _, response ->
 
             // responding two times with a 401 should not be tolerated, so we exit
-            if (response == response.priorResponse()) {
+            if (response.code() == response.priorResponse()?.code()) {
                 return@Authenticator null
             }
 
             // fetch a new access token on the first 401
-            val accessToken = OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(context)
+
+            val accessToken = OAuthUtils.instance.
+                    fetchNewOAuthAccessTokenBlocking(ContextHelper.getAppReference())
 
             val responseBuilder = response.request().newBuilder()
 

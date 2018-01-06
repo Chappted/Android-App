@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import de.ka.chappted.commons.ContextHelper
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
@@ -15,8 +16,9 @@ import retrofit2.Callback
 /**
  * A O auth 2 utility with 'password grant' flow.
  * This utility abstracts some of the inconvenient account management
- * and authenticator flows to simple methods. Use [OAuthUtils.peekOAuthToken] for fetching
- * the O auth token for authentication / triggering the login / register, if none exists.
+ * and authenticator flows to simple methods. Use [OAuthUtils.peekOAuthToken] within an activity
+ * for fetching the O auth token for authentication / triggering the login / register,
+ * if none exists.
  *
  * Created by Thomas Hofmann on 22.12.17.
  */
@@ -27,16 +29,17 @@ class OAuthUtils private constructor() {
      * If there is no auth token, a login or register is
      * presented, if possible. Pass a activity as context for auto showing login / register.
      *
-     * @param context the base context, may be an activity for showing login / register
      * @return the token
      */
-    fun peekOAuthToken(context: Context): OAuthToken? {
+    fun peekOAuthToken(): OAuthToken? {
 
-        val token = Authenticator.retrieveOAuth(context)
+        val activity: Activity = ContextHelper.getActivityReference() ?: return null
+
+        val token = Authenticator.retrieveOAuth(activity)
 
         // if there is none available, we have to login / register first
-        if (token == null && context is Activity) {
-            Authenticator.requestNewOAuth(context)
+        if (token == null) {
+            Authenticator.requestNewOAuth(activity)
             return null
         }
 
@@ -52,16 +55,16 @@ class OAuthUtils private constructor() {
      * @param context the base context
      * @return the access token if one could be fetched or null
      */
-    fun fetchNewOAuthAccessTokenBlocking(context: Context): String? {
+    fun fetchNewOAuthAccessTokenBlocking(context: Context?): String? {
+
+        if (context == null){
+            return null
+        }
 
         try {
-            val oldToken = Authenticator.retrieveOAuth(context)
+            val oldToken = Authenticator.retrieveOAuth(context)?.refreshToken ?: return null
 
-            if (oldToken?.refreshToken == null) {
-                return null
-            }
-
-            val response = Repository.instance.getNewAccessTokenBlocking(oldToken.refreshToken)
+            val response = Repository.instance.getNewAccessTokenBlocking(oldToken)
 
             return if (response?.body() != null) {
 
@@ -69,7 +72,9 @@ class OAuthUtils private constructor() {
 
                 val accessToken = newToken.accessToken
 
-                Authenticator.storeAccessToken(context, accessToken)
+                if (accessToken != null) {
+                    Authenticator.storeAccessToken(context, accessToken)
+                }
                 accessToken
             } else {
                 // 401 ? no refreshToken ? kick the o auth and start over again
