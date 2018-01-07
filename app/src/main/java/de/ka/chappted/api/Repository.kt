@@ -1,6 +1,5 @@
 package de.ka.chappted.api
 
-import android.app.Activity
 import de.ka.chappted.BuildConfig
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.model.User

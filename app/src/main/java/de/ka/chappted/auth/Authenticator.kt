@@ -28,7 +28,8 @@ import android.os.Build
  *
  * @see OAuthUtils
  */
-class Authenticator internal constructor(private val context: Context) : AbstractAccountAuthenticator(context) {
+class Authenticator
+internal constructor(private val context: Context) : AbstractAccountAuthenticator(context) {
 
     private val handler = Handler()
 
@@ -115,32 +116,36 @@ class Authenticator internal constructor(private val context: Context) : Abstrac
     }
 
     @Throws(NetworkErrorException::class)
-    override fun hasFeatures(response: AccountAuthenticatorResponse, account: Account, features: Array<String>): Bundle {
+    override fun hasFeatures(response: AccountAuthenticatorResponse, account: Account,
+                             features: Array<String>): Bundle {
         val result = Bundle()
         result.putBoolean(KEY_BOOLEAN_RESULT, false)
         return result
     }
 
-    override fun editProperties(response: AccountAuthenticatorResponse, accountType: String): Bundle? {
+    override fun editProperties(response: AccountAuthenticatorResponse,
+                                accountType: String): Bundle? {
         return null
     }
 
     @Throws(NetworkErrorException::class)
-    override fun confirmCredentials(response: AccountAuthenticatorResponse, account: Account, options: Bundle): Bundle? {
+    override fun confirmCredentials(response: AccountAuthenticatorResponse, account: Account,
+                                    options: Bundle): Bundle? {
         return null
     }
 
     @Throws(NetworkErrorException::class)
-    override fun updateCredentials(response: AccountAuthenticatorResponse, account: Account, authTokenType: String, options: Bundle): Bundle? {
+    override fun updateCredentials(response: AccountAuthenticatorResponse, account: Account,
+                                   authTokenType: String, options: Bundle): Bundle? {
         return null
     }
 
     companion object {
 
-        // Authentication process:
-        // We use the OAuth2 'authentication code flow' where we store a refreshToken as the authToken.
-        // additionally an accessToken is stored as userdata for access of all resources.
-        // The refreshToken then is only needed to gain access to a new accessToken if it expires.
+        // Authentication process 'password grant':
+        // We use the OAuth2 'authentication code flow' where we store an access token as the
+        // authToken for accessing all resources.
+        // additionally an refreshToken is stored as password for access to new access tokens.
         // An expired/revoked refreshToken leads to a new registration/login to get a new one.
 
         const val AUTH_TOKEN_TYPE = "Access"
@@ -160,8 +165,9 @@ class Authenticator internal constructor(private val context: Context) : Abstrac
         }
 
         /**
-         * Fires a request for o auth. Will lead to a login/registration screen, if not authenticated
-         * already. Else, might lead to a new access token. Will **NOT** notify on any
+         * Fires a request for o auth. Will lead to a login/registration screen,
+         * if not authenticated already.
+         * Else, might lead to a new access token. Will **NOT** notify on any
          * success/failure as this is intended to be called if a new login/registration is
          * wanted.
          *
@@ -197,7 +203,7 @@ class Authenticator internal constructor(private val context: Context) : Abstrac
 
         /**
          * If there is an account, invalidates the refresh token which also consumes the
-         * current accessToken. This makes a new login/register for o auth mandatory.
+         * current accessToken. This makes a new login / register for o auth mandatory.
          *
          * @param context the base context
          */

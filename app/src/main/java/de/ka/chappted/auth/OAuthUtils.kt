@@ -6,7 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import de.ka.chappted.commons.ContextHelper
+import de.ka.chappted.utils.ContextHelper
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
@@ -26,14 +26,13 @@ class OAuthUtils private constructor() {
 
     /**
      * Retrieves the o auth token.
-     * If there is no auth token, a login or register is
-     * presented, if possible. Pass a activity as context for auto showing login / register.
+     * If there is no auth token, a login or register is presented, if possible.
      *
      * @return the token
      */
     fun peekOAuthToken(): OAuthToken? {
 
-        val activity: Activity = ContextHelper.getActivityReference() ?: return null
+        val activity: Activity = ContextHelper.activityReference ?: return null
 
         val token = Authenticator.retrieveOAuth(activity)
 
