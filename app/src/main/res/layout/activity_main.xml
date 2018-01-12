@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="@+id/content"
             app:layout_constraintTop_toBottomOf="@+id/content"
             app:menu="@menu/bottom_navigation_main"
-            app:selectedItemId="@{viewModel.selectedActionId}"
+            app:selectedItemId="@{safeUnbox(viewModel.selectedActionId)}"
             app:setOnNavigationItemSelectedListener="@{viewModel.navigationItemSelectionListener}" />
 
 

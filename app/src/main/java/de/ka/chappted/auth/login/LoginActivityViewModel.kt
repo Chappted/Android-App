@@ -70,14 +70,13 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
         login(getApplication(), userName.value ?: "", userPass.value ?: "")
     }
 
-    fun onRegister(): View.OnClickListener {
-        return View.OnClickListener {
-            listener?.onRegisterRequested()
-        }
+    fun onRegister() {
+        listener?.onRegisterRequested()
     }
 
     fun login(context: Context, username: String, password: String) {
         OAuthUtils.instance.fetchAllOAuthTokensAsync(username, password, object : Callback<OAuthToken> {
+
             override fun onResponse(call: Call<OAuthToken>, response: Response<OAuthToken>) {
 
                 if (response.body() != null) {
