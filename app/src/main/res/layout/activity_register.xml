@@ -21,33 +21,34 @@
             android:gravity="center">
 
             <ProgressBar
-                android:layout_marginTop="8dp"
-                android:visibility="@{viewModel.loadingProgress}"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/progress"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:visibility="@{viewModel.loadingProgress}" />
 
             <EditText
                 android:id="@+id/usernameEdit"
-                app:addTextChangedListener="@{viewModel.getUserNameWatcher()}"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:addTextChangedListener="@{viewModel.getUserNameWatcher()}" />
 
             <EditText
                 android:id="@+id/passwordEdit"
-                app:addTextChangedListener="@{viewModel.getPasswordWatcher()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/usernameEdit"
-                android:password="true" />
+                android:password="true"
+                app:addTextChangedListener="@{viewModel.getPasswordWatcher()}" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/passwordEdit"
-                android:onClick="@{viewModel.onSubmit()}"
+                android:onClick="@{() -> viewModel.onSubmit()}"
+                android:text="Register now!"
                 tools:text="Register" />
 
         </RelativeLayout>

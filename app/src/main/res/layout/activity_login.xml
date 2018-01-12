@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/passwordEdit"
-                android:onClick="@{(view) -> viewModel.onSubmit(view)}"
+                android:onClick="@{() -> viewModel.onSubmit()}"
                 tools:text="Login" />
 
             <Button

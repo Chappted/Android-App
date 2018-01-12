@@ -1,8 +1,8 @@
 package de.ka.chappted.auth.register
 
+import android.app.Application
+import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
-import android.databinding.ObservableField
-import android.databinding.ObservableInt
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -20,11 +20,17 @@ import retrofit2.Response
  *
  * Created by Thomas Hofmann on 18.12.17.
  */
-class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel() {
+class RegisterActivityViewModel(application: Application) : BaseViewModel(application) {
 
-    var userName: ObservableField<String> = ObservableField()
-    var userPass: ObservableField<String> = ObservableField()
-    var loadingProgress: ObservableInt = ObservableInt(View.INVISIBLE)
+    var listener: RegisterListener? = null
+
+    var userName = MutableLiveData<String>()
+    var userPass = MutableLiveData<String>()
+    var loadingProgress = MutableLiveData<Int>()
+
+    init {
+        loadingProgress.postValue(View.INVISIBLE)
+    }
 
     interface RegisterListener {
 
@@ -34,33 +40,31 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
     }
 
-    fun onSubmit(): View.OnClickListener {
-        return View.OnClickListener {
-            register()
-
-        }
+    fun onSubmit() {
+        register()
     }
+
 
     fun onAlreadyMemberSubmit(): View.OnClickListener {
         return View.OnClickListener {
-            listener.onRegisterCancelled()
+            listener?.onRegisterCancelled()
         }
     }
 
 
     private fun register() {
 
-        loadingProgress.set(View.VISIBLE)
+        loadingProgress.postValue(View.VISIBLE)
 
-        Repository.instance.register(User(userName.get() ?: "", userPass.get() ?: ""), object : Callback<User> {
+        Repository.instance.register(User(userName.value ?: "", userPass.value ?: ""), object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
-                loadingProgress.set(View.GONE)
+                loadingProgress.postValue(View.GONE)
 
                 if (response.body() != null) {
 
-                    listener.onRegistered(
-                            OAuthUtils.instance.getOAuthRegisterIntent(userName.get() ?: "", userPass.get() ?: ""))
+                    listener?.onRegistered(
+                            OAuthUtils.instance.getOAuthRegisterIntent(userName.value ?: "", userPass.value ?: ""))
                 }
 
 
@@ -68,7 +72,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
             override fun onFailure(call: Call<User>, t: Throwable) {
 
-                loadingProgress.set(View.GONE)
+                loadingProgress.postValue(View.GONE)
 
             }
         })
@@ -82,7 +86,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                userName.set(charSequence.toString())
+                userName.postValue(charSequence.toString())
 
             }
 
@@ -99,7 +103,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                userPass.set(charSequence.toString())
+                userPass.postValue(charSequence.toString())
             }
 
             override fun afterTextChanged(editable: Editable) {

@@ -22,7 +22,7 @@
             android:id="@+id/testerButton"
             android:layout_width="wrap_content"
             android:text="test"
-            android:onClick="@{viewModel.onSubmit()}"
+            android:onClick="@{() -> viewModel.onSubmit()}"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>

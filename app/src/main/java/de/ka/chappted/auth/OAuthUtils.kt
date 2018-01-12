@@ -6,7 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import de.ka.chappted.utils.ContextHelper
+import de.ka.chappted.Chappted
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
@@ -32,7 +32,7 @@ class OAuthUtils private constructor() {
      */
     fun peekOAuthToken(): OAuthToken? {
 
-        val activity: Activity = ContextHelper.activityReference ?: return null
+        val activity: Activity = Chappted.resumedActivity ?: return null
 
         val token = Authenticator.retrieveOAuth(activity)
 
@@ -56,7 +56,7 @@ class OAuthUtils private constructor() {
      */
     fun fetchNewOAuthAccessTokenBlocking(context: Context?): String? {
 
-        if (context == null){
+        if (context == null) {
             return null
         }
 
@@ -143,8 +143,11 @@ class OAuthUtils private constructor() {
      *
      * @param context the base context
      */
-    fun getOAuthAccountName(context: Context): String {
-        return Authenticator.getAccountName(context)
+    fun getOAuthAccountName(context: Context?): String {
+        context?.let {
+            return Authenticator.getAccountName(context)
+        }
+        return ""
     }
 
     /**
@@ -152,9 +155,11 @@ class OAuthUtils private constructor() {
      *
      * @param context the base context
      */
-    fun deleteOAuthAccount(context: Context) {
-        Authenticator.invalidateOAuth(context)
-        Authenticator.removeCurrentAccount(context)
+    fun deleteOAuthAccount(context: Context?) {
+        context?.let {
+            Authenticator.invalidateOAuth(context)
+            Authenticator.removeCurrentAccount(context)
+        }
     }
 
     /**

@@ -1,9 +1,10 @@
 package de.ka.chappted.auth.login
 
+import android.app.Application
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 
 import android.content.Intent
-import android.databinding.ObservableField
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -19,8 +20,7 @@ import retrofit2.Response
  *
  * Created by Thomas Hofmann on 15.12.17.
  */
-class LoginActivityViewModel(var name: String?,
-                             val listener: LoginListener) : BaseViewModel() {
+class LoginActivityViewModel(application: Application) : BaseViewModel(application) {
 
     interface LoginListener {
 
@@ -29,12 +29,9 @@ class LoginActivityViewModel(var name: String?,
         fun onAccountLoginCompleted(loginIntent: Intent)
     }
 
-    var userName: ObservableField<String> = ObservableField()
-    var userPass: ObservableField<String> = ObservableField()
-
-    init {
-        userName.set(name)
-    }
+    var listener: LoginListener? = null
+    var userName = MutableLiveData<String>()
+    var userPass = MutableLiveData<String>()
 
     fun getUserNameWatcher(): TextWatcher {
         return object : TextWatcher {
@@ -43,7 +40,7 @@ class LoginActivityViewModel(var name: String?,
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                userName.set(charSequence.toString())
+                userName.postValue(charSequence.toString())
 
             }
 
@@ -60,7 +57,7 @@ class LoginActivityViewModel(var name: String?,
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                userPass.set(charSequence.toString())
+                userPass.postValue(charSequence.toString())
             }
 
             override fun afterTextChanged(editable: Editable) {
@@ -69,16 +66,15 @@ class LoginActivityViewModel(var name: String?,
         }
     }
 
-    fun onSubmit(view: View?) {
-        login(view!!.context, userName.get() ?: "", userPass.get() ?: "")
+    fun onSubmit() {
+        login(getApplication(), userName.value ?: "", userPass.value ?: "")
     }
 
     fun onRegister(): View.OnClickListener {
         return View.OnClickListener {
-            listener.onRegisterRequested()
+            listener?.onRegisterRequested()
         }
     }
-
 
     fun login(context: Context, username: String, password: String) {
         OAuthUtils.instance.fetchAllOAuthTokensAsync(username, password, object : Callback<OAuthToken> {
@@ -88,7 +84,7 @@ class LoginActivityViewModel(var name: String?,
 
                     val token = response.body() as OAuthToken
 
-                    listener.onAccountLoginCompleted(OAuthUtils.instance.getOAuthLoginIntent(
+                    listener?.onAccountLoginCompleted(OAuthUtils.instance.getOAuthLoginIntent(
                             username,
                             context,
                             token))

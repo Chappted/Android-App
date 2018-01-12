@@ -1,5 +1,6 @@
 package de.ka.chappted.home
 
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,12 +13,8 @@ import de.ka.chappted.databinding.FragmentHomeBinding
  */
 class HomeFragment : Fragment() {
 
-    private var binding: FragmentHomeBinding? = null
-
     companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
+        fun newInstance() = HomeFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -25,9 +22,13 @@ class HomeFragment : Fragment() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentHomeBinding.inflate(inflater)
-        binding?.viewModel = HomeFragmentViewModel(activity?.baseContext)
+        val binding = FragmentHomeBinding.inflate(inflater)
 
-        return binding?.root
+        val viewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel::class.java)
+
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+
+        return binding.root
     }
 }

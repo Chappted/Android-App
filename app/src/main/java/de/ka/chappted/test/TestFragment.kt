@@ -1,5 +1,6 @@
 package de.ka.chappted.test
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -29,8 +30,11 @@ class TestFragment : BaseFragment() {
         enableAutoRepositoryStopping(true)
 
         binding = FragmentTestBinding.inflate(inflater)
-        binding?.viewModel = TestFragmentViewModel(activity!!)
 
+        val viewModel = ViewModelProviders.of(this).get(TestFragmentViewModel::class.java)
+
+        binding?.viewModel = viewModel
+        binding?.setLifecycleOwner(this)
 
         return binding?.root
     }
