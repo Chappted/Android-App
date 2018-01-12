@@ -15,4 +15,4 @@ Challange Accepted! Search, create or participate challanging events with your f
 
 ## License
 
-Copyright (c) 2017 (alphabeticly) Karl Barth, Thomas Hofman, Michael Pankraz, Vitalij Saponenko, Murat Yilmaz
+Copyright (c) 2017 (alphabeticly) Karl Barth, Cihat Gündüz, Thomas Hofman, Michael Pankraz, Vitalij Saponenko, Murat Yilmaz
