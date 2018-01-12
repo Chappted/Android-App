@@ -1,6 +1,6 @@
 package de.ka.chappted.api
 
-import de.ka.chappted.utils.ContextHelper
+import de.ka.chappted.Chappted
 
 import de.ka.chappted.auth.OAuthUtils
 import okhttp3.Authenticator
@@ -106,8 +106,7 @@ internal object ServiceGenerator {
 
             // fetch a new access token on the first 401
 
-            val accessToken = OAuthUtils.instance.
-                    fetchNewOAuthAccessTokenBlocking(ContextHelper.appReference)
+            val accessToken = OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(Chappted.app)
 
             val responseBuilder = response.request().newBuilder()
 
