@@ -52,7 +52,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
 
         loadingProgress.set(View.VISIBLE)
 
-        Repository.instance.register(User(userName.get(), userPass.get()), object : Callback<User> {
+        Repository.instance.register(User(userName.get() ?: "", userPass.get() ?: ""), object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 loadingProgress.set(View.GONE)
@@ -60,7 +60,7 @@ class RegisterActivityViewModel(val listener: RegisterListener) : BaseViewModel(
                 if (response.body() != null) {
 
                     listener.onRegistered(
-                            OAuthUtils.instance.getOAuthRegisterIntent(userName.get(), userPass.get()))
+                            OAuthUtils.instance.getOAuthRegisterIntent(userName.get() ?: "", userPass.get() ?: ""))
                 }
 
 

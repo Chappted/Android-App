@@ -69,10 +69,8 @@ class LoginActivityViewModel(var name: String?,
         }
     }
 
-    fun onSubmit(): View.OnClickListener {
-        return View.OnClickListener { view ->
-            login(view.context, userName.get(), userPass.get())
-        }
+    fun onSubmit(view: View?) {
+        login(view!!.context, userName.get() ?: "", userPass.get() ?: "")
     }
 
     fun onRegister(): View.OnClickListener {
