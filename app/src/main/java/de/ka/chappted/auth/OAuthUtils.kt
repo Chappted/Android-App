@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import de.ka.chappted.Chappted
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
@@ -13,53 +14,36 @@ import de.ka.chappted.api.Repository
 import retrofit2.Callback
 
 /**
- * A o auth utility.
- *
+ * A O auth 2 utility with 'password grant' flow.
+ * This utility abstracts some of the inconvenient account management
+ * and authenticator flows to simple methods. Use [OAuthUtils.peekOAuthToken] within an activity
+ * for fetching the O auth token for authentication / triggering the login / register,
+ * if none exists.
  *
  * Created by Thomas Hofmann on 22.12.17.
  */
 class OAuthUtils private constructor() {
 
-    companion object {
-        val instance: OAuthUtils by lazy { Holder.INSTANCE }
-
-        const val EXTRA_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT"
-        const val EXTRA_USER_PASSWORD = "USER_PASSWORD"
-        const val EXTRA_REFRESH_TOKEN = "REFRESH_TOKEN"
-    }
-
-    private object Holder {
-        val INSTANCE = OAuthUtils()
-    }
-
-    private var oAuthToken = OAuthToken()
-
     /**
-     * Retrieves the o auth token. Will auto-load the current o auth token, if there is any and
-     * update the o auth token of this utility. If there is no auth token, a login or register is
-     * presented, if possible. Pass a activity as context for auto showing login / register.
+     * Retrieves the o auth token.
+     * If there is no auth token, a login or register is presented, if possible.
      *
-     * @param context the base context, may be an activity for showing login / register
      * @return the token
      */
-    fun peek(context: Context): OAuthToken? {
+    fun peekOAuthToken(): OAuthToken? {
 
-        // on first load, we peek if there is a refresh token stored here
-        if (oAuthToken.refreshToken == null) {
+        val activity: Activity = Chappted.resumedActivity ?: return null
 
-            // if not, we load it from the account
-            updateOAuthForAccount(context)
+        val token = Authenticator.retrieveOAuth(activity)
 
-            // if there is none, we have to register first
-            if (oAuthToken.refreshToken == null && context is Activity) {
-                Authenticator.requestNewOAuth(context)
-                return null
-            }
+        // if there is none available, we have to login / register first
+        if (token == null) {
+            Authenticator.requestNewOAuth(activity)
+            return null
         }
 
-        return oAuthToken
+        return token
     }
-
 
     /**
      * Fetches a new access token. This is based on a refresh token. If neither exists, all tokens
@@ -70,28 +54,31 @@ class OAuthUtils private constructor() {
      * @param context the base context
      * @return the access token if one could be fetched or null
      */
-    fun fetchNewAccessTokenBlocking(context: Context): String? {
+    fun fetchNewOAuthAccessTokenBlocking(context: Context?): String? {
+
+        if (context == null) {
+            return null
+        }
 
         try {
-            val response = Repository.instance.getNewAcessTokenBlocking(oAuthToken)
+            val oldToken = Authenticator.retrieveOAuth(context)?.refreshToken ?: return null
 
-            if (response?.body() != null) {
+            val response = Repository.instance.getNewAccessTokenBlocking(oldToken)
 
-                val token = response.body() as OAuthToken
+            return if (response?.body() != null) {
 
-                val accessToken = token.accessToken
+                val newToken = response.body() as OAuthToken
 
-                oAuthToken.accessToken = accessToken
-                oAuthToken.expiry = token.expiry
-                oAuthToken.scope = token.scope
-                oAuthToken.tokenType = token.tokenType
+                val accessToken = newToken.accessToken
 
-                Authenticator.storeAccessToken(context, accessToken)
-                return accessToken
+                if (accessToken != null) {
+                    Authenticator.storeAccessToken(context, accessToken)
+                }
+                accessToken
             } else {
                 // 401 ? no refreshToken ? kick the o auth and start over again
                 deleteOAuthAccount(context)
-                return null
+                null
             }
         } catch (e: Exception) {
             // we have errors ? kick the o auth and start over again
@@ -101,7 +88,16 @@ class OAuthUtils private constructor() {
 
     }
 
-    fun fetchAllTokensAsync(username: String, password: String, callback: Callback<OAuthToken>) {
+    /**
+     * Fetches all o auth tokens asynchronously.
+     *
+     * @param username the username
+     * @param password the password
+     * @param callback the callback
+     */
+    fun fetchAllOAuthTokensAsync(username: String,
+                                 password: String,
+                                 callback: Callback<OAuthToken>) {
         Repository.instance.getNewTokens(username, password, callback)
     }
 
@@ -113,26 +109,27 @@ class OAuthUtils private constructor() {
      * @param token the o auth token
      * @return the intent
      */
-    fun getLoginIntent(username: String,
-                       context: Context,
-                       token: OAuthToken): Intent {
+    fun getOAuthLoginIntent(username: String,
+                            context: Context,
+                            token: OAuthToken): Intent {
 
         val result = Bundle()
         result.putString(AccountManager.KEY_ACCOUNT_NAME, username)
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, context.getString(R.string.account_type))
-        result.putString(EXTRA_REFRESH_TOKEN, token.refreshToken)
         result.putString(AccountManager.KEY_AUTHTOKEN, token.accessToken)
+        result.putString(EXTRA_REFRESH_TOKEN, token.refreshToken)
 
         return Intent().putExtras(result)
     }
 
     /**
      * Retrieves the register intent.
+     *
      * @param username the username
      * @param password the password
      * @return the intent
      */
-    fun getRegisterIntent(username: String, password: String): Intent {
+    fun getOAuthRegisterIntent(username: String, password: String): Intent {
 
         val result = Bundle()
         result.putString(AccountManager.KEY_ACCOUNT_NAME, username)
@@ -143,21 +140,26 @@ class OAuthUtils private constructor() {
 
     /**
      * Retrieves the current account name.
+     *
+     * @param context the base context
      */
-    fun getName(context: Context): String {
-        return Authenticator.getAccountName(context)
+    fun getOAuthAccountName(context: Context?): String {
+        context?.let {
+            return Authenticator.getAccountName(context)
+        }
+        return ""
     }
 
     /**
      * Deletes the current o auth account.
+     *
+     * @param context the base context
      */
-    fun deleteOAuthAccount(context: Context) {
-        Authenticator.invalidateOAuth(context)
-
-        oAuthToken.accessToken = null
-        oAuthToken.refreshToken = null
-
-        Authenticator.removeCurrentAccount(context)
+    fun deleteOAuthAccount(context: Context?) {
+        context?.let {
+            Authenticator.invalidateOAuth(context)
+            Authenticator.removeCurrentAccount(context)
+        }
     }
 
     /**
@@ -168,7 +170,9 @@ class OAuthUtils private constructor() {
      * @param context the base context
      * @param loginIntent the login intent
      */
-    fun createOrUpdateAccountFromLogin(isAddingNew: Boolean, context: Context, loginIntent: Intent) {
+    fun createOrUpdateOAuthAccountFromLogin(isAddingNew: Boolean,
+                                            context: Context,
+                                            loginIntent: Intent) {
 
         val mAccountManager = AccountManager.get(context)
         val accountName = loginIntent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
@@ -176,28 +180,26 @@ class OAuthUtils private constructor() {
         val refreshToken = loginIntent.getStringExtra(EXTRA_REFRESH_TOKEN)
         val accessToken = loginIntent.getStringExtra(AccountManager.KEY_AUTHTOKEN)
 
+        mAccountManager?.setAuthToken(account, Authenticator.AUTH_TOKEN_TYPE, accessToken)
+        mAccountManager?.setPassword(account, refreshToken)
+
         if (isAddingNew) {
             val userdata = Bundle()
             mAccountManager?.addAccountExplicitly(account, refreshToken, userdata)
         }
 
-        mAccountManager?.setAuthToken(account, Authenticator.AUTH_TOKEN_TYPE, accessToken)
-        mAccountManager?.setPassword(account, refreshToken)
-
-        updateOAuthForAccount(context)
+        Authenticator.storeAccessToken(context, accessToken)
     }
 
-    /**
-     * Updates th o auth tokens for the current account.
-     *
-     * @param context the base context
-     */
-    private fun updateOAuthForAccount(context: Context) {
+    private object Holder {
+        val INSTANCE = OAuthUtils()
+    }
 
-        val token = Authenticator.retrieveOAuth(context)
+    companion object {
+        val instance: OAuthUtils by lazy { Holder.INSTANCE }
 
-        if (token != null) {
-            oAuthToken = token
-        }
+        const val EXTRA_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT"
+        const val EXTRA_USER_PASSWORD = "USER_PASSWORD"
+        const val EXTRA_REFRESH_TOKEN = "REFRESH_TOKEN"
     }
 }

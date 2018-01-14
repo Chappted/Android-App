@@ -1,6 +1,6 @@
 package de.ka.chappted.api
 
-import android.content.Context
+import de.ka.chappted.Chappted
 
 import de.ka.chappted.auth.OAuthUtils
 import okhttp3.Authenticator
@@ -52,14 +52,12 @@ internal object ServiceGenerator {
      * @param baseUrl      the base url
      * @param logsEnabled  true if logs are enabled, false otherwise
      * @param serviceClass the api service
-     * @param context      the base context, used for authentication purposes
      * @param <S>          the client to build
      * @return the built client
      */
     fun <S> createAuthenticatedService(baseUrl: String,
                                        logsEnabled: Boolean,
-                                       serviceClass: Class<S>,
-                                       context: Context): S {
+                                       serviceClass: Class<S>): S {
         val httpClient = OkHttpClient.Builder()
         val builder = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -74,13 +72,14 @@ internal object ServiceGenerator {
 
         // adds a interceptor for adding authentication to every request
         httpClient.addInterceptor { chain ->
+
             // forces a 401 if there is no oauth token
             var accessToken = "empty"
 
-            val token = OAuthUtils.instance.peek(context)
+            val token = OAuthUtils.instance.peekOAuthToken()?.accessToken
 
             if (token != null) {
-                accessToken = token.accessToken
+                accessToken = token
             }
 
             val original = chain.request()
@@ -99,13 +98,15 @@ internal object ServiceGenerator {
 
         // adds a response-code 401 authenticator
         httpClient.authenticator(Authenticator { _, response ->
+
             // responding two times with a 401 should not be tolerated, so we exit
-            if (response == response.priorResponse()) {
+            if (response.code() == response.priorResponse()?.code()) {
                 return@Authenticator null
             }
 
             // fetch a new access token on the first 401
-            val accessToken = OAuthUtils.instance.fetchNewAccessTokenBlocking(context)
+
+            val accessToken = OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(Chappted.app)
 
             val responseBuilder = response.request().newBuilder()
 

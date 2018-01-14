@@ -1,7 +1,6 @@
 package de.ka.chappted.home
 
-import android.content.Context
-import android.view.View
+import android.app.Application
 import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.commons.base.BaseViewModel
 
@@ -9,17 +8,12 @@ import de.ka.chappted.commons.base.BaseViewModel
  * A view model for showing the home content.
  *
  * Created by Thomas Hofmann on 30.11.17.
- *
- * @param context the base context
  */
-class HomeFragmentViewModel(private val context: Context?) : BaseViewModel(){
+class HomeFragmentViewModel(application: Application) : BaseViewModel(application) {
 
-    fun getText() = OAuthUtils.instance.getName(context!!)
+    fun getText() = OAuthUtils.instance.getOAuthAccountName(getApplication())
 
-
-    fun onSubmit(): View.OnClickListener {
-        return View.OnClickListener {
-            OAuthUtils.instance.deleteOAuthAccount(context!!)
-        }
+    fun onSubmit() {
+        OAuthUtils.instance.deleteOAuthAccount(getApplication())
     }
 }

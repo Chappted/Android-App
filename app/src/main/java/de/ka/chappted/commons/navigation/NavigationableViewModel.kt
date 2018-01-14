@@ -1,5 +1,6 @@
 package de.ka.chappted.commons.navigation
 
+import android.app.Application
 import de.ka.chappted.commons.base.BaseViewModel
 
 /**
@@ -9,7 +10,9 @@ import de.ka.chappted.commons.base.BaseViewModel
  *
  * @param navigationListener a listener for navigational events
  */
-abstract class NavigationableViewModel(val navigationListener: NavigationListener) : BaseViewModel() {
+abstract class NavigationableViewModel(application: Application) : BaseViewModel(application) {
+
+    var navigationListener: NavigationListener? = null
 
     /**
      * Listens for navigational events.
