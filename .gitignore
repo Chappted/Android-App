@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+detekt/
 
 # Gradle files
 .gradle/

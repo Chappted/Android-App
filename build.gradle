@@ -21,7 +21,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha07'
+        classpath 'com.android.tools.build:gradle:3.1.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -29,7 +29,8 @@ buildscript {
     }
 }
 
-plugins{
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC6-2" //./gradlew detektCheck
     id 'org.jmailen.kotlinter' version '1.6.0'
 }
 
@@ -39,6 +40,17 @@ allprojects {
         jcenter()
     }
 }
+
+detekt {
+    version = "1.0.0.RC6-2"
+    profile("main") {
+        input = "$projectDir/app/src/main/java"
+        output = "$project.rootDir/detekt/output.xml"
+        config = "$projectDir/detekt.yml"
+        filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
+}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
