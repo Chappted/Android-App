@@ -6,12 +6,13 @@ import android.content.Intent
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import de.ka.chappted.api.Repository
+import de.ka.chappted.commons.base.BaseActivity
 import de.ka.chappted.databinding.ActivityRegisterBinding
 
 /**
  * Created by Thomas Hofmann on 13.12.17.
  */
-class RegisterActivity : AppCompatActivity(), RegisterActivityViewModel.RegisterListener {
+class RegisterActivity : BaseActivity(), RegisterActivityViewModel.RegisterListener {
 
     var viewModel: RegisterActivityViewModel? = null
 
@@ -38,9 +39,8 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityViewModel.Register
         setResult(Activity.RESULT_CANCELED)
         finish()
     }
-    
+
     override fun onBackPressed() {
-        Repository.instance.stop()
         setResult(Activity.RESULT_CANCELED)
         super.onBackPressed()
     }

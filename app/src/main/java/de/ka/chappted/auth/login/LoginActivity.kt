@@ -5,12 +5,11 @@ import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import de.ka.chappted.api.Repository
 import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.auth.register.RegisterActivity
 import de.ka.chappted.databinding.ActivityLoginBinding
 import android.accounts.AccountAuthenticatorResponse
+import de.ka.chappted.commons.base.BaseActivity
 
 
 /**
@@ -19,7 +18,7 @@ import android.accounts.AccountAuthenticatorResponse
  *
  * Created by Thomas Hofmann on 08.12.17.
  */
-class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener {
+class LoginActivity : BaseActivity(), LoginActivityViewModel.LoginListener {
 
     companion object {
         const val REQUEST_CODE_REGISTER = 1432
@@ -81,7 +80,7 @@ class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener 
             return
         }
 
-        OAuthUtils.instance.createOrUpdateOAuthAccountFromLogin(
+        OAuthUtils.createOrUpdateOAuthAccountFromLogin(
                 isAddingNewAccount,
                 this,
                 loginIntent)
@@ -91,10 +90,6 @@ class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener 
         finish()
     }
 
-    override fun onBackPressed() {
-        Repository.instance.stop()
-        super.onBackPressed()
-    }
 
     override fun finish() {
         accountAuthenticatorResponse?.let {

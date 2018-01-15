@@ -14,6 +14,7 @@ import de.ka.chappted.commons.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 /**
  * A login view model.
@@ -75,7 +76,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
     }
 
     fun login(context: Context, username: String, password: String) {
-        OAuthUtils.instance.fetchAllOAuthTokensAsync(username, password, object : Callback<OAuthToken> {
+        repository.getNewTokens(username, password, object : Callback<OAuthToken> {
 
             override fun onResponse(call: Call<OAuthToken>, response: Response<OAuthToken>) {
 
@@ -83,7 +84,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
 
                     val token = response.body() as OAuthToken
 
-                    listener?.onAccountLoginCompleted(OAuthUtils.instance.getOAuthLoginIntent(
+                    listener?.onAccountLoginCompleted(OAuthUtils.getOAuthLoginIntent(
                             username,
                             context,
                             token))

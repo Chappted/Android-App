@@ -3,6 +3,7 @@ package de.ka.chappted.api
 import de.ka.chappted.BuildConfig
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.model.User
+import de.ka.chappted.auth.OAuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,10 +13,8 @@ import java.util.ArrayList
  * A repository.
  * Created by Thomas Hofmann on 21.12.17.
  */
-class Repository private constructor() {
-
-    private var baseUrl = BuildConfig.BASE_URL
-    private var logsEnabled = BuildConfig.LOGS_ENABLED
+class Repository constructor(val baseUrl: String = BuildConfig.BASE_URL,
+                             val logsEnabled: Boolean = BuildConfig.LOGS_ENABLED) {
 
     private var nonAuthorizedClient: Client? = null
     private var authenticatedClient: Client? = null
@@ -34,7 +33,7 @@ class Repository private constructor() {
         val token = OAuthToken()
 
         val caller: Call<OAuthToken>?
-                = Repository.instance.getNonAuthenticatedClient()?.getNewAccessToken(
+                = getNonAuthenticatedClient()?.getNewAccessToken(
                 refreshToken,
                 token.clientId,
                 token.clientSecret,
@@ -159,8 +158,8 @@ class Repository private constructor() {
     private fun getAuthenticatedClient(): Client? {
 
         if (authenticatedClient == null) {
-            authenticatedClient = ServiceGenerator.createAuthenticatedService(
-                    baseUrl, logsEnabled, Client::class.java)
+              authenticatedClient = ServiceGenerator.createAuthenticatedService(
+                       baseUrl, logsEnabled, Client::class.java)
         }
 
         return authenticatedClient
@@ -179,29 +178,5 @@ class Repository private constructor() {
         }
 
         return nonAuthorizedClient
-    }
-
-    private object Holder {
-        val INSTANCE = Repository()
-    }
-
-    companion object {
-        val instance: Repository by lazy { Holder.INSTANCE }
-
-        /**
-         * Initializes the repository. Note that this step is not mandatory, but if called
-         * it will recreate all services with the new defined initial data.
-         *
-         * @param baseUrl a new base url to use
-         * @param logsEnabled set to true to enable logs, false otherwise
-         */
-        fun init(baseUrl: String, logsEnabled: Boolean) {
-
-            instance.authenticatedClient = null
-            instance.nonAuthorizedClient = null
-
-            instance.baseUrl = baseUrl
-            instance.logsEnabled = logsEnabled
-        }
     }
 }

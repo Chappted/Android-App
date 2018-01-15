@@ -1,8 +1,11 @@
 package de.ka.chappted.commons.base
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import de.ka.chappted.Chappted
 
 import de.ka.chappted.api.Repository
+import javax.inject.Inject
 
 /**
  * A base fragment.
@@ -11,7 +14,15 @@ import de.ka.chappted.api.Repository
  */
 open class BaseFragment : Fragment() {
 
+    @Inject lateinit var repository: Repository
+
     private var stopRepository: Boolean = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Chappted.chapptedComponent.inject(this)
+    }
 
     fun enableAutoRepositoryStopping(stopRepository: Boolean) {
         this.stopRepository = stopRepository
@@ -19,7 +30,7 @@ open class BaseFragment : Fragment() {
 
     override fun onPause() {
         if (stopRepository) {
-            Repository.instance.stop()
+            repository.stop()
         }
         super.onPause()
     }

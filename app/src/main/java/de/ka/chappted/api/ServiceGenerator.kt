@@ -1,7 +1,6 @@
 package de.ka.chappted.api
 
 import de.ka.chappted.Chappted
-
 import de.ka.chappted.auth.OAuthUtils
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
@@ -76,7 +75,7 @@ internal object ServiceGenerator {
             // forces a 401 if there is no oauth token
             var accessToken = "empty"
 
-            val token = OAuthUtils.instance.peekOAuthToken()?.accessToken
+            val token = OAuthUtils.peekOAuthToken(Chappted.resumedActivity?.get())?.accessToken
 
             if (token != null) {
                 accessToken = token
@@ -106,7 +105,10 @@ internal object ServiceGenerator {
 
             // fetch a new access token on the first 401
 
-            val accessToken = OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(Chappted.app)
+            val accessToken = OAuthUtils.fetchNewOAuthAccessTokenBlocking(
+                    Chappted.repositoryRef,
+                    Chappted.appRef?.applicationContext)
+
 
             val responseBuilder = response.request().newBuilder()
 

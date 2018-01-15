@@ -1,17 +1,18 @@
 package de.ka.chappted.home
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.ka.chappted.Chappted
+import de.ka.chappted.commons.base.BaseFragment
 import de.ka.chappted.databinding.FragmentHomeBinding
 
 /**
  * The home fragment.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -21,6 +22,9 @@ class HomeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         super.onCreateView(inflater, container, savedInstanceState)
+
+        Chappted.chapptedComponent.inject(this)
+        repository.stop()
 
         val binding = FragmentHomeBinding.inflate(inflater)
 

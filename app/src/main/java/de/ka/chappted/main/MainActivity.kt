@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import de.ka.chappted.R
+import de.ka.chappted.commons.base.BaseActivity
 import de.ka.chappted.commons.navigation.NavigationableViewModel
 import de.ka.chappted.databinding.ActivityMainBinding
 import io.reactivex.disposables.CompositeDisposable
@@ -14,7 +15,7 @@ import io.reactivex.rxkotlin.addTo
  * The main activity offering a bottom navigation.
  * Will auto switch to the first main view.
  */
-class MainActivity : AppCompatActivity(),
+class MainActivity : BaseActivity(),
         NavigationableViewModel.NavigationListener{
 
     private val navigator by lazy { MainNavigator() }

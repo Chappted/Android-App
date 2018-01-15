@@ -20,6 +20,9 @@ import timber.log.Timber
 import android.accounts.AccountManager.KEY_BOOLEAN_RESULT
 import android.accounts.AccountManager.get
 import android.os.Build
+import de.ka.chappted.Chappted
+import de.ka.chappted.api.Repository
+import javax.inject.Inject
 
 /**
  * A authenticator. Uses OAuth2 for authenticating the user.
@@ -30,6 +33,12 @@ import android.os.Build
  */
 class Authenticator
 internal constructor(private val context: Context) : AbstractAccountAuthenticator(context) {
+
+    @Inject lateinit var repository: Repository
+
+    init {
+        Chappted.chapptedComponent.inject(this)
+    }
 
     private val handler = Handler()
 
@@ -93,7 +102,7 @@ internal constructor(private val context: Context) : AbstractAccountAuthenticato
 
             // case 3: access token is not available but refresh token is, fetch a new accesstoken!
             if (refreshToken != null) {
-                OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(context)
+                OAuthUtils.fetchNewOAuthAccessTokenBlocking(repository, context)
                 return result
             }
 

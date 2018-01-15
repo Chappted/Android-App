@@ -6,12 +6,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import de.ka.chappted.Chappted
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.Repository
-import retrofit2.Callback
 
 /**
  * A O auth 2 utility with 'password grant' flow.
@@ -22,7 +20,11 @@ import retrofit2.Callback
  *
  * Created by Thomas Hofmann on 22.12.17.
  */
-class OAuthUtils private constructor() {
+object OAuthUtils {
+
+    const val EXTRA_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT"
+    const val EXTRA_USER_PASSWORD = "USER_PASSWORD"
+    const val EXTRA_REFRESH_TOKEN = "REFRESH_TOKEN"
 
     /**
      * Retrieves the o auth token.
@@ -30,9 +32,11 @@ class OAuthUtils private constructor() {
      *
      * @return the token
      */
-    fun peekOAuthToken(): OAuthToken? {
+    fun peekOAuthToken(activity: Activity?): OAuthToken? {
 
-        val activity: Activity = Chappted.resumedActivity ?: return null
+        if (activity == null) {
+            return null
+        }
 
         val token = Authenticator.retrieveOAuth(activity)
 
@@ -54,16 +58,16 @@ class OAuthUtils private constructor() {
      * @param context the base context
      * @return the access token if one could be fetched or null
      */
-    fun fetchNewOAuthAccessTokenBlocking(context: Context?): String? {
+    fun fetchNewOAuthAccessTokenBlocking(repository: Repository?, context: Context?): String? {
 
-        if (context == null) {
+        if (context == null || repository == null) {
             return null
         }
 
         try {
             val oldToken = Authenticator.retrieveOAuth(context)?.refreshToken ?: return null
 
-            val response = Repository.instance.getNewAccessTokenBlocking(oldToken)
+            val response = repository.getNewAccessTokenBlocking(oldToken)
 
             return if (response?.body() != null) {
 
@@ -86,19 +90,6 @@ class OAuthUtils private constructor() {
             return null
         }
 
-    }
-
-    /**
-     * Fetches all o auth tokens asynchronously.
-     *
-     * @param username the username
-     * @param password the password
-     * @param callback the callback
-     */
-    fun fetchAllOAuthTokensAsync(username: String,
-                                 password: String,
-                                 callback: Callback<OAuthToken>) {
-        Repository.instance.getNewTokens(username, password, callback)
     }
 
     /**
@@ -191,15 +182,5 @@ class OAuthUtils private constructor() {
         Authenticator.storeAccessToken(context, accessToken)
     }
 
-    private object Holder {
-        val INSTANCE = OAuthUtils()
-    }
 
-    companion object {
-        val instance: OAuthUtils by lazy { Holder.INSTANCE }
-
-        const val EXTRA_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT"
-        const val EXTRA_USER_PASSWORD = "USER_PASSWORD"
-        const val EXTRA_REFRESH_TOKEN = "REFRESH_TOKEN"
-    }
 }

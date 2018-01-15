@@ -1,14 +1,12 @@
 package de.ka.chappted.test;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import de.ka.chappted.R;
-import de.ka.chappted.api.Repository;
+import de.ka.chappted.commons.base.BaseActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,7 +15,7 @@ import retrofit2.Response;
  * Created by th on 05.01.18.
  */
 
-public class TesterActivity extends AppCompatActivity {
+public class TesterActivity extends BaseActivity {
 
 
     @Override
@@ -27,12 +25,11 @@ public class TesterActivity extends AppCompatActivity {
         setContentView(R.layout.tester);
 
 
-
         Button button = (Button) findViewById(R.id.content);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Repository.Companion.getInstance().getUser(new Callback<Void>() {
+                repository.getUser(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
 
