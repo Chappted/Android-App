@@ -3,7 +3,6 @@ package de.ka.chappted.api
 import de.ka.chappted.BuildConfig
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.model.User
-import de.ka.chappted.auth.OAuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

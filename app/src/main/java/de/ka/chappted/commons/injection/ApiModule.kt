@@ -6,11 +6,11 @@ import de.ka.chappted.api.Repository
 import javax.inject.Singleton
 
 @Module
-class ApiModule {
+open class ApiModule {
 
     @Provides
     @Singleton
-    fun provideRepository(): Repository{
+    open fun provideRepository(): Repository {
         return Repository()
     }
 }

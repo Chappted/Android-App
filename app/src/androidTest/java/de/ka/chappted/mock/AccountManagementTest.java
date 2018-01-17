@@ -19,9 +19,13 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.CountDownLatch;
 
+import de.ka.chappted.App;
 import de.ka.chappted.api.Repository;
 import de.ka.chappted.auth.OAuthUtils;
 import de.ka.chappted.auth.login.LoginActivityViewModel;
+import de.ka.chappted.injection.AppModule;
+import de.ka.chappted.injection.ChapptedComponent;
+import de.ka.chappted.injection.DaggerChapptedComponent;
 import de.ka.chappted.main.MainActivity;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
@@ -56,11 +60,8 @@ public class AccountManagementTest extends InstrumentationTestCase {
         server = new MockWebServer();
         server.start();
 
-        HttpUrl baseUrl = server.url("/");
-       // Repository.Companion.init(baseUrl.toString(), true);
-
         // delete the current user account
-        //OAuthUtils.Companion.getInstance().deleteOAuthAccount(mActivityRule.getActivity());
+        OAuthUtils.INSTANCE.deleteOAuthAccount(mContext.getApplicationContext());
     }
 
     @Test
@@ -76,8 +77,22 @@ public class AccountManagementTest extends InstrumentationTestCase {
         // here comes the test where we force a 401
         final CountDownLatch latch1 = new CountDownLatch(1);
 
+        LoginActivityViewModel viewModel = new LoginActivityViewModel(mActivityRule.getActivity().getApplication());
+        HttpUrl baseUrl = server.url("/");
+        TestApiModule testApiModule = new TestApiModule(baseUrl.toString());
+        //build a new Dagger2 component using the test override
+        ChapptedComponent componentWithOverride = DaggerChapptedComponent.builder()
+                //mind the Test in the class name, see a class above
+                .appModule(new AppModule((App)mActivityRule.getActivity().getApplication()))
+                .apiModule(testApiModule)
+                .build();
+
+        componentWithOverride.inject(viewModel);
+
+        Repository repository = testApiModule.provideRepository();
+
         //triggering a call with the need of authentication, triggers a login
-        /*Repository.Companion.getInstance().getUser(new Callback<Void>() {
+        repository.getUser(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
@@ -89,7 +104,7 @@ public class AccountManagementTest extends InstrumentationTestCase {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
             }
-        });*/
+        });
 
         latch1.await();
 
@@ -102,8 +117,7 @@ public class AccountManagementTest extends InstrumentationTestCase {
 
         final String userName = "TestUser";
 
-        /*
-        LoginActivityViewModel viewModel = new LoginActivityViewModel("tester",
+        viewModel.setListener(
                 new LoginActivityViewModel.LoginListener() {
                     @Override
                     public void onRegisterRequested() {
@@ -126,9 +140,6 @@ public class AccountManagementTest extends InstrumentationTestCase {
         viewModel.login(mActivityRule.getActivity(), userName, "adad");
 
         latch2.await();
-        */
-
-        //TODO Rewrite me please, using dagger2 !
     }
 
 
