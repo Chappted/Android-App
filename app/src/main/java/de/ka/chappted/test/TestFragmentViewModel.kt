@@ -19,12 +19,7 @@ class TestFragmentViewModel(application: Application) : BaseViewModel(applicatio
                 object : retrofit2.Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         Timber.e("YAY!")
-
-
-                        Chappted.resumedActivity?.get()?.let { //TODO remove it, this was just for testing. No acitivty ref allowed in a view model!!
-                            it.startActivity(Intent(it, TesterActivity::class.java))
-                            it.finish()
-                        }
+                        getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
 
                     }
 

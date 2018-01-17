@@ -1,37 +1,44 @@
 package de.ka.chappted.commons.base
 
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import de.ka.chappted.Chappted
-
-import de.ka.chappted.api.Repository
-import javax.inject.Inject
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import de.ka.chappted.BR
 
 /**
- * A base fragment.
+ * A base fragment. A base fragment is always combined with a view model.
  *
  * Created by Thomas Hofmann on 27.12.17.
  */
-open class BaseFragment : Fragment() {
+abstract class BaseFragment<E : BaseViewModel> : Fragment() {
 
-    @Inject lateinit var repository: Repository
+    abstract var viewModelClass: Class<E>
+    abstract var bindingLayoutId: Int
 
-    private var stopRepository: Boolean = false
+    private var binding: ViewDataBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    val viewModel: E? by lazy { ViewModelProviders.of(this).get(viewModelClass) }
 
-        Chappted.chapptedComponent.inject(this)
-    }
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
-    fun enableAutoRepositoryStopping(stopRepository: Boolean) {
-        this.stopRepository = stopRepository
+        binding = DataBindingUtil.inflate(layoutInflater, bindingLayoutId, null, true)
+        binding?.setVariable(BR.viewModel, viewModel)
+        binding?.setLifecycleOwner(this)
+
+        return binding?.root
     }
 
     override fun onPause() {
-        if (stopRepository) {
-            repository.stop()
-        }
+        viewModel?.onPause()
+
         super.onPause()
     }
 }

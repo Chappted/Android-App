@@ -9,10 +9,9 @@ import android.app.Application
  */
 class App : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
 
-        Chappted().initApp(this)
+        Chappted.initApp(this)
     }
 }

@@ -1,24 +1,44 @@
 package de.ka.chappted.commons.base
 
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import de.ka.chappted.BR
 
-import de.ka.chappted.Chappted
-import de.ka.chappted.api.Repository
-import javax.inject.Inject
+/**
+ * A base activity using a view model.
+ */
+abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
+        BaseViewModel.NavigationListener {
 
-abstract class BaseActivity : AppCompatActivity() {
+    abstract var viewModelClass: Class<E>
+    abstract var bindingLayoutId: Int
 
-    @Inject lateinit var repository: Repository
+    private var binding: ViewDataBinding? = null
+
+    val viewModel: E? by lazy { ViewModelProviders.of(this).get(viewModelClass) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Chappted.chapptedComponent.inject(this)
+        viewModel?.navigationListener = this
+
+        binding = DataBindingUtil.inflate(layoutInflater, bindingLayoutId, null, true)
+        binding?.setVariable(BR.viewModel, viewModel)
+        binding?.setLifecycleOwner(this)
+
+        setContentView(binding?.root)
     }
 
-    override fun onBackPressed() {
-        repository.stop()
-        super.onBackPressed()
+    override fun onPause() {
+        viewModel?.onPause()
+
+        super.onPause()
+    }
+
+    override fun onNavigateTo(element: Any?) {
+        // to be implemented by subclasses
     }
 }

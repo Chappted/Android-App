@@ -5,29 +5,25 @@ import android.support.v7.app.AppCompatActivity
 import android.content.Intent
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import de.ka.chappted.R
 import de.ka.chappted.api.Repository
+import de.ka.chappted.auth.login.LoginActivityViewModel
 import de.ka.chappted.commons.base.BaseActivity
 import de.ka.chappted.databinding.ActivityRegisterBinding
 
 /**
  * Created by Thomas Hofmann on 13.12.17.
  */
-class RegisterActivity : BaseActivity(), RegisterActivityViewModel.RegisterListener {
+class RegisterActivity : BaseActivity<RegisterActivityViewModel>(),
+        RegisterActivityViewModel.RegisterListener {
 
-    var viewModel: RegisterActivityViewModel? = null
+    override var viewModelClass = RegisterActivityViewModel::class.java
+    override var bindingLayoutId = R.layout.activity_register
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityRegisterBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
-
-        viewModel = ViewModelProviders.of(this).get(RegisterActivityViewModel::class.java)
         viewModel?.listener = this
-
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
     }
 
     override fun onRegistered(registerIntent: Intent) {

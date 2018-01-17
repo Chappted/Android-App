@@ -14,7 +14,6 @@ class HomeFragmentViewModel(application: Application) : BaseViewModel(applicatio
 
     fun getText() = OAuthUtils.getOAuthAccountName(getApplication())
 
-    fun onSubmit() {
-        OAuthUtils.deleteOAuthAccount(getApplication())
-    }
+    fun onSubmit() = OAuthUtils.deleteOAuthAccount(getApplication())
+
 }

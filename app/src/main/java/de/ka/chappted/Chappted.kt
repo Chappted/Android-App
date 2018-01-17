@@ -1,15 +1,9 @@
 package de.ka.chappted
 
-import android.app.Activity
-import android.app.Application
-import android.os.Bundle
-import de.ka.chappted.api.Repository
 import de.ka.chappted.injection.ApiModule
 import de.ka.chappted.injection.AppModule
 import de.ka.chappted.injection.ChapptedComponent
 import de.ka.chappted.injection.DaggerChapptedComponent
-import java.lang.ref.WeakReference
-import javax.inject.Inject
 
 
 /**
@@ -19,70 +13,21 @@ import javax.inject.Inject
  */
 class Chappted {
 
-    @Inject
-    lateinit var app: App
-
-    @Inject
-    lateinit var repository: Repository
-
-    fun initApp(application: App) {
-
-        application.registerActivityLifecycleCallbacks(
-                object : Application.ActivityLifecycleCallbacks {
-                    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
-
-                    }
-
-                    override fun onActivityStarted(activity: Activity) {
-
-                    }
-
-                    override fun onActivityResumed(activity: Activity) {
-                        resumedActivity = null
-                        resumedActivity = WeakReference(activity)
-                    }
-
-                    override fun onActivityPaused(activity: Activity) {
-
-                    }
-
-                    override fun onActivityStopped(activity: Activity) {
-
-                    }
-
-                    override fun onActivitySaveInstanceState(activity: Activity,
-                                                             bundle: Bundle?) {
-
-                    }
-
-                    override fun onActivityDestroyed(activity: Activity) {
-
-                    }
-                })
-
-
-        chapptedComponent = DaggerChapptedComponent
-                .builder()
-                .appModule(AppModule(application))
-                .apiModule(ApiModule())
-                .build()
-
-        chapptedComponent.inject(this)
-
-        appRef = app
-        repositoryRef = repository
-
+    init {
+        chapptedComponent.init(this)
     }
 
     companion object {
         lateinit var chapptedComponent: ChapptedComponent
 
-        var resumedActivity: WeakReference<Activity>? = null
-        var appRef: App? = null
+        fun initApp(application: App) {
 
-        var repositoryRef: Repository? = null
-
-
+            chapptedComponent = DaggerChapptedComponent
+                    .builder()
+                    .appModule(AppModule(application))
+                    .apiModule(ApiModule())
+                    .build()
+        }
 
     }
 

@@ -1,38 +1,17 @@
 package de.ka.chappted.home
 
-import android.arch.lifecycle.ViewModelProviders
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import de.ka.chappted.Chappted
+import de.ka.chappted.R
 import de.ka.chappted.commons.base.BaseFragment
-import de.ka.chappted.databinding.FragmentHomeBinding
 
 /**
  * The home fragment.
  */
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
+
+    override var viewModelClass = HomeFragmentViewModel::class.java
+    override var bindingLayoutId = R.layout.fragment_home
 
     companion object {
         fun newInstance() = HomeFragment()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        super.onCreateView(inflater, container, savedInstanceState)
-
-        Chappted.chapptedComponent.inject(this)
-        repository.stop()
-
-        val binding = FragmentHomeBinding.inflate(inflater)
-
-        val viewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel::class.java)
-
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
-
-        return binding.root
     }
 }
