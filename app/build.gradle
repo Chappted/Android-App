@@ -70,10 +70,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
 
     // dependency injection
-    implementation 'com.google.dagger:dagger:2.14.1'
-    implementation 'com.google.dagger:dagger-android:2.14.1'
-    implementation 'com.google.dagger:dagger-android-support:2.14.1'
-    kapt 'com.google.dagger:dagger-android-processor:2.14.1'
-    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    implementation 'org.koin:koin-android:0.8.0'
 }
 

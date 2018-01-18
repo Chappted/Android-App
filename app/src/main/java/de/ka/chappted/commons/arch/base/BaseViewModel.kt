@@ -2,16 +2,16 @@ package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import de.ka.chappted.Chappted
 import de.ka.chappted.api.Repository
-import javax.inject.Inject
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 /**
  * This is a base view model for all other view models used for the MVVM design pattern.
  *
  * Created by Thomas Hofmann on 30.11.17.
  */
-abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
+abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComponent {
 
     var navigationListener: NavigationListener? = null
 
@@ -28,11 +28,7 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
         fun onNavigateTo(element: Any?)
     }
 
-    @Inject lateinit var repository: Repository
-
-    init {
-        Chappted.chapptedComponent.inject(this)
-    }
+    val repository: Repository by inject()
 
     fun onPause() {
         repository.stop()

@@ -1,13 +1,18 @@
 package de.ka.chappted.api
 
 import android.content.Context
-import de.ka.chappted.Chappted
 import de.ka.chappted.auth.OAuthUtils
-import okhttp3.*
+import okhttp3.Authenticator
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.Request
+import okhttp3.Interceptor
+import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 
 /**
  * A service generator for creating and reusing multiple networking clients.
@@ -86,14 +91,10 @@ internal object ServiceGenerator {
  * A o auth authenticator handles 401 responses and fetches a new access token, if needed.
  * Will stop requesting new tokens if two 401s follow each other, to prevent loops.
  */
-class OAuthAuthenticator : Authenticator {
+class OAuthAuthenticator : Authenticator, KoinComponent {
 
-    @Inject lateinit var repository: Repository
-    @Inject lateinit var context: Context
-
-    init {
-        Chappted.chapptedComponent.inject(this)
-    }
+    val repository: Repository by inject()
+    val context: Context by inject()
 
     override fun authenticate(route: Route, response: Response): Request? {
         // responding two times with a 401 should not be tolerated, so we exit
@@ -119,14 +120,9 @@ class OAuthAuthenticator : Authenticator {
 /**
  * A okhttp3 interceptor for setting up o auth authorization.
  */
-class AuthInterceptor : Interceptor {
+class AuthInterceptor : Interceptor, KoinComponent {
 
-    @Inject
-    lateinit var context: Context
-
-    init {
-        Chappted.chapptedComponent.inject(this)
-    }
+    val context: Context by inject()
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // forces a 401 if there is no oauth token

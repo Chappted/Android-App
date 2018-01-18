@@ -18,9 +18,9 @@ import de.ka.chappted.auth.login.LoginActivity
 import android.accounts.AccountManager.KEY_BOOLEAN_RESULT
 import android.accounts.AccountManager.get
 import android.os.Build
-import de.ka.chappted.Chappted
 import de.ka.chappted.api.Repository
-import javax.inject.Inject
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 /**
  * A authenticator. Uses OAuth2 for authenticating the user.
@@ -30,13 +30,9 @@ import javax.inject.Inject
  * @see OAuthUtils
  */
 class Authenticator
-internal constructor(private val context: Context) : AbstractAccountAuthenticator(context) {
+internal constructor(private val context: Context) : AbstractAccountAuthenticator(context), KoinComponent {
 
-    @Inject lateinit var repository: Repository
-
-    init {
-        Chappted.chapptedComponent.inject(this)
-    }
+    val repository: Repository by inject()
 
     private val handler = Handler()
 
