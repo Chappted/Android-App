@@ -3,7 +3,7 @@ package de.ka.chappted.main
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.support.design.widget.BottomNavigationView
-import de.ka.chappted.commons.base.BaseViewModel
+import de.ka.chappted.commons.arch.base.BaseViewModel
 
 /**
  * A view model for showing and manipulating the main content.

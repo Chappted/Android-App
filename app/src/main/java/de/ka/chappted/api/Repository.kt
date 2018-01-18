@@ -12,8 +12,8 @@ import java.util.ArrayList
  * A repository.
  * Created by Thomas Hofmann on 21.12.17.
  */
-class Repository constructor(val baseUrl: String = BuildConfig.BASE_URL,
-                             val logsEnabled: Boolean = BuildConfig.LOGS_ENABLED) {
+class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
+                             private val logsEnabled: Boolean = BuildConfig.LOGS_ENABLED) {
 
     private var nonAuthorizedClient: Client? = null
     private var authenticatedClient: Client? = null

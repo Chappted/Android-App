@@ -3,7 +3,7 @@ package de.ka.chappted
 import android.app.Application
 
 /**
- * A base application object for the app.
+ * A base application for the chappted app.
  *
  * Created by Thomas Hofmann on 06.01.18.
  */

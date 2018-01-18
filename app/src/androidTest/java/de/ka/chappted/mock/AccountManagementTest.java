@@ -23,9 +23,9 @@ import de.ka.chappted.App;
 import de.ka.chappted.api.Repository;
 import de.ka.chappted.auth.OAuthUtils;
 import de.ka.chappted.auth.login.LoginActivityViewModel;
-import de.ka.chappted.injection.AppModule;
-import de.ka.chappted.injection.ChapptedComponent;
-import de.ka.chappted.injection.DaggerChapptedComponent;
+import de.ka.chappted.commons.arch.injection.AppModule;
+import de.ka.chappted.commons.arch.injection.ChapptedComponent;
+import de.ka.chappted.commons.arch.injection.DaggerChapptedComponent;
 import de.ka.chappted.main.MainActivity;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
@@ -37,6 +37,9 @@ import retrofit2.Response;
 
 /**
  * A test suite for account management.
+ * <p>
+ * Uses an array of testing frameworks:
+ * Android Instrumentation, MockWebServer, Mockito, JUnit
  * <p>
  * Created by Thomas Hofmann on 21.12.17.
  */
@@ -83,7 +86,7 @@ public class AccountManagementTest extends InstrumentationTestCase {
         //build a new Dagger2 component using the test override
         ChapptedComponent componentWithOverride = DaggerChapptedComponent.builder()
                 //mind the Test in the class name, see a class above
-                .appModule(new AppModule((App)mActivityRule.getActivity().getApplication()))
+                .appModule(new AppModule((App) mActivityRule.getActivity().getApplication()))
                 .apiModule(testApiModule)
                 .build();
 

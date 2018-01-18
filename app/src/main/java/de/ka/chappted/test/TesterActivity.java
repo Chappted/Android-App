@@ -7,10 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import de.ka.chappted.R;
-import de.ka.chappted.commons.base.BaseActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by th on 05.01.18.

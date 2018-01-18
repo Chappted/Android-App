@@ -1,7 +1,7 @@
 package de.ka.chappted.test
 
 import de.ka.chappted.R
-import de.ka.chappted.commons.base.BaseFragment
+import de.ka.chappted.commons.arch.base.BaseFragment
 
 /**
  * A placeholder fragment containing a simple view.

@@ -1,17 +1,14 @@
 package de.ka.chappted.auth.register
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.content.Intent
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import de.ka.chappted.R
-import de.ka.chappted.api.Repository
-import de.ka.chappted.auth.login.LoginActivityViewModel
-import de.ka.chappted.commons.base.BaseActivity
-import de.ka.chappted.databinding.ActivityRegisterBinding
+import de.ka.chappted.commons.arch.base.BaseActivity
 
 /**
+ * A registration activity for the authorization flow.
+ *
  * Created by Thomas Hofmann on 13.12.17.
  */
 class RegisterActivity : BaseActivity<RegisterActivityViewModel>(),

@@ -7,14 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.auth.OAuthUtils
-import de.ka.chappted.commons.base.BaseViewModel
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
 
 /**
  * A login view model.
@@ -76,7 +74,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
     }
 
     fun login(context: Context, username: String, password: String) {
-        repository.getNewTokens(username, password, object : Callback<OAuthToken> {
+        OAuthUtils.fetchNewTokens(repository, username, password, object : Callback<OAuthToken> {
 
             override fun onResponse(call: Call<OAuthToken>, response: Response<OAuthToken>) {
 

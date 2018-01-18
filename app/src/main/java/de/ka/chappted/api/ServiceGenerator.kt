@@ -82,6 +82,10 @@ internal object ServiceGenerator {
     }
 }
 
+/**
+ * A o auth authenticator handles 401 responses and fetches a new access token, if needed.
+ * Will stop requesting new tokens if two 401s follow each other, to prevent loops.
+ */
 class OAuthAuthenticator : Authenticator {
 
     @Inject lateinit var repository: Repository
@@ -112,6 +116,9 @@ class OAuthAuthenticator : Authenticator {
     }
 }
 
+/**
+ * A okhttp3 interceptor for setting up o auth authorization.
+ */
 class AuthInterceptor : Interceptor {
 
     @Inject

@@ -1,17 +1,21 @@
-package de.ka.chappted.commons.base
+package de.ka.chappted.commons.arch.base
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import de.ka.chappted.BR
 
 /**
- * A base activity using a view model.
+ * A base fragment. A base fragment is always combined with a view model.
+ *
+ * Created by Thomas Hofmann on 27.12.17.
  */
-abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
-        BaseViewModel.NavigationListener {
+abstract class BaseFragment<E : BaseViewModel> : Fragment() {
 
     abstract var viewModelClass: Class<E>
     abstract var bindingLayoutId: Int
@@ -20,25 +24,21 @@ abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
 
     val viewModel: E? by lazy { ViewModelProviders.of(this).get(viewModelClass) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel?.navigationListener = this
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
         binding = DataBindingUtil.inflate(layoutInflater, bindingLayoutId, null, true)
         binding?.setVariable(BR.viewModel, viewModel)
         binding?.setLifecycleOwner(this)
 
-        setContentView(binding?.root)
+        return binding?.root
     }
 
     override fun onPause() {
         viewModel?.onPause()
 
         super.onPause()
-    }
-
-    override fun onNavigateTo(element: Any?) {
-        // to be implemented by subclasses
     }
 }

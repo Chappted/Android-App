@@ -2,7 +2,7 @@ package de.ka.chappted.main
 
 import android.os.Bundle
 import de.ka.chappted.R
-import de.ka.chappted.commons.base.BaseActivity
+import de.ka.chappted.commons.arch.base.BaseActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 

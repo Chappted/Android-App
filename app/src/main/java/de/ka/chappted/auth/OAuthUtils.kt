@@ -9,12 +9,16 @@ import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.Repository
+import retrofit2.Callback
 
 /**
  * A O auth 2 utility with 'password grant' flow.
+ *
  * This utility abstracts some of the inconvenient account management
  * and authenticator flows to simple methods. Use [OAuthUtils.peekOAuthToken] within an activity
  * for fetching the O auth token for auth / triggering the login / register, if none exists.
+ *
+ * Offers convenience methods for fetching access tokens or / and refresh tokens.
  *
  * Created by Thomas Hofmann on 22.12.17.
  */
@@ -28,6 +32,7 @@ object OAuthUtils {
      * Retrieves the o auth token.
      * If there is no auth token, a login or register is presented, if possible.
      *
+     * @param context the base context
      * @return the token
      */
     fun peekOAuthToken(context: Context?): OAuthToken? {
@@ -48,11 +53,33 @@ object OAuthUtils {
     }
 
     /**
+     * Fetches new o auth tokens (refresh and access token!) asynchronously. Needs a proper
+     * authorization of the user with username and password.
+     *
+     * @param repository the repository to fetch new tokens from
+     * @param username the username
+     * @param password the password
+     * @param callback the callback of the async call
+     */
+    fun fetchNewTokens(repository: Repository?,
+                       username: String,
+                       password: String,
+                       callback: Callback<OAuthToken>) {
+
+        if (repository == null) {
+            return
+        }
+
+        repository.getNewTokens(username, password, callback)
+    }
+
+    /**
      * Fetches a new access token. This is based on a refresh token. If neither exists, all tokens
      * are invalidated and the user has to login or register.
      * This is a blocking request, which is not asynchronous and may **NOT** be called on the
      * main thread!
      *
+     * @param repository the repository to fetch new oauth access tokens
      * @param context the base context
      * @return the access token if one could be fetched or null
      */

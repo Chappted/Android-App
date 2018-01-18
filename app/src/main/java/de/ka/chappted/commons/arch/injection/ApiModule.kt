@@ -1,4 +1,4 @@
-package de.ka.chappted.injection
+package de.ka.chappted.commons.arch.injection
 
 import dagger.Module
 import dagger.Provides

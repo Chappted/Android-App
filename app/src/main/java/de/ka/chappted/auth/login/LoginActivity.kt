@@ -8,7 +8,7 @@ import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.auth.register.RegisterActivity
 import android.accounts.AccountAuthenticatorResponse
 import de.ka.chappted.R
-import de.ka.chappted.commons.base.BaseActivity
+import de.ka.chappted.commons.arch.base.BaseActivity
 
 /**
  * A class for login procedures. Note that this class includes the original code of the account
@@ -85,7 +85,6 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), LoginActivityViewM
         setResult(Activity.RESULT_OK, loginIntent)
         finish()
     }
-
 
     override fun finish() {
         accountAuthenticatorResponse?.let {

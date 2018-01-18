@@ -2,8 +2,7 @@ package de.ka.chappted.home
 
 import android.app.Application
 import de.ka.chappted.auth.OAuthUtils
-import de.ka.chappted.commons.base.BaseViewModel
-import javax.inject.Inject
+import de.ka.chappted.commons.arch.base.BaseViewModel
 
 /**
  * A view model for showing the home content.

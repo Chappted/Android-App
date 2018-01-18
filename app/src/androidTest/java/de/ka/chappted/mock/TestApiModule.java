@@ -3,7 +3,7 @@ package de.ka.chappted.mock;
 import org.mockito.Mock;
 
 import de.ka.chappted.api.Repository;
-import de.ka.chappted.injection.ApiModule;
+import de.ka.chappted.commons.arch.injection.ApiModule;
 
 public class TestApiModule extends ApiModule {
 

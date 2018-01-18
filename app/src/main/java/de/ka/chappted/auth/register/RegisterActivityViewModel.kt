@@ -6,15 +6,12 @@ import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import de.ka.chappted.commons.base.BaseViewModel
-import de.ka.chappted.api.Repository
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.api.model.User
 import de.ka.chappted.auth.OAuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
-
 
 /**
  * A register view model.

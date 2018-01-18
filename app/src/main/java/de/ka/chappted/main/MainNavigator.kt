@@ -2,8 +2,8 @@ package de.ka.chappted.main
 
 import android.support.v7.app.AppCompatActivity
 import de.ka.chappted.R
-import de.ka.chappted.commons.navigation.NavigationItem
-import de.ka.chappted.commons.navigation.Navigator
+import de.ka.chappted.commons.arch.navigation.NavigationItem
+import de.ka.chappted.commons.arch.navigation.Navigator
 import de.ka.chappted.home.HomeFragment
 import de.ka.chappted.test.TestFragment
 

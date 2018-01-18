@@ -1,4 +1,4 @@
-package de.ka.chappted.injection
+package de.ka.chappted.commons.arch.injection
 
 import android.content.Context
 import dagger.Module

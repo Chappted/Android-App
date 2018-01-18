@@ -1,4 +1,4 @@
-package de.ka.chappted.commons.base
+package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel

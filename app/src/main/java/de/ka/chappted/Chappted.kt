@@ -1,34 +1,27 @@
 package de.ka.chappted
 
-import de.ka.chappted.injection.ApiModule
-import de.ka.chappted.injection.AppModule
-import de.ka.chappted.injection.ChapptedComponent
-import de.ka.chappted.injection.DaggerChapptedComponent
+import de.ka.chappted.commons.arch.injection.ApiModule
+import de.ka.chappted.commons.arch.injection.AppModule
+import de.ka.chappted.commons.arch.injection.ChapptedComponent
+import de.ka.chappted.commons.arch.injection.DaggerChapptedComponent
 
 
 /**
- * A chappted singleton for component initialisation and global method handling.
+ * A chappted object for component initialisation and global method handling.
  *
  * Created by Thomas Hofmann on 06.01.18.
  */
-class Chappted {
+object Chappted {
 
-    init {
-        chapptedComponent.init(this)
-    }
+    lateinit var chapptedComponent: ChapptedComponent
 
-    companion object {
-        lateinit var chapptedComponent: ChapptedComponent
+    fun initApp(application: App) {
 
-        fun initApp(application: App) {
-
-            chapptedComponent = DaggerChapptedComponent
-                    .builder()
-                    .appModule(AppModule(application))
-                    .apiModule(ApiModule())
-                    .build()
-        }
-
+        chapptedComponent = DaggerChapptedComponent
+                .builder()
+                .appModule(AppModule(application))
+                .apiModule(ApiModule())
+                .build()
     }
 
 }

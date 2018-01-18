@@ -2,8 +2,7 @@ package de.ka.chappted.test
 
 import android.app.Application
 import android.content.Intent
-import de.ka.chappted.Chappted
-import de.ka.chappted.commons.base.BaseViewModel
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Response
 import timber.log.Timber
