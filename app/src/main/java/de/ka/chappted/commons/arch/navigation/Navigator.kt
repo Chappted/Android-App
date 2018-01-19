@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
  *
  * Created by Thomas Hofmann on 12.12.17.
  */
-abstract class Navigator<E : NavigationItem?>(val navItems: MutableList<E>) {
+abstract class Navigator<E : NavigationItem?>(var navItems: MutableList<E>?) {
 
     open var observedNavItem: PublishSubject<E>? = PublishSubject.create()
 
@@ -54,6 +54,7 @@ abstract class Navigator<E : NavigationItem?>(val navItems: MutableList<E>) {
     fun dispose() {
         currentNavItem = null
         observedNavItem = null
+        navItems = null
     }
 }
 
