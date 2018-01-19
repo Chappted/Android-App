@@ -35,10 +35,4 @@ abstract class BaseFragment<E : BaseViewModel> : Fragment() {
 
         return binding?.root
     }
-
-    override fun onPause() {
-        viewModel?.onPause()
-
-        super.onPause()
-    }
 }

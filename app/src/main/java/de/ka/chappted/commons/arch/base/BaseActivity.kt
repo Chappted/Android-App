@@ -32,12 +32,6 @@ abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
         setContentView(binding?.root)
     }
 
-    override fun onPause() {
-        viewModel?.onPause()
-
-        super.onPause()
-    }
-
     override fun onNavigateTo(element: Any?) {
         // to be implemented by subclasses
     }

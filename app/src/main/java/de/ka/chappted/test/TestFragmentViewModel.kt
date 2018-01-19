@@ -1,7 +1,10 @@
 package de.ka.chappted.test
 
 import android.app.Application
+import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
+import android.os.Handler
+import android.view.View
 import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Response
@@ -12,13 +15,22 @@ import timber.log.Timber
  */
 class TestFragmentViewModel(application: Application) : BaseViewModel(application) {
 
+    val progressVisibility = MutableLiveData<Int>()
+
+    init {
+        progressVisibility.postValue(View.INVISIBLE)
+    }
+
 
     fun onSubmit() {
         repository.getUser(
                 object : retrofit2.Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         Timber.e("YAY!")
-                        getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
+
+                        if (response.code() == 200) {
+                           // getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
+                        }
 
                     }
 
@@ -26,7 +38,9 @@ class TestFragmentViewModel(application: Application) : BaseViewModel(applicatio
                         Timber.e(t, "YAY!")
                     }
                 })
-    }
 
+        Handler().postDelayed({ progressVisibility.postValue(View.INVISIBLE) }, 10000)
+        progressVisibility.postValue(View.VISIBLE)
+    }
 
 }

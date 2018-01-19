@@ -2,6 +2,7 @@ package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.util.Log
 import de.ka.chappted.api.Repository
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -29,8 +30,4 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComp
     }
 
     val repository: Repository by inject()
-
-    fun onPause() {
-        repository.stop()
-    }
 }
