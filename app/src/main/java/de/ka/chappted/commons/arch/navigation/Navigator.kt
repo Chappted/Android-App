@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
  *
  * Created by Thomas Hofmann on 12.12.17.
  */
-abstract class Navigator<E : NavigationItem?>(protected val navItems: List<E>) {
+abstract class Navigator<E : NavigationItem?>(val navItems: MutableList<E>) {
 
     open var observedNavItem: PublishSubject<E>? = PublishSubject.create()
 
@@ -40,12 +40,20 @@ abstract class Navigator<E : NavigationItem?>(protected val navItems: List<E>) {
         val intent = Intent(source, target)
         source.startActivity(intent)
 
-        if (closeSource){
+        if (closeSource) {
             source.finish()
         }
 
         source.startActivity(intent)
 
+    }
+
+    /**
+     * Releases the navigator for freeing up memory. Prevents leaking of navigational items.
+     */
+    fun dispose() {
+        currentNavItem = null
+        observedNavItem = null
     }
 }
 

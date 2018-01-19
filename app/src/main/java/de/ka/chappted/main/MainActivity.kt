@@ -47,5 +47,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
         compositeDisposable.clear()
         compositeDisposable.dispose()
+
+        navigator.dispose()
     }
 }

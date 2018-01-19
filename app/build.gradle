@@ -71,5 +71,9 @@ dependencies {
 
     // dependency injection
     implementation 'org.koin:koin-android:0.8.0'
+
+    // leak detection
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 
