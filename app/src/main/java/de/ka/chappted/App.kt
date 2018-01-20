@@ -13,6 +13,5 @@ class App : Application() {
         super.onCreate()
 
         Chappted.initApp(this)
-
     }
 }

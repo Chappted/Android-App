@@ -10,8 +10,8 @@ import de.ka.chappted.BR
 /**
  * A base activity using a view model.
  */
-abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
-        BaseViewModel.NavigationListener {
+abstract class BaseActivity<E : BaseViewModel>
+    : AppCompatActivity(), BaseViewModel.NavigationListener {
 
     abstract var viewModelClass: Class<E>
     abstract var bindingLayoutId: Int
@@ -28,6 +28,8 @@ abstract class BaseActivity<E : BaseViewModel> : AppCompatActivity(),
         binding = DataBindingUtil.inflate(layoutInflater, bindingLayoutId, null, true)
         binding?.setVariable(BR.viewModel, viewModel)
         binding?.setLifecycleOwner(this)
+
+        viewModel?.subscribe()
 
         setContentView(binding?.root)
     }

@@ -93,8 +93,8 @@ internal object ServiceGenerator {
  */
 class OAuthAuthenticator : Authenticator, KoinComponent {
 
-    val repository: Repository by inject()
-    val context: Context by inject()
+    private val repository: Repository by inject()
+    private val context: Context by inject()
 
     override fun authenticate(route: Route, response: Response): Request? {
         // responding two times with a 401 should not be tolerated, so we exit
@@ -122,7 +122,7 @@ class OAuthAuthenticator : Authenticator, KoinComponent {
  */
 class AuthInterceptor : Interceptor, KoinComponent {
 
-    val context: Context by inject()
+    private val context: Context by inject()
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // forces a 401 if there is no oauth token

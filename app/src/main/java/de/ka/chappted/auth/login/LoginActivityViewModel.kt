@@ -13,6 +13,7 @@ import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * A login view model.
@@ -90,7 +91,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
             }
 
             override fun onFailure(call: Call<OAuthToken>, t: Throwable) {
-
+                Timber.e(t, "Could not login the user.")
             }
         })
     }

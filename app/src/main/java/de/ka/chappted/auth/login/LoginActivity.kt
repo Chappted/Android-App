@@ -8,7 +8,9 @@ import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.auth.register.RegisterActivity
 import android.accounts.AccountAuthenticatorResponse
 import de.ka.chappted.R
+import de.ka.chappted.auth.UserManager
 import de.ka.chappted.commons.arch.base.BaseActivity
+import org.koin.android.ext.android.inject
 
 /**
  * A class for login procedures. Note that this class includes the original code of the account
@@ -17,6 +19,8 @@ import de.ka.chappted.commons.arch.base.BaseActivity
  * Created by Thomas Hofmann on 08.12.17.
  */
 class LoginActivity : BaseActivity<LoginActivityViewModel>(), LoginActivityViewModel.LoginListener {
+
+    private val userManager: UserManager by inject()
 
     override var viewModelClass = LoginActivityViewModel::class.java
     override var bindingLayoutId = R.layout.activity_login
@@ -83,6 +87,9 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), LoginActivityViewM
 
         resultBundle = loginIntent.extras
         setResult(Activity.RESULT_OK, loginIntent)
+
+        userManager.userJustLoggedIn.onNext(true)
+
         finish()
     }
 

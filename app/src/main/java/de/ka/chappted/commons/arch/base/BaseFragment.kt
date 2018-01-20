@@ -33,6 +33,8 @@ abstract class BaseFragment<E : BaseViewModel> : Fragment() {
         binding?.setVariable(BR.viewModel, viewModel)
         binding?.setLifecycleOwner(this)
 
+        viewModel?.subscribe()
+
         return binding?.root
     }
 }

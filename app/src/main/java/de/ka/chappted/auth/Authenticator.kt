@@ -30,7 +30,8 @@ import org.koin.standalone.inject
  * @see OAuthUtils
  */
 class Authenticator
-internal constructor(private val context: Context) : AbstractAccountAuthenticator(context), KoinComponent {
+internal constructor(private val context: Context)
+    : AbstractAccountAuthenticator(context), KoinComponent {
 
     val repository: Repository by inject()
 
@@ -179,7 +180,8 @@ internal constructor(private val context: Context) : AbstractAccountAuthenticato
         internal fun requestNewOAuth(context: Context) {
             val bundle = Bundle()
             bundle.putBoolean(OAuthUtils.EXTRA_IS_ADDING_NEW_ACCOUNT, true)
-            context.startActivity(Intent(context.applicationContext, LoginActivity::class.java).putExtras(bundle))
+            context.startActivity(Intent(context.applicationContext, LoginActivity::class.java)
+                    .putExtras(bundle))
         }
 
         /**

@@ -2,8 +2,11 @@ package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.util.Log
 import de.ka.chappted.api.Repository
+import de.ka.chappted.auth.UserManager
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
@@ -14,7 +17,31 @@ import org.koin.standalone.inject
  */
 abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComponent {
 
+    val userManager: UserManager by inject()
+    val repository: Repository by inject()
+
     var navigationListener: NavigationListener? = null
+
+    private var compositeDisposable: CompositeDisposable? = null
+
+    /**
+     * Subscribes the view model.
+     */
+    fun subscribe() {
+
+        dispose() // needed, as the view model may somehow be reused
+
+        compositeDisposable = CompositeDisposable()
+
+        compositeDisposable?.let {
+            userManager.userJustLoggedIn
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        onLoggedIn()
+                    }
+                    .addTo(it)
+        }
+    }
 
     /**
      * Listens for navigational events.
@@ -29,5 +56,27 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComp
         fun onNavigateTo(element: Any?)
     }
 
-    val repository: Repository by inject()
+    /**
+     * Convenience method for getting informed if a user has just logged in.
+     */
+    open fun onLoggedIn() {
+        // to be implemented by subclasses
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        dispose()
+    }
+
+    /**
+     * Disposes all subscriptions to take care of potential memory leaks.
+     */
+    private fun dispose() {
+        compositeDisposable?.let {
+            it.clear()
+            it.dispose()
+            compositeDisposable = null
+        }
+    }
 }

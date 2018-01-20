@@ -21,15 +21,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //OAuthUtils.instance.peekOAuthToken(this) // TODO this will open up register/login if none is available
-
         if (savedInstanceState == null) {
             navigator.navigateTo(R.id.action_favorites, R.id.content, this)
         }
 
-        navigator.observedNavItem?.subscribe { item ->
-            item.id?.let { viewModel?.selectedActionId?.postValue(item.id) }
-        }?.addTo(compositeDisposable)
+        navigator.observedNavItem
+                ?.map { it.id }
+                ?.subscribe { viewModel?.selectedActionId?.postValue(it) }
+                ?.addTo(compositeDisposable)
     }
 
     override fun onNavigateTo(element: Any?) {

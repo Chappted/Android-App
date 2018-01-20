@@ -71,19 +71,26 @@ public class AccountManagementTest extends InstrumentationTestCase {
     @Test
     public void test_login_after_401() throws Exception {
 
-        // here comes the test where we force a 401
+        // here comes the test where we force a login, because the account is not there / deleted
         final CountDownLatch latch1 = new CountDownLatch(1);
         LoginActivityViewModel viewModel = new LoginActivityViewModel(mActivityRule.getActivity().getApplication());
+
+        server.enqueue(new MockResponse() // something unimportant, as we HAVE to login, but must need authorization
+                .setResponseCode(200) // we do not pass 401 to not confuse the interceptor
+                .setBody(MockUtil.getJsonFromFile(mContext, "authError.json")));
 
         //triggering a call with the need of authentication, triggers a login
         mTestInjector.getRepository().getUser(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                Assert.assertEquals("We get a 200", 200, response.code());
+
+                latch1.countDown();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // we cancel the call, as we see only 401!
+                // should not fail..
                 latch1.countDown();
 
             }

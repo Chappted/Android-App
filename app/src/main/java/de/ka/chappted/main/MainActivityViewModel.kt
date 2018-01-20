@@ -15,8 +15,8 @@ class MainActivityViewModel(application: Application) : BaseViewModel(applicatio
     val selectedActionId = MutableLiveData<Int>()
 
     fun navigationItemSelectionListener(): BottomNavigationView.OnNavigationItemSelectedListener {
-        return BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            navigationListener?.onNavigateTo(item.itemId)
+        return BottomNavigationView.OnNavigationItemSelectedListener {
+            navigationListener?.onNavigateTo(it.itemId)
             true
         }
     }
