@@ -2,30 +2,32 @@ package de.ka.chappted.main
 
 import android.support.v7.app.AppCompatActivity
 import de.ka.chappted.R
-import de.ka.chappted.commons.navigation.NavigationItem
-import de.ka.chappted.commons.navigation.Navigator
+import de.ka.chappted.commons.arch.navigation.NavigationItem
+import de.ka.chappted.commons.arch.navigation.Navigator
 import de.ka.chappted.home.HomeFragment
 import de.ka.chappted.test.TestFragment
 
-val mainNavItems = mutableListOf<NavigationItem>()
-        .apply {
-            add(NavigationItem(HomeFragment.newInstance(), R.id.action_favorites, "home"))
-            add(NavigationItem(TestFragment.newInstance(), R.id.action_schedules, "test"))
-            add(NavigationItem(HomeFragment.newInstance(), R.id.action_music, "settings"))
-        }
+fun mainNavItems(): MutableList<NavigationItem> {
+    return mutableListOf<NavigationItem>()
+            .apply {
+                add(NavigationItem(HomeFragment.newInstance(), R.id.action_favorites, "home"))
+                add(NavigationItem(TestFragment.newInstance(), R.id.action_schedules, "test"))
+                add(NavigationItem(HomeFragment.newInstance(), R.id.action_music, "settings"))
+            }
+}
 
 /**
  * A navigator for the main navigation.
  *
  * Created by Thomas Hofmann on 12.12.17.
  */
-class MainNavigator : Navigator<NavigationItem>(mainNavItems) {
+class MainNavigator : Navigator<NavigationItem>(mainNavItems()) {
 
     override fun navigateTo(elementTo: Any, elementFrom: Any, source: AppCompatActivity) {
 
         val item: NavigationItem? = {
             if (elementTo is Int) {
-                navItems.firstOrNull { it.id == elementTo }
+                navItems?.firstOrNull { it.id == elementTo }
             } else {
                 null
             }
@@ -76,7 +78,7 @@ class MainNavigator : Navigator<NavigationItem>(mainNavItems) {
 
             val entry = fragmentManager.getBackStackEntryAt(backStackCount - 2)
 
-            currentNavItem = navItems.firstOrNull { it.tag == entry.name }
+            currentNavItem = navItems?.firstOrNull { it.tag == entry.name }
 
             currentNavItem?.let {
                 observedNavItem?.onNext(it)

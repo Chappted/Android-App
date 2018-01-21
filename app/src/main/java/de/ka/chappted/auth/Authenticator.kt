@@ -5,7 +5,6 @@ import android.accounts.Account
 import android.accounts.AccountAuthenticatorResponse
 import android.accounts.AccountManager
 import android.accounts.NetworkErrorException
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,11 +14,13 @@ import android.widget.Toast
 import de.ka.chappted.R
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.auth.login.LoginActivity
-import timber.log.Timber
 
 import android.accounts.AccountManager.KEY_BOOLEAN_RESULT
 import android.accounts.AccountManager.get
 import android.os.Build
+import de.ka.chappted.api.Repository
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 /**
  * A authenticator. Uses OAuth2 for authenticating the user.
@@ -29,7 +30,10 @@ import android.os.Build
  * @see OAuthUtils
  */
 class Authenticator
-internal constructor(private val context: Context) : AbstractAccountAuthenticator(context) {
+internal constructor(private val context: Context)
+    : AbstractAccountAuthenticator(context), KoinComponent {
+
+    val repository: Repository by inject()
 
     private val handler = Handler()
 
@@ -93,7 +97,7 @@ internal constructor(private val context: Context) : AbstractAccountAuthenticato
 
             // case 3: access token is not available but refresh token is, fetch a new accesstoken!
             if (refreshToken != null) {
-                OAuthUtils.instance.fetchNewOAuthAccessTokenBlocking(context)
+                OAuthUtils.fetchNewOAuthAccessTokenBlocking(repository, context)
                 return result
             }
 
@@ -171,15 +175,13 @@ internal constructor(private val context: Context) : AbstractAccountAuthenticato
          * success/failure as this is intended to be called if a new login/registration is
          * wanted.
          *
-         * @param activity a activity to start the login / registration process
+         * @param context the base context
          */
-        internal fun requestNewOAuth(activity: Activity) {
-
-            get(activity).getAuthTokenByFeatures(
-                    activity.getString(R.string.account_type),
-                    AUTH_TOKEN_TYPE, null,
-                    activity, null, null,
-                    { Timber.d("OAuth requested.") }, null)
+        internal fun requestNewOAuth(context: Context) {
+            val bundle = Bundle()
+            bundle.putBoolean(OAuthUtils.EXTRA_IS_ADDING_NEW_ACCOUNT, true)
+            context.startActivity(Intent(context.applicationContext, LoginActivity::class.java)
+                    .putExtras(bundle))
         }
 
         /**

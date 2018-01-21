@@ -2,7 +2,7 @@ package de.ka.chappted.home
 
 import android.app.Application
 import de.ka.chappted.auth.OAuthUtils
-import de.ka.chappted.commons.base.BaseViewModel
+import de.ka.chappted.commons.arch.base.BaseViewModel
 
 /**
  * A view model for showing the home content.
@@ -11,9 +11,8 @@ import de.ka.chappted.commons.base.BaseViewModel
  */
 class HomeFragmentViewModel(application: Application) : BaseViewModel(application) {
 
-    fun getText() = OAuthUtils.instance.getOAuthAccountName(getApplication())
+    fun getText() = OAuthUtils.getOAuthAccountName(getApplication())
 
-    fun onSubmit() {
-        OAuthUtils.instance.deleteOAuthAccount(getApplication())
-    }
+    fun onSubmit() = OAuthUtils.deleteOAuthAccount(getApplication())
+
 }

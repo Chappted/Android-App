@@ -6,14 +6,12 @@ import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import de.ka.chappted.commons.base.BaseViewModel
-import de.ka.chappted.api.Repository
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.api.model.User
 import de.ka.chappted.auth.OAuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 /**
  * A register view model.
@@ -56,7 +54,7 @@ class RegisterActivityViewModel(application: Application) : BaseViewModel(applic
 
         loadingProgress.postValue(View.VISIBLE)
 
-        Repository.instance.register(User(userName.value ?: "", userPass.value ?: ""), object : Callback<User> {
+        repository.register(User(userName.value ?: "", userPass.value ?: ""), object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 loadingProgress.postValue(View.GONE)
@@ -64,7 +62,7 @@ class RegisterActivityViewModel(application: Application) : BaseViewModel(applic
                 if (response.body() != null) {
 
                     listener?.onRegistered(
-                            OAuthUtils.instance.getOAuthRegisterIntent(userName.value ?: "", userPass.value ?: ""))
+                            OAuthUtils.getOAuthRegisterIntent(userName.value ?: "", userPass.value ?: ""))
                 }
 
 

@@ -7,13 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.auth.OAuthUtils
-import de.ka.chappted.commons.base.BaseViewModel
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * A login view model.
@@ -75,7 +75,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
     }
 
     fun login(context: Context, username: String, password: String) {
-        OAuthUtils.instance.fetchAllOAuthTokensAsync(username, password, object : Callback<OAuthToken> {
+        OAuthUtils.fetchNewTokens(repository, username, password, object : Callback<OAuthToken> {
 
             override fun onResponse(call: Call<OAuthToken>, response: Response<OAuthToken>) {
 
@@ -83,7 +83,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
 
                     val token = response.body() as OAuthToken
 
-                    listener?.onAccountLoginCompleted(OAuthUtils.instance.getOAuthLoginIntent(
+                    listener?.onAccountLoginCompleted(OAuthUtils.getOAuthLoginIntent(
                             username,
                             context,
                             token))
@@ -91,7 +91,7 @@ class LoginActivityViewModel(application: Application) : BaseViewModel(applicati
             }
 
             override fun onFailure(call: Call<OAuthToken>, t: Throwable) {
-
+                Timber.e(t, "Could not login the user.")
             }
         })
     }

@@ -31,6 +31,10 @@ android {
         enabled = true
         addDefaultAdapters true
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -41,13 +45,14 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'android.arch.lifecycle:extensions:1.0.0'
 
-    kapt "com.android.databinding:compiler:3.1.0-alpha07"
+    kapt "com.android.databinding:compiler:3.1.0-alpha08"
     kapt 'android.arch.lifecycle:compiler:1.0.0'
 
     // testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'org.mockito:mockito-core:2.8.9'
 
     // logging
     implementation 'com.jakewharton.timber:timber:4.6.0'
@@ -63,9 +68,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+
+    // dependency injection
+    implementation 'org.koin:koin-android:0.8.0'
+
+    // leak detection
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 
-// workaround for testing: bug https://issuetracker.google.com/issues/70915745#comment8
-afterEvaluate {
-    tasks['kaptDebugKotlin'].dependsOn('transformDataBindingWithDataBindingMergeArtifactsForDebug')
-}

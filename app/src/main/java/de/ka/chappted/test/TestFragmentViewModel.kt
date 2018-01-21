@@ -1,11 +1,10 @@
 package de.ka.chappted.test
 
 import android.app.Application
-import android.content.Intent
+import android.arch.lifecycle.MutableLiveData
+import android.os.Handler
 import android.view.View
-import de.ka.chappted.api.Repository
-import de.ka.chappted.commons.base.BaseViewModel
-import de.ka.chappted.Chappted
+import de.ka.chappted.commons.arch.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Response
 import timber.log.Timber
@@ -15,15 +14,25 @@ import timber.log.Timber
  */
 class TestFragmentViewModel(application: Application) : BaseViewModel(application) {
 
+    var needsLogin: Boolean = false
+
+    val progressVisibility = MutableLiveData<Int>()
+
+    init {
+        progressVisibility.postValue(View.INVISIBLE)
+    }
+
+
     fun onSubmit() {
-        Repository.instance.getUser(
+        repository.getUser(
                 object : retrofit2.Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         Timber.e("YAY!")
 
-                        Chappted.resumedActivity?.let { //TODO remove it, this was just for testing. No acitivty ref allowed in a view model!!
-                            it.startActivity(Intent(it, TesterActivity::class.java))
-                            it.finish()
+                        needsLogin = response.code() == 401
+
+                        if (response.code() == 200) {
+                            // getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
                         }
 
                     }
@@ -32,7 +41,15 @@ class TestFragmentViewModel(application: Application) : BaseViewModel(applicatio
                         Timber.e(t, "YAY!")
                     }
                 })
+
+        Handler().postDelayed({ progressVisibility.postValue(View.INVISIBLE) }, 10000)
+        progressVisibility.postValue(View.VISIBLE)
     }
 
+    override fun onLoggedIn() {
+        if (needsLogin) {
+            onSubmit()
+        }
+    }
 
 }

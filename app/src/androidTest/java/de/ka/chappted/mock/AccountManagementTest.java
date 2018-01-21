@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.CountDownLatch;
 
-import de.ka.chappted.api.Repository;
+import de.ka.chappted.App;
 import de.ka.chappted.auth.OAuthUtils;
 import de.ka.chappted.auth.login.LoginActivityViewModel;
 import de.ka.chappted.main.MainActivity;
@@ -30,9 +30,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 /**
  * A test suite for account management.
+ * <p>
+ * Uses an array of testing frameworks:
+ * Android Instrumentation, MockWebServer, Mockito, JUnit
  * <p>
  * Created by Thomas Hofmann on 21.12.17.
  */
@@ -40,6 +42,8 @@ import retrofit2.Response;
 public class AccountManagementTest extends InstrumentationTestCase {
 
     private Context mContext;
+
+    private TestInjector mTestInjector;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule =
@@ -56,57 +60,53 @@ public class AccountManagementTest extends InstrumentationTestCase {
         server = new MockWebServer();
         server.start();
 
-        HttpUrl baseUrl = server.url("/");
-        Repository.Companion.init(baseUrl.toString(), true);
-
         // delete the current user account
-        OAuthUtils.Companion.getInstance().deleteOAuthAccount(mActivityRule.getActivity());
+        OAuthUtils.INSTANCE.deleteOAuthAccount(mActivityRule.getActivity().getApplicationContext());
+
+        HttpUrl baseUrl = server.url("/");
+        mTestInjector = new TestInjector(baseUrl.toString(), true);
+        mTestInjector.overrideInjection((App) mActivityRule.getActivity().getApplication());
     }
 
     @Test
     public void test_login_after_401() throws Exception {
 
-        server.enqueue(new MockResponse() // first 401 triggers 401 check -> register is presented
-                .setResponseCode(401)
-                .setBody(MockUtil.getJsonFromFile(mContext, "authError.json")));
-        server.enqueue(new MockResponse()
-                .setResponseCode(401) // second one says that the check has failed -> stop 401 check
-                .setBody(MockUtil.getJsonFromFile(mContext, "authError.json")));
-
-        // here comes the test where we force a 401
+        // here comes the test where we force a login, because the account is not there / deleted
         final CountDownLatch latch1 = new CountDownLatch(1);
+        LoginActivityViewModel viewModel = new LoginActivityViewModel(mActivityRule.getActivity().getApplication());
+
+        server.enqueue(new MockResponse() // something unimportant, as we HAVE to login, but must need authorization
+                .setResponseCode(200) // we do not pass 401 to not confuse the interceptor
+                .setBody(MockUtil.getJsonFromFile(mContext, "authError.json")));
 
         //triggering a call with the need of authentication, triggers a login
-        Repository.Companion.getInstance().getUser(new Callback<Void>() {
+        mTestInjector.getRepository().getUser(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
-                Assert.assertEquals("The response code should be 401", 401, response.code());
+                Assert.assertEquals("We get a 200", 200, response.code());
 
                 latch1.countDown();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                // should not fail..
+                latch1.countDown();
+
             }
         });
 
         latch1.await();
-
-        server.enqueue(new MockResponse() // the user tries to login and succeeds!
-                .setResponseCode(200)
-                .setBody(MockUtil.getJsonFromFile(mContext, "oauthtoken.json")));
 
         // here comes the test, if the submit button leads to a success!
         final CountDownLatch latch2 = new CountDownLatch(1);
 
         final String userName = "TestUser";
 
-        LoginActivityViewModel viewModel = new LoginActivityViewModel("tester",
+        viewModel.setListener(
                 new LoginActivityViewModel.LoginListener() {
                     @Override
                     public void onRegisterRequested() {
-
                     }
 
                     @Override
@@ -117,12 +117,15 @@ public class AccountManagementTest extends InstrumentationTestCase {
                         Assert.assertEquals("token should be 1234", "1234", actualToken);
                         Assert.assertEquals("account name should be ", userName, actualAccountName);
 
-
                         latch2.countDown();
                     }
                 });
 
-        viewModel.login(mActivityRule.getActivity(), userName, "adad");
+        server.enqueue(new MockResponse() // the user login mock
+                .setResponseCode(200)
+                .setBody(MockUtil.getJsonFromFile(mContext, "oauthtoken.json")));
+
+        viewModel.login(mActivityRule.getActivity().getApplicationContext(), userName, "adad");
 
         latch2.await();
     }

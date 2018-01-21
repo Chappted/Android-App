@@ -2,16 +2,15 @@ package de.ka.chappted.auth.login
 
 import android.accounts.AccountManager
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import de.ka.chappted.api.Repository
 import de.ka.chappted.auth.OAuthUtils
 import de.ka.chappted.auth.register.RegisterActivity
-import de.ka.chappted.databinding.ActivityLoginBinding
 import android.accounts.AccountAuthenticatorResponse
-
+import de.ka.chappted.R
+import de.ka.chappted.auth.UserManager
+import de.ka.chappted.commons.arch.base.BaseActivity
+import org.koin.android.ext.android.inject
 
 /**
  * A class for login procedures. Note that this class includes the original code of the account
@@ -19,22 +18,23 @@ import android.accounts.AccountAuthenticatorResponse
  *
  * Created by Thomas Hofmann on 08.12.17.
  */
-class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener {
+class LoginActivity : BaseActivity<LoginActivityViewModel>(), LoginActivityViewModel.LoginListener {
+
+    private val userManager: UserManager by inject()
+
+    override var viewModelClass = LoginActivityViewModel::class.java
+    override var bindingLayoutId = R.layout.activity_login
 
     companion object {
         const val REQUEST_CODE_REGISTER = 1432
     }
 
     private var accountAuthenticatorResponse: AccountAuthenticatorResponse? = null
-    private var viewModel: LoginActivityViewModel? = null
     private var isAddingNewAccount: Boolean = false
     private var resultBundle: Bundle? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         isAddingNewAccount = intent.getBooleanExtra(OAuthUtils.EXTRA_IS_ADDING_NEW_ACCOUNT, false)
 
@@ -48,12 +48,8 @@ class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener 
                 intent?.getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE)
         accountAuthenticatorResponse?.onRequestContinued()
 
-        viewModel = ViewModelProviders.of(this).get(LoginActivityViewModel::class.java)
         viewModel?.userName?.postValue(name)
         viewModel?.listener = this
-
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -70,10 +66,13 @@ class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener 
     }
 
     override fun onRegisterRequested() {
-        startActivityForResult(Intent(
-                baseContext,
-                RegisterActivity::class.java).putExtras(intent.extras),
-                REQUEST_CODE_REGISTER)
+        val intent = Intent(baseContext, RegisterActivity::class.java)
+
+        if (getIntent()?.extras != null) {
+            intent.putExtras(getIntent().extras)
+        }
+
+        startActivityForResult(intent, REQUEST_CODE_REGISTER)
     }
 
     override fun onAccountLoginCompleted(loginIntent: Intent) {
@@ -81,19 +80,17 @@ class LoginActivity : AppCompatActivity(), LoginActivityViewModel.LoginListener 
             return
         }
 
-        OAuthUtils.instance.createOrUpdateOAuthAccountFromLogin(
+        OAuthUtils.createOrUpdateOAuthAccountFromLogin(
                 isAddingNewAccount,
                 this,
                 loginIntent)
 
         resultBundle = loginIntent.extras
         setResult(Activity.RESULT_OK, loginIntent)
-        finish()
-    }
 
-    override fun onBackPressed() {
-        Repository.instance.stop()
-        super.onBackPressed()
+        userManager.userJustLoggedIn.onNext(true)
+
+        finish()
     }
 
     override fun finish() {

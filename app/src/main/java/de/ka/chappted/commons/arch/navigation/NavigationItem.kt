@@ -1,4 +1,4 @@
-package de.ka.chappted.commons.navigation
+package de.ka.chappted.commons.arch.navigation
 
 import android.support.v4.app.Fragment
 
