@@ -43,10 +43,10 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$androidsdk_version"
     implementation "com.android.support:design:$androidsdk_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'android.arch.lifecycle:extensions:1.0.0'
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
-    kapt "com.android.databinding:compiler:3.1.0-alpha08"
-    kapt 'android.arch.lifecycle:compiler:1.0.0'
+    kapt "com.android.databinding:compiler:$tools_gradle_version"
+    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
 
     // testing
     testImplementation 'junit:junit:4.12'
@@ -59,9 +59,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
     // networking
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    androidTestImplementation "com.squareup.retrofit2:retrofit-mock:2.3.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
 
     // rx
@@ -73,7 +73,7 @@ dependencies {
     implementation 'org.koin:koin-android:0.8.0'
 
     // leak detection
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 

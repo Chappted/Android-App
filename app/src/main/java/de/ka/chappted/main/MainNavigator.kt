@@ -4,15 +4,15 @@ import android.support.v7.app.AppCompatActivity
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.navigation.NavigationItem
 import de.ka.chappted.commons.arch.navigation.Navigator
-import de.ka.chappted.home.HomeFragment
-import de.ka.chappted.test.TestFragment
+import de.ka.chappted.main.screens.challenges.ChallengesFragment
+import de.ka.chappted.main.screens.accepted.AcceptedFragment
 
 fun mainNavItems(): MutableList<NavigationItem> {
     return mutableListOf<NavigationItem>()
             .apply {
-                add(NavigationItem(HomeFragment.newInstance(), R.id.action_favorites, "home"))
-                add(NavigationItem(TestFragment.newInstance(), R.id.action_schedules, "test"))
-                add(NavigationItem(HomeFragment.newInstance(), R.id.action_music, "settings"))
+                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_favorites, "home"))
+                add(NavigationItem(AcceptedFragment.newInstance(), R.id.action_schedules, "test"))
+                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_music, "settings"))
             }
 }
 

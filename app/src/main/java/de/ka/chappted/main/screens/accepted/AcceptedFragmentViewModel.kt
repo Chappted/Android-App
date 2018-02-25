@@ -1,4 +1,4 @@
-package de.ka.chappted.test
+package de.ka.chappted.main.screens.accepted
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import timber.log.Timber
 /**
  * Created by th on 20.12.17.
  */
-class TestFragmentViewModel(application: Application) : BaseViewModel(application) {
+class AcceptedFragmentViewModel(application: Application) : BaseViewModel(application) {
 
     var needsLogin: Boolean = false
 

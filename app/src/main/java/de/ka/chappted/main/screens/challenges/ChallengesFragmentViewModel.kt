@@ -1,4 +1,4 @@
-package de.ka.chappted.home
+package de.ka.chappted.main.screens.challenges
 
 import android.app.Application
 import de.ka.chappted.auth.OAuthUtils
@@ -9,7 +9,7 @@ import de.ka.chappted.commons.arch.base.BaseViewModel
  *
  * Created by Thomas Hofmann on 30.11.17.
  */
-class HomeFragmentViewModel(application: Application) : BaseViewModel(application) {
+class ChallengesFragmentViewModel(application: Application) : BaseViewModel(application) {
 
     fun getText() = OAuthUtils.getOAuthAccountName(getApplication())
 
