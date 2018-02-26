@@ -10,9 +10,9 @@ import de.ka.chappted.main.screens.accepted.AcceptedFragment
 fun mainNavItems(): MutableList<NavigationItem> {
     return mutableListOf<NavigationItem>()
             .apply {
-                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_favorites, "home"))
-                add(NavigationItem(AcceptedFragment.newInstance(), R.id.action_schedules, "test"))
-                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_music, "settings"))
+                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_bar, "home"))
+                add(NavigationItem(AcceptedFragment.newInstance(), R.id.action_bar, "test"))
+                add(NavigationItem(ChallengesFragment.newInstance(), R.id.action_bar, "settings"))
             }
 }
 

@@ -6,4 +6,11 @@
     <string name="account_error_multiple_accounts">Only one account is supported</string>
     <string name="account_error_tokentype">Invalid token type</string>
     <string name="account_token_label">Chappted Account</string>
+
+    <!-- challenges -->
+    <string name="challenges_title">Challenges</string>
+
+    <!-- accepted -->
+    <string name="accepted_title">Accepted</string>
+
 </resources>

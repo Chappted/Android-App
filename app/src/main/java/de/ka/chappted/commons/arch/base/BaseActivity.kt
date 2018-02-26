@@ -10,7 +10,7 @@ import de.ka.chappted.BR
 /**
  * A base activity using a view model.
  */
-abstract class BaseActivity<E : BaseViewModel>
+abstract class BaseActivity<out T: ViewDataBinding, E : BaseViewModel>
     : AppCompatActivity(), BaseViewModel.NavigationListener {
 
     abstract var viewModelClass: Class<E>
@@ -33,6 +33,8 @@ abstract class BaseActivity<E : BaseViewModel>
 
         setContentView(binding?.root)
     }
+
+    fun getBinding() = binding as T?
 
     override fun onNavigateTo(element: Any?) {
         // to be implemented by subclasses

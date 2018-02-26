@@ -10,6 +10,7 @@ import android.accounts.AccountAuthenticatorResponse
 import de.ka.chappted.R
 import de.ka.chappted.auth.UserManager
 import de.ka.chappted.commons.arch.base.BaseActivity
+import de.ka.chappted.databinding.ActivityLoginBinding
 import org.koin.android.ext.android.inject
 
 /**
@@ -18,7 +19,7 @@ import org.koin.android.ext.android.inject
  *
  * Created by Thomas Hofmann on 08.12.17.
  */
-class LoginActivity : BaseActivity<LoginActivityViewModel>(), LoginActivityViewModel.LoginListener {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginActivityViewModel>(), LoginActivityViewModel.LoginListener {
 
     private val userManager: UserManager by inject()
 

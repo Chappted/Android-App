@@ -1,52 +1,40 @@
 package de.ka.chappted.main
 
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseActivity
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import de.ka.chappted.databinding.ActivityMainBinding
 
 /**
  * The main activity offering a bottom navigation.
  * Will auto switch to the first main view.
  */
-class MainActivity : BaseActivity<MainActivityViewModel>() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(),
+        ViewPager.OnPageChangeListener {
 
     override var viewModelClass = MainActivityViewModel::class.java
     override var bindingLayoutId = R.layout.activity_main
 
-    private val navigator by lazy { MainNavigator() }
-    private val compositeDisposable by lazy { CompositeDisposable() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) {
-            navigator.navigateTo(R.id.action_favorites, R.id.content, this)
-        }
-
-        navigator.observedNavItem
-                ?.map { it.id }
-                ?.subscribe { viewModel?.selectedActionId?.postValue(it) }
-                ?.addTo(compositeDisposable)
-    }
-
-    override fun onNavigateTo(element: Any?) {
-        if (element is Int) {
-            navigator.navigateTo(element, R.id.content, this)
+        getBinding()?.apply {
+            tabLayout.setupWithViewPager(getBinding()?.viewPager)
+            viewPager.addOnPageChangeListener(this@MainActivity)
+            viewPager.adapter = MainPagesAdapter(supportFragmentManager, applicationContext)
         }
     }
 
-    override fun onBackPressed() {
-        navigator.navigateBack(this)
+    override fun onPageSelected(position: Int) {
+        // may be needed in the future
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPageScrollStateChanged(state: Int) {
+        // not needed
+    }
 
-        compositeDisposable.clear()
-        compositeDisposable.dispose()
-
-        navigator.dispose()
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        // not needed
     }
 }
