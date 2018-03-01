@@ -6,14 +6,15 @@ import android.databinding.ObservableInt
 import android.os.Handler
 import android.view.View
 import de.ka.chappted.api.model.Challenge
-import de.ka.chappted.commons.arch.base.BaseItemViewModel
 
 /**
  * A view model for showing challenge item content.
  *
  * Created by Thomas Hofmann on 28.02.18.
  */
-class ChallengesItemViewModel(val challenge: ObservableField<Challenge>): BaseItemViewModel() {
+class ChallengesItemViewModel: ViewModel() {
+
+    var challenge: Challenge? = Challenge("test")
 
     val progressVisibility = ObservableInt(View.GONE)
 

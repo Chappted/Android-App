@@ -1,10 +1,10 @@
 package de.ka.chappted.main.screens.challenges
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseFragment
 import de.ka.chappted.databinding.FragmentChallengesBinding
@@ -21,10 +21,20 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFra
         fun newInstance() = ChallengesFragment()
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // setup:
+        val adapter = ChallengesAdapter(this) { challenge, viewModel ->
+            viewModel.play()
+            Toast.makeText(activity, "challenge " + challenge.title, Toast.LENGTH_SHORT).show()
+        }
 
-        viewModel?.setup()
+        viewModel?.let {
+            it.initAdapter(adapter)
+            it.loadChallenges()
+        }
+
+        return view
     }
 }

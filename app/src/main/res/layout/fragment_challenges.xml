@@ -14,9 +14,9 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/challengesRecylcer"
-            android:adapter="@{viewModel.adapter}"
+            android:id="@+id/challengesRecycler"
             app:layoutManager="@{viewModel.challengesLayoutManager}"
+            android:adapter="@{viewModel.challengesAdapter}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
