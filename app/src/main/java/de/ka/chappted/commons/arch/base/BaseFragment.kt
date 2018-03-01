@@ -35,6 +35,10 @@ abstract class BaseFragment<out T: ViewDataBinding, E : BaseViewModel> : Fragmen
 
         viewModel?.subscribe()
 
+        retainInstance = true
+
+        binding?.executePendingBindings()
+
         return binding?.root
     }
 

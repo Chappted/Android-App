@@ -33,6 +33,8 @@ abstract class BaseActivity<out T : ViewDataBinding, E : BaseViewModel>
 
         viewModel?.subscribe()
 
+        binding?.executePendingBindings()
+
         setContentView(binding?.root)
     }
 

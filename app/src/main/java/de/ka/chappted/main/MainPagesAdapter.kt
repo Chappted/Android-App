@@ -12,8 +12,8 @@ class MainPagesAdapter(fragmentManager: FragmentManager, context: Context)
     : FragmentPagerAdapter(fragmentManager) {
 
     var items: MutableList<MainItem> = mutableListOf<MainItem>().apply {
-        add(MainItem(AcceptedFragment.newInstance(), context.getString(R.string.challenges_title)))
-        add(MainItem(ChallengesFragment.newInstance(), context.getString(R.string.accepted_title)))
+        add(MainItem(ChallengesFragment.newInstance(), context.getString(R.string.challenges_title)))
+        add(MainItem(AcceptedFragment.newInstance(), context.getString(R.string.accepted_title)))
     }
 
     override fun getItem(position: Int) = items[position].fragment
