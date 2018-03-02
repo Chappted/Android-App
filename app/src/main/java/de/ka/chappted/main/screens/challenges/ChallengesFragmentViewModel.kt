@@ -20,7 +20,7 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
     /**
      * Initializes the adapter
      */
-    fun initAdapter(adapter: ChallengesAdapter){
+    fun initAdapter(adapter: ChallengesAdapter) {
         challengesAdapter.value = adapter // note that we don't postValue(), as this is immediately
     }
 
@@ -33,24 +33,18 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
 
         val list = mutableListOf<Challenge>()
                 .apply {
-                    add(Challenge(title = "yay"))
-                    add(Challenge(title = "dada"))
-                    add(Challenge(title = "ewefwf"))
-                    add(Challenge(title = "fwfewf"))
-                    add(Challenge(title = "wfwfef"))
+                    add(Challenge(Type.HEADER, category = "Recommended"))
+                    add(Challenge(title = "yay", category = "FIFA 18", isProtected =  true))
+                    add(Challenge(title = "dada", category = "Tischtennis"))
+                    add(Challenge(title = "ewefwf", category = "FIFA 18", isProtected = true))
+                    add(Challenge(Type.HEADER, category = "Nearby"))
+                    add(Challenge(title = "fwfewf", category = "Tischtennis"))
+                    add(Challenge(title = "wfwfef", isProtected = true))
                     add(Challenge(title = "fwfwfw"))
+                    add(Challenge(Type.HEADER, category = "Latest"))
                     add(Challenge(title = "fef"))
                     add(Challenge(title = "fwfe"))
-                    add(Challenge(title = "fwfwfwf"))
-                    add(Challenge(title = "fwfwef"))
-                    add(Challenge(title = "fefefewf"))
-                    add(Challenge(title = "ywfwfay"))
-                    add(Challenge(title = "vdvsdvscs"))
-                    add(Challenge(title = "adadad"))
-                    add(Challenge(title = "yavsvsvsy"))
-                    add(Challenge(title = "csvdsv"))
-                    add(Challenge(title = "vsvds"))
-                    add(Challenge(title = "vdvdvd"))
+                    add(Challenge(title = "fwfwfwf", isProtected = true))
                     add(Challenge(Type.NO_CONNECTION))
                 }
 

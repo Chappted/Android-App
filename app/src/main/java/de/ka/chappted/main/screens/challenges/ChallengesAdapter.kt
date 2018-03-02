@@ -41,38 +41,49 @@ class ChallengesAdapter(
 
         val adapterPosition = holder?.adapterPosition ?: return
 
-        if (getItemViewType(adapterPosition) == Type.DEFAULT.ordinal) {
-
-            holder.let {
+        when {
+            getItemViewType(adapterPosition) == Type.DEFAULT.ordinal -> holder.let {
 
                 val viewModel = ViewModelProviders.of(fragment).get(
-                        it.adapterPosition.toString(),
+                        "chall" + it.adapterPosition.toString(),
                         ChallengesItemViewModel::class.java)
 
                 val item = items[it.adapterPosition]
-                viewModel.challenge = item
 
-                it.dataBinding.setVariable(BR.viewModel, viewModel)
-                it.dataBinding.root.setOnClickListener {
-                    viewModel.play()
-                    challengesListListener.onChallengeClicked(item)
-                }
-                it.dataBinding.setLifecycleOwner(fragment)
-                it.dataBinding.executePendingBindings()
+                viewModel.setup(item, challengesListListener)
+
+                bind(it.dataBinding, viewModel)
             }
-        } else if (getItemViewType(adapterPosition) == Type.NO_CONNECTION.ordinal) {
-
-            holder.let {
+            getItemViewType(adapterPosition) == Type.NO_CONNECTION.ordinal -> holder.let {
 
                 val viewModel = ViewModelProviders.of(fragment).get(
+                        "chall",
                         NoConnectionItemViewModel::class.java)
 
-                viewModel.listener = challengesListListener
+                viewModel.setup(challengesListListener)
 
-                it.dataBinding.setVariable(BR.viewModel, viewModel)
-                it.dataBinding.executePendingBindings()
+                bind(it.dataBinding, viewModel)
+            }
+            getItemViewType(adapterPosition) == Type.HEADER.ordinal -> holder.let {
+
+                val viewModel = ViewModelProviders.of(fragment).get(
+                        "chall" + it.adapterPosition.toString(),
+                        HeaderItemViewModel::class.java)
+
+                viewModel.setup(items[it.adapterPosition], challengesListListener)
+
+                bind(it.dataBinding, viewModel)
             }
         }
+    }
+
+    /**
+     * Binds the view model to the view data binding.
+     */
+    private fun bind(dataBinding: ViewDataBinding, viewModel: Any) {
+        dataBinding.setVariable(BR.viewModel, viewModel)
+        dataBinding.setLifecycleOwner(fragment)
+        dataBinding.executePendingBindings()
     }
 
     /**
@@ -139,6 +150,12 @@ interface ChallengeListListener {
      * Called on a retry click.
      */
     fun onRetryClicked()
+
+    /**
+     * Called when clicked on more.
+     * @param category the category clicked
+     */
+    fun onMoreClicked(category: String?)
 
 }
 

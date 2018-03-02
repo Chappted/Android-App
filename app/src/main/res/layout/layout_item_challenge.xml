@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,15 +12,70 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/very_light_gray_text">
+        android:layout_height="@dimen/skeleton_challenge_item_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:onClick="@{(v) -> viewModel.onChallengeClick()}"
+        android:background="@drawable/content_frame_challenge">
+
+        <LinearLayout
+            android:id="@+id/challengeTitleContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_toStartOf="@+id/challengeCategory"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/challengeTitle"
+                style="@style/DefaultBigTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableEnd="@{viewModel.titleDrawable}"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="@{viewModel.challenge.title}"
+                tools:src="@drawable/ic_lock"
+                tools:text="Titl dadadad!" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:id="@+id/challengeCategory"
+            style="@style/DefaultSubTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/challengeTitleContainer"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{viewModel.challenge.category}"
+            tools:text="Category" />
+
+        <TextView
+            android:id="@+id/challengeDesc"
+            style="@style/DefaultBodyStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
             android:text="@{viewModel.challenge.title}"
-            android:textColor="@color/status" />
+            tools:text="This is a very important description. Believe me, we have to test if this is too much information. It could be too long." />
 
         <ProgressBar
             android:layout_width="50dp"

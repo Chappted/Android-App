@@ -5,7 +5,10 @@ import android.support.annotation.LayoutRes
 import de.ka.chappted.R
 
 @Keep
-class Challenge(val type: Type = Type.DEFAULT, val title: String? = "")
+class Challenge(val type: Type = Type.DEFAULT,
+                val title: String? = "",
+                val category: String? = "",
+                val isProtected: Boolean? = false)
 
 
 /**
@@ -18,6 +21,6 @@ enum class Type constructor(@param:LayoutRes @field:LayoutRes
     NO_CONNECTION(R.layout.layout_item_no_connection),
     NO_LOCATION_PERMISSION(R.layout.layout_item_challenge),
     DEFAULT(R.layout.layout_item_challenge),
-    HEADER(R.layout.layout_item_challenge);
+    HEADER(R.layout.layout_item_challenge_header);
 }
 

@@ -53,4 +53,8 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFra
         Toast.makeText(activity, "retry clicked ", Toast.LENGTH_SHORT).show()
 
     }
+
+    override fun onMoreClicked(category: String?) {
+        Toast.makeText(activity, "more clicked " + category, Toast.LENGTH_SHORT).show()
+    }
 }

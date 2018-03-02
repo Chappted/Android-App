@@ -1,32 +1,59 @@
 package de.ka.chappted.main.screens.challenges
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableField
-import android.databinding.ObservableInt
+import android.arch.lifecycle.MutableLiveData
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.View
+import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
+import de.ka.chappted.commons.arch.base.BaseItemViewModel
 
 /**
  * A view model for showing challenge item content.
  *
  * Created by Thomas Hofmann on 28.02.18.
  */
-class ChallengesItemViewModel : ViewModel() {
+class ChallengesItemViewModel : BaseItemViewModel() {
 
-    var challenge: Challenge? = null
+    val challenge = MutableLiveData<Challenge>()
+    val titleDrawable = MutableLiveData<Drawable>()
+    val progressVisibility = MutableLiveData<Int>()
 
-    val progressVisibility = ObservableInt(View.GONE)
+    init {
+        progressVisibility.value = View.GONE
+    }
+
+    private var challengesListListener: ChallengeListListener? = null
+
+    /**
+     * Sets up the view model.
+     * @param setupChallenge the challenge
+     * @param challengesListListener the listener
+     */
+    fun setup(setupChallenge: Challenge, challengesListListener: ChallengeListListener) {
+
+        this.challenge.value = setupChallenge
+        this.challengesListListener = challengesListListener
+
+        if (setupChallenge.isProtected == true) {
+            titleDrawable.value = appContext.getDrawable(R.drawable.ic_lock)
+        }
+    }
+
+    fun onChallengeClick() = challenge.value?.let {
+        play()
+        challengesListListener?.onChallengeClicked(it)
+    }
 
     /**
      * Plays a fancy animation for a short period of time.
      */
-    fun play() {
+    private fun play() {
 
-        progressVisibility.set(View.VISIBLE)
+        progressVisibility.value = (View.VISIBLE)
 
         Handler().postDelayed({
-            progressVisibility.set(View.GONE)
+            progressVisibility.value = (View.GONE)
         }, 4_500)
     }
 }

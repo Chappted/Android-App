@@ -11,6 +11,7 @@
     <string name="loading_default">Loading…</string>
     <string name="error_connection_failed">Connection to server failed.</string>
     <string name="try_again">Try again</string>
+    <string name="show_more">Show more</string>
 
     <!-- challenges -->
     <string name="challenges_title">Challenges</string>

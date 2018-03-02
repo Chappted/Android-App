@@ -32,6 +32,25 @@
         <item name="android:fontFamily">@font/rubikmedium</item>
     </style>
 
+    <style name="DefaultHeaderStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/light_gray_text</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
+    <style name="DefaultSubTitleStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light_gray_text</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
+    <style name="DefaultBodyStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/very_dark_gray_text</item>
+        <item name="android:fontFamily">@font/rubiklight</item>
+    </style>
+    
     <style name="DefaultTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabSelectedTextColor">@color/colorAccent</item>
         <item name="tabTextAppearance">@style/DefaultTabLayoutTextStyle</item>
