@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import de.ka.chappted.R
+import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseFragment
 import de.ka.chappted.databinding.FragmentChallengesBinding
 
 /**
  * The home fragment.
  */
-class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFragmentViewModel>() {
+class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFragmentViewModel>(),
+        ChallengeListListener {
 
     override var viewModelClass = ChallengesFragmentViewModel::class.java
     override var bindingLayoutId = R.layout.fragment_challenges
@@ -21,20 +23,34 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFra
         fun newInstance() = ChallengesFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         // setup:
-        val adapter = ChallengesAdapter(this) { challenge, viewModel ->
-            viewModel.play()
-            Toast.makeText(activity, "challenge " + challenge.title, Toast.LENGTH_SHORT).show()
-        }
+        if (savedInstanceState == null) {
 
-        viewModel?.let {
-            it.initAdapter(adapter)
-            it.loadChallenges()
+            val adapter = ChallengesAdapter(this, challengesListListener = this)
+
+            viewModel?.let {
+                it.initAdapter(adapter)
+                it.loadChallenges()
+            }
+
         }
 
         return view
+    }
+
+    override fun onChallengeClicked(challenge: Challenge) {
+        Toast.makeText(activity, "challenge " + challenge.title, Toast.LENGTH_SHORT).show()
+
+    }
+
+    override fun onRetryClicked() {
+        Toast.makeText(activity, "retry clicked ", Toast.LENGTH_SHORT).show()
+
     }
 }

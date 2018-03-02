@@ -1,2 +1,7 @@
 <resources>
+
+    <dimen name="loading_progress_default_size">50dp</dimen>
+
+    <dimen name="skeleton_challenge_item_size">63dp</dimen>
+
 </resources>

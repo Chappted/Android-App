@@ -19,4 +19,7 @@
     <color name="warning">#f7f788</color>
     <color name="negative">#fa738c</color>
     <color name="status">#1c76e6</color>
+
+    <color name="gradientify_primary_dark">#55ebf4fd</color>
+    <color name="gradientify_light_text">#c7c9ca</color>
 </resources>

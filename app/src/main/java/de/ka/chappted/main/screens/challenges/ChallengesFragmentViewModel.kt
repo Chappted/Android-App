@@ -2,8 +2,10 @@ package de.ka.chappted.main.screens.challenges
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import de.ka.chappted.api.model.Challenge
+import de.ka.chappted.api.model.Type
 import de.ka.chappted.commons.arch.base.BaseViewModel
 
 /**
@@ -27,29 +29,36 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
      */
     fun loadChallenges() {
 
+        challengesAdapter.value?.showLoading()
+
         val list = mutableListOf<Challenge>()
                 .apply {
-                    add(Challenge("yay"))
-                    add(Challenge("dada"))
-                    add(Challenge("ewefwf"))
-                    add(Challenge("fwfewf"))
-                    add(Challenge("wfwfef"))
-                    add(Challenge("fwfwfw"))
-                    add(Challenge("fef"))
-                    add(Challenge("fwfe"))
-                    add(Challenge("fwfwfwf"))
-                    add(Challenge("fwfwef"))
-                    add(Challenge("fefefewf"))
-                    add(Challenge("ywfwfay"))
-                    add(Challenge("vdvsdvscs"))
-                    add(Challenge("adadad"))
-                    add(Challenge("yavsvsvsy"))
-                    add(Challenge("csvdsv"))
-                    add(Challenge("vsvds"))
-                    add(Challenge("vdvdvd"))
+                    add(Challenge(title = "yay"))
+                    add(Challenge(title = "dada"))
+                    add(Challenge(title = "ewefwf"))
+                    add(Challenge(title = "fwfewf"))
+                    add(Challenge(title = "wfwfef"))
+                    add(Challenge(title = "fwfwfw"))
+                    add(Challenge(title = "fef"))
+                    add(Challenge(title = "fwfe"))
+                    add(Challenge(title = "fwfwfwf"))
+                    add(Challenge(title = "fwfwef"))
+                    add(Challenge(title = "fefefewf"))
+                    add(Challenge(title = "ywfwfay"))
+                    add(Challenge(title = "vdvsdvscs"))
+                    add(Challenge(title = "adadad"))
+                    add(Challenge(title = "yavsvsvsy"))
+                    add(Challenge(title = "csvdsv"))
+                    add(Challenge(title = "vsvds"))
+                    add(Challenge(title = "vdvdvd"))
+                    add(Challenge(Type.NO_CONNECTION))
                 }
 
-        challengesAdapter.value?.addAll(list)
+
+        Handler().postDelayed({
+            challengesAdapter.value?.hideLoading()?.addAll(list)
+        }, 4_000)
+
     }
 
     /**

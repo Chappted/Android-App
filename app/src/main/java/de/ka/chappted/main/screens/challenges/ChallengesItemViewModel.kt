@@ -12,17 +12,21 @@ import de.ka.chappted.api.model.Challenge
  *
  * Created by Thomas Hofmann on 28.02.18.
  */
-class ChallengesItemViewModel: ViewModel() {
+class ChallengesItemViewModel : ViewModel() {
 
-    var challenge: Challenge? = Challenge("test")
+    var challenge: Challenge? = null
 
     val progressVisibility = ObservableInt(View.GONE)
 
+    /**
+     * Plays a fancy animation for a short period of time.
+     */
     fun play() {
 
         progressVisibility.set(View.VISIBLE)
 
         Handler().postDelayed({
-            progressVisibility.set(View.GONE) }, 8_500)
+            progressVisibility.set(View.GONE)
+        }, 4_500)
     }
 }
