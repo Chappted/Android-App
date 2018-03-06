@@ -11,13 +11,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="360dp">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/layout_collection_challenge_skeletons" />
 
         <View
+            android:id="@+id/mask"
             android:layout_width="match_parent"
-            android:layout_height="248dp"
+            android:layout_height="@dimen/challenge_mask_size"
             android:background="@drawable/gradient_challenges" />
 
         <ProgressBar
@@ -25,7 +26,8 @@
             android:layout_width="@dimen/loading_progress_default_size"
             android:layout_height="@dimen/loading_progress_default_size"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="260dp"
+            android:layout_below="@+id/mask"
+            android:layout_marginTop="12dp"
             android:indeterminateTint="@color/secondary"
             android:visibility="visible" />
 
@@ -38,6 +40,11 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/loading_default" />
+
+        <View
+            android:layout_below="@+id/loadingText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_bottom_item_spacer" />
 
     </RelativeLayout>
 </layout>

@@ -37,6 +37,7 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFra
             viewModel?.let {
                 it.initAdapter(adapter)
                 it.loadChallenges()
+                Toast.makeText(activity, "loading... ", Toast.LENGTH_SHORT).show()
             }
 
         }

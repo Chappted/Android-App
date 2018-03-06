@@ -45,12 +45,24 @@
         <item name="android:fontFamily">@font/rubikmedium</item>
     </style>
 
+    <style name="DefaultAlternativeBodyStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/dark_gray_text</item>
+        <item name="android:fontFamily">@font/rubikregular</item>
+    </style>
+
+    <style name="DefaultAlternativeBodyStyleLight">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:fontFamily">@font/rubikregular</item>
+    </style>
+
     <style name="DefaultBodyStyle">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/very_dark_gray_text</item>
         <item name="android:fontFamily">@font/rubiklight</item>
     </style>
-    
+
     <style name="DefaultTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabSelectedTextColor">@color/colorAccent</item>
         <item name="tabTextAppearance">@style/DefaultTabLayoutTextStyle</item>
@@ -66,6 +78,12 @@
         <item name="android:textAppearance">@style/DefaultBigTextStyle</item>
         <item name="android:background">@drawable/default_button_selector</item>
         <item name="android:textColor">@drawable/button_press_colors</item>
+    </style>
+
+    <style name="DefaultSubButtonStyle">
+        <item name="android:textAppearance">@style/DefaultAlternativeBodyStyle</item>
+        <item name="android:background">@drawable/default_sub_button_selector</item>
+        <item name="android:textColor">@drawable/subbutton_press_colors</item>
     </style>
 
 </resources>

@@ -2,6 +2,10 @@
 
     <dimen name="loading_progress_default_size">50dp</dimen>
 
-    <dimen name="skeleton_challenge_item_size">63dp</dimen>
+    <dimen name="skeleton_challenge_item_size">79dp</dimen>
+
+    <dimen name="challenge_mask_size">260dp</dimen>
+
+    <dimen name="default_bottom_item_spacer">24dp</dimen>
 
 </resources>

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/skeleton_challenge_item_size"
-    android:background="@drawable/skeleton_frame_challenge">
+    android:background="@drawable/challenge_list_skeleton_entry_background">
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginEnd="181dp"
+        android:layout_height="11dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="181dp"
         android:background="@drawable/skeleton_text_very_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/skeleton_text_dark"
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent" />

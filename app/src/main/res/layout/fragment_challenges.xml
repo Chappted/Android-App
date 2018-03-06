@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,16 +11,56 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/challengesRecycler"
-            app:layoutManager="@{viewModel.challengesLayoutManager}"
-            android:adapter="@{viewModel.challengesAdapter}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:adapter="@{viewModel.challengesAdapter}"
+            app:layoutManager="@{viewModel.challengesLayoutManager}" />
+
+        <de.ka.chappted.commons.views.TooltippedFab
+            android:id="@+id/fabLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{(v) -> viewModel.onFabClicked()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:setFabSize="@{viewModel.getSmallFabSize()}"
+            app:setIcon="@{viewModel.getFabIcon()}"
+            android:layout_marginBottom="8dp"
+            app:setTooltip="@{viewModel.getTooltip()}" />
+
+        <de.ka.chappted.commons.views.TooltippedFab
+            android:id="@+id/fabMiddle"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{(v) -> viewModel.onFabClicked()}"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:setFabSize="@{viewModel.getBigFabSize()}"
+        app:setIcon="@{viewModel.getFabIcon()}"
+        app:setTooltip="@{viewModel.getTooltip()}" />
+
+
+        <de.ka.chappted.commons.views.TooltippedFab
+            android:id="@+id/fabRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{(v) -> viewModel.onFabClicked()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:setFabSize="@{viewModel.getSmallFabSize()}"
+            app:setIcon="@{viewModel.getFabIcon()}"
+            app:setTooltip="@{viewModel.getTooltip()}" />
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>
