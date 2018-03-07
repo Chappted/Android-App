@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.chappted.main.screens.challenges.NoConnectionItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/layout_collection_challenge_skeletons" />
+
+        <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/challenge_mask_size"
+            android:background="@drawable/gradient_challenges" />
+
+        <TextView
+            android:id="@+id/infoText"
+            style="@style/DefaultBigTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/mask"
+            android:gravity="center"
+            android:text="@string/error_connection_failed" />
+
+        <Button
+            android:id="@+id/submitButton"
+            style="@style/DefaultButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/infoText"
+            android:layout_centerInParent="true"
+            android:onClick="@{(v) -> viewModel.submit()}"
+            android:text="@string/try_again" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_bottom_item_spacer"
+            android:layout_below="@+id/submitButton" />
+
+    </RelativeLayout>
+</layout>

@@ -9,8 +9,10 @@ import de.ka.chappted.BR
 
 /**
  * A base activity using a view model.
+ *
+ * Created by Thomas Hofmann.
  */
-abstract class BaseActivity<E : BaseViewModel>
+abstract class BaseActivity<out T : ViewDataBinding, E : BaseViewModel>
     : AppCompatActivity(), BaseViewModel.NavigationListener {
 
     abstract var viewModelClass: Class<E>
@@ -31,8 +33,16 @@ abstract class BaseActivity<E : BaseViewModel>
 
         viewModel?.subscribe()
 
+        binding?.executePendingBindings()
+
         setContentView(binding?.root)
     }
+
+    /**
+     * Retrieves the view binding of the activity. May only be useful after [onCreate].
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun getBinding() = binding as? T
 
     override fun onNavigateTo(element: Any?) {
         // to be implemented by subclasses

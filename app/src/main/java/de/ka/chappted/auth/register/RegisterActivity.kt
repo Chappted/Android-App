@@ -5,13 +5,14 @@ import android.content.Intent
 import android.app.Activity
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseActivity
+import de.ka.chappted.databinding.ActivityRegisterBinding
 
 /**
  * A registration activity for the authorization flow.
  *
  * Created by Thomas Hofmann on 13.12.17.
  */
-class RegisterActivity : BaseActivity<RegisterActivityViewModel>(),
+class RegisterActivity : BaseActivity<ActivityRegisterBinding, RegisterActivityViewModel>(),
         RegisterActivityViewModel.RegisterListener {
 
     override var viewModelClass = RegisterActivityViewModel::class.java

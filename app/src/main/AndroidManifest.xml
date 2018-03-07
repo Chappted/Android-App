@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- Main views -->
         <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
@@ -28,9 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".test.TesterActivity"
-            android:launchMode="singleTask" />
+        <!-- Authentication -->
         <activity
             android:name=".auth.register.RegisterActivity"
             android:launchMode="singleTask" />

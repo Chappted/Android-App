@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -16,5 +14,71 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DefaultBigTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:fontFamily">@font/rubikregular</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DefaultTitleStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/very_light_gray_text</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
+    <style name="DefaultHeaderStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/light_gray_text</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
+    <style name="DefaultSubTitleStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light_gray_text</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
+    <style name="DefaultAlternativeBodyStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/dark_gray_text</item>
+        <item name="android:fontFamily">@font/rubikregular</item>
+    </style>
+
+    <style name="DefaultAlternativeBodyStyleLight">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:fontFamily">@font/rubikregular</item>
+    </style>
+
+    <style name="DefaultBodyStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/very_dark_gray_text</item>
+        <item name="android:fontFamily">@font/rubiklight</item>
+    </style>
+
+    <style name="DefaultTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabSelectedTextColor">@color/colorAccent</item>
+        <item name="tabTextAppearance">@style/DefaultTabLayoutTextStyle</item>
+        <item name="android:textAppearance">@style/DefaultTabLayoutTextStyle</item>
+    </style>
+
+    <style name="DefaultTabLayoutTextStyle" parent="DefaultTitleStyle">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="DefaultButtonStyle">
+        <item name="android:textAppearance">@style/DefaultBigTextStyle</item>
+        <item name="android:background">@drawable/default_button_selector</item>
+        <item name="android:textColor">@drawable/button_press_colors</item>
+    </style>
+
+    <style name="DefaultSubButtonStyle">
+        <item name="android:textAppearance">@style/DefaultAlternativeBodyStyle</item>
+        <item name="android:background">@drawable/default_sub_button_selector</item>
+        <item name="android:textColor">@drawable/subbutton_press_colors</item>
+    </style>
 
 </resources>

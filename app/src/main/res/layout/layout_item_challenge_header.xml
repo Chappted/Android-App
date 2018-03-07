@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.chappted.main.screens.challenges.HeaderItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/categoryImage"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="18dp"
+            android:layout_alignBottom="@+id/headerText"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/skeleton_text_light" />
+
+        <TextView
+            android:id="@+id/headerText"
+            style="@style/DefaultHeaderStyle"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:layout_toStartOf="@+id/submitButton"
+            android:layout_toEndOf="@+id/categoryImage"
+            android:ellipsize="end"
+            android:gravity="bottom|start"
+            android:maxLines="1"
+            android:text="@{viewModel.challenge.category}"
+            tools:text="Recommended" />
+
+        <Button
+            android:id="@+id/submitButton"
+            style="@style/DefaultSubButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignBottom="@+id/headerText"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:onClick="@{(v) -> viewModel.submit()}"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:text="@string/show_more" />
+
+    </RelativeLayout>
+</layout>

@@ -13,9 +13,9 @@ import de.ka.chappted.BR
 /**
  * A base fragment. A base fragment is always combined with a view model.
  *
- * Created by Thomas Hofmann on 27.12.17.
+ * Created by Thomas Hofmann.
  */
-abstract class BaseFragment<E : BaseViewModel> : Fragment() {
+abstract class BaseFragment<out T: ViewDataBinding, E : BaseViewModel> : Fragment() {
 
     abstract var viewModelClass: Class<E>
     abstract var bindingLayoutId: Int
@@ -35,6 +35,16 @@ abstract class BaseFragment<E : BaseViewModel> : Fragment() {
 
         viewModel?.subscribe()
 
+        retainInstance = true
+
+        binding?.executePendingBindings()
+
         return binding?.root
     }
+
+    /**
+     * Retrieves the view binding of the fragment. May only be useful after [onCreateView].
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun getBinding() = binding as? T
 }
