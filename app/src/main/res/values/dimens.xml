@@ -8,4 +8,6 @@
 
     <dimen name="default_bottom_item_spacer">24dp</dimen>
 
+    <dimen name="offset_top_challenges_list_item">-8dp</dimen>
+
 </resources>

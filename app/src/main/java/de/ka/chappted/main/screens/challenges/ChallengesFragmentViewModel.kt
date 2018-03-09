@@ -6,11 +6,11 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import de.ka.chappted.App
-import de.ka.chappted.Chappted
 import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.api.model.Type
 import de.ka.chappted.commons.arch.base.BaseViewModel
+import de.ka.chappted.commons.views.OffsetItemDecoration
 
 /**
  * A view model for showing the challenges content.
@@ -22,11 +22,17 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
     var challengesAdapter = MutableLiveData<ChallengesAdapter>()
 
     /**
-     * Initializes the adapter
+     * Initializes the adapter.
      */
     fun initAdapter(adapter: ChallengesAdapter) {
         challengesAdapter.value = adapter // note that we don't postValue(), as this is immediately
     }
+
+    /**
+     * Retrieves a item decoration.
+     */
+    fun getItemDecoration() = OffsetItemDecoration(topOffset = getApplication<App>()
+            .resources.getDimension(R.dimen.offset_top_challenges_list_item).toInt())
 
     /**
      * Loads challenges and immediately displays them.

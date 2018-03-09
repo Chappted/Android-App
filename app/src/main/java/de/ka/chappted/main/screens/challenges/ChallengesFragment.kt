@@ -8,6 +8,7 @@ import android.widget.Toast
 import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseFragment
+import de.ka.chappted.commons.views.OffsetItemDecoration
 import de.ka.chappted.databinding.FragmentChallengesBinding
 
 /**
