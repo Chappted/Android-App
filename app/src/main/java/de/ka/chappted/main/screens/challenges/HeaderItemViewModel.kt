@@ -1,6 +1,7 @@
 package de.ka.chappted.main.screens.challenges
 
 import android.arch.lifecycle.MutableLiveData
+import android.graphics.drawable.Drawable
 import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseItemViewModel
@@ -26,5 +27,22 @@ class HeaderItemViewModel : BaseItemViewModel() {
         this.challengesListListener = challengesListListener
     }
 
-    fun submit(){ challengesListListener?.onMoreClicked(challenge.value?.category)}
+    fun submit() {
+        challengesListListener?.onMoreClicked(challenge.value?.category)
+    }
+
+    fun headerIcon(): Drawable{
+
+        when (challenge.value?.headerType) {
+
+            appContext.getString(R.string.challenge_recommended) ->
+                return appContext.getDrawable(R.drawable.ic_recommended)
+            appContext.getString(R.string.challenge_nearby) ->
+                return appContext.getDrawable(R.drawable.ic_nearby)
+            appContext.getString(R.string.challenge_latest) ->
+                return appContext.getDrawable(R.drawable.ic_latest)
+        }
+
+        return appContext.getDrawable(R.drawable.ic_recommended)
+    }
 }

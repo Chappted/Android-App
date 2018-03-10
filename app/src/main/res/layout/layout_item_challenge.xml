@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.ChallengesItemViewModel" />
+            type="de.ka.chappted.main.screens.challenges.ChallengesItemViewModel"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/skeleton_challenge_item_size"
-        android:onClick="@{(v) -> viewModel.onChallengeClick()}"
-        android:background="@drawable/challenge_list_entry_background">
+        android:background="@drawable/challenge_list_entry_background"
+        android:onClick="@{(v) -> viewModel.onChallengeClick()}">
 
         <LinearLayout
             android:id="@+id/challengeTitleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="15dp"
             android:layout_toStartOf="@+id/challengeCategory"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -40,7 +40,7 @@
                 android:maxLines="1"
                 android:text="@{viewModel.challenge.title}"
                 tools:src="@drawable/ic_lock"
-                tools:text="Titl dadadad!" />
+                tools:text="Jamit Labs Season 1"/>
         </LinearLayout>
 
         <TextView
@@ -50,35 +50,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="12dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
-            android:text="@{viewModel.challenge.category}"
-            tools:text="Category" />
+            android:text="@{viewModel.challenge.category.toString}"
+            tools:text="FIFA 18"/>
 
         <TextView
             android:id="@+id/challengeDesc"
             style="@style/DefaultBodyStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-      android:layout_below="@+id/challengeTitleContainer"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_below="@+id/challengeTitleContainer"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="15dp"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
-            android:text="@{viewModel.challenge.title}"
-            tools:text="This is a very important description. Believe me, we have to test if this is too much information. It could be too long." />
+            android:text="@{viewModel.challenge.description}"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …"/>
 
         <ProgressBar
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/accent"
-            android:visibility="@{viewModel.progressVisibility}" />
+            android:visibility="@{viewModel.progressVisibility}"/>
 
     </RelativeLayout>
 </layout>

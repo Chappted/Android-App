@@ -8,6 +8,8 @@ import de.ka.chappted.R
 class Challenge(val type: Type = Type.DEFAULT,
                 val title: String? = "",
                 val category: String? = "",
+                val description: String? = "",
+                val headerType: String? = "",
                 val isProtected: Boolean? = false)
 
 

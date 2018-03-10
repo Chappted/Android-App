@@ -43,18 +43,58 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
 
         val list = mutableListOf<Challenge>()
                 .apply {
-                    add(Challenge(Type.HEADER, category = "Recommended"))
-                    add(Challenge(title = "yay", category = "FIFA 18", isProtected = true))
-                    add(Challenge(title = "dada", category = "Tischtennis"))
-                    add(Challenge(title = "ewefwf", category = "FIFA 18", isProtected = true))
-                    add(Challenge(Type.HEADER, category = "Nearby"))
-                    add(Challenge(title = "fwfewf", category = "Tischtennis"))
-                    add(Challenge(title = "wfwfef", isProtected = true))
-                    add(Challenge(title = "fwfwfw"))
-                    add(Challenge(Type.HEADER, category = "Latest"))
-                    add(Challenge(title = "fef"))
-                    add(Challenge(title = "fwfe"))
-                    add(Challenge(title = "fwfwfwf", isProtected = true))
+                    add(Challenge(
+                            Type.HEADER,
+                            headerType = getApplication<App>().resources.getString(R.string.challenge_recommended)))
+                    add(Challenge(
+                            title = "Jamit Labs Season 1",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
+                    add(Challenge(
+                            title = "Friday Tournament",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
+                            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …"))
+                    add(Challenge(
+                            title = "Jamit Labs Open Challenge",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
+                            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …",
+                            isProtected = true))
+                    add(Challenge(
+                            Type.HEADER,
+                            headerType = getApplication<App>().resources.getString(R.string.challenge_nearby)))
+                    add(Challenge(
+                            title = "Jamit Labs Season 1",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
+                    add(Challenge(
+                            title = "Friday Tournament",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
+                    add(Challenge(
+                            title = "Jamit Labs Open Challenge",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
+                    add(Challenge(
+                            Type.HEADER,
+                            headerType = getApplication<App>().resources.getString(R.string.challenge_latest)))
+                    add(Challenge(
+                            title = "Jamit Labs Season 1",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
+                    add(Challenge(
+                            title = "Friday Tournament",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
+                            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …"))
+                    add(Challenge(
+                            title = "Jamit Labs Season 1",
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
+                            description = "You need to join the challenge to see the description.",
+                            isProtected = true))
                     add(Challenge(Type.NO_CONNECTION))
                 }
 

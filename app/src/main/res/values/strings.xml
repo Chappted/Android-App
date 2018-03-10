@@ -15,6 +15,12 @@
 
     <!-- challenges -->
     <string name="challenges_title">Challenges</string>
+    <string name="challenge_recommended">Recommended</string>
+    <string name="challenge_nearby">Nearby</string>
+    <string name="challenge_latest">Latest</string>
+    <string name="challenge_category_table_tennis">Table Tennis</string>
+    <string name="challenge_category_mario_kart">Mario Kart</string>
+    <string name="challenge_category_fifa">FIFA 18</string>
 
     <!-- accepted -->
     <string name="accepted_title">Accepted</string>

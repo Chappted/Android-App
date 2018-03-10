@@ -22,10 +22,9 @@ class ChallengesAdapter(
 
     private val loadingChallenge = Challenge(Type.LOADING)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ChallengeViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChallengeViewHolder {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                LayoutInflater.from(parent?.context),
+                LayoutInflater.from(parent.context),
                 Type.values()[viewType].layoutResId,
                 parent,
                 false)
@@ -33,13 +32,8 @@ class ChallengesAdapter(
         return ChallengeViewHolder(binding)
     }
 
-    override fun getItemViewType(position: Int) = items[position].type.ordinal
-
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(holder: ChallengeViewHolder?, position: Int) {
-
-        val adapterPosition = holder?.adapterPosition ?: return
+    override fun onBindViewHolder(holder: ChallengeViewHolder, position: Int) {
+        val adapterPosition = holder.adapterPosition
 
         when {
             getItemViewType(adapterPosition) == Type.DEFAULT.ordinal -> holder.let {
@@ -76,6 +70,10 @@ class ChallengesAdapter(
             }
         }
     }
+
+    override fun getItemViewType(position: Int) = items[position].type.ordinal
+
+    override fun getItemCount() = items.size
 
     /**
      * Binds the view model to the view data binding.
