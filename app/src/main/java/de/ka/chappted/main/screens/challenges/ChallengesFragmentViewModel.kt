@@ -75,7 +75,7 @@ class ChallengesFragmentViewModel(application: Application) : BaseViewModel(appl
                             isProtected = true))
                     add(Challenge(
                             title = "Jamit Labs Open Challenge",
-                            category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
+                            category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
                             description = "You need to join the challenge to see the description.",
                             isProtected = true))
                     add(Challenge(

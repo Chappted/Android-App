@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import de.ka.chappted.BR
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.api.model.Type
+import de.ka.chappted.main.screens.challenges.items.ChallengesItemViewModel
+import de.ka.chappted.main.screens.challenges.items.HeaderItemViewModel
+import de.ka.chappted.main.screens.challenges.items.NoConnectionItemViewModel
 
 /**
  * Adapter class for displaying challenges.

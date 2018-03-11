@@ -4,7 +4,7 @@
 
     <dimen name="skeleton_challenge_item_size">79dp</dimen>
 
-    <dimen name="challenge_mask_size">260dp</dimen>
+    <dimen name="challenge_mask_size">280dp</dimen>
 
     <dimen name="default_bottom_item_spacer">24dp</dimen>
 

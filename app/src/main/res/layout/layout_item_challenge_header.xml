@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.HeaderItemViewModel"/>
+            type="de.ka.chappted.main.screens.challenges.items.HeaderItemViewModel"/>
     </data>
 
     <RelativeLayout
@@ -31,6 +31,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="4dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="11dp"
             android:layout_toStartOf="@+id/submitButton"
             android:layout_toEndOf="@+id/categoryImage"
             android:ellipsize="end"

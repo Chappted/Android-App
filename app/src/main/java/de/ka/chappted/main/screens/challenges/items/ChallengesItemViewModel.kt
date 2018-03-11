@@ -1,4 +1,4 @@
-package de.ka.chappted.main.screens.challenges
+package de.ka.chappted.main.screens.challenges.items
 
 import android.arch.lifecycle.MutableLiveData
 import android.graphics.drawable.Drawable
@@ -7,6 +7,7 @@ import android.view.View
 import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseItemViewModel
+import de.ka.chappted.main.screens.challenges.ChallengeListListener
 
 /**
  * A view model for showing challenge item content.
