@@ -16,16 +16,21 @@
         android:background="@drawable/challenge_list_selector"
         android:onClick="@{(v) -> viewModel.onChallengeClick()}">
 
+        <LinearLayout
+            android:id="@+id/challengeTitleContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/challengeCategory">
+
         <TextView
             android:id="@+id/challengeTitle"
             style="@style/DefaultBigTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="8dp"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/challengeCategory"
             android:drawableEnd="@{viewModel.titleDrawable}"
             android:drawablePadding="8dp"
             android:ellipsize="end"
@@ -34,6 +39,8 @@
             android:text="@{viewModel.challengeContent.challenge.title}"
             tools:drawableEnd="@drawable/ic_lock"
             tools:text="Jamit Labs Season 1 Jamit Labs Season 1 Jamit Labs Season 1 Jamit Labs Season 1" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/challengeCategory"
@@ -58,7 +65,7 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="18dp"
-            android:layout_below="@+id/challengeTitle"
+            android:layout_below="@+id/challengeTitleContainer"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="2"
