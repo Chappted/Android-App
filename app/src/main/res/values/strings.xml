@@ -22,6 +22,10 @@
     <string name="challenge_category_mario_kart">Mario Kart</string>
     <string name="challenge_category_fifa">FIFA 18</string>
 
+    <string name="challenge_fab_search">Search</string>
+    <string name="challenge_fab_newchallenge">New Challenge</string>
+    <string name="challenge_fab_showmap">Show Map</string>
+
     <!-- accepted -->
     <string name="accepted_title">Accepted</string>
 

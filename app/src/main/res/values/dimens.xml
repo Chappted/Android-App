@@ -10,4 +10,7 @@
 
     <dimen name="offset_top_challenges_list_item">-8dp</dimen>
 
+    <dimen name="tooltip_default_width_normal">100dp</dimen>
+    <dimen name="tooltip_default_width_normal_small">68dp</dimen>
+
 </resources>

@@ -24,9 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:background="@drawable/background_tooltip"
+        android:gravity="center"
         android:paddingBottom="4dp"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
         android:paddingTop="4dp"
         tools:text="Tooltip here" />
 

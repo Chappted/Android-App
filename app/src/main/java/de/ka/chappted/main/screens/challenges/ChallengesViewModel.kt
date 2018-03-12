@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import de.ka.chappted.App
 import de.ka.chappted.R
@@ -122,19 +123,33 @@ class ChallengesViewModel(application: Application) : BaseViewModel(application)
 
     }
 
-    fun onFabClicked() {
+    fun onSearchFabClicked() {
 
     }
 
-    fun getSmallFabSize() = 1
+    fun onNewChallengeFabClicked() {
 
-    fun getBigFabSize() = 0
-
-    fun getTooltip() = "This is very useful"
-
-    fun getFabIcon(): Drawable {
-        return getApplication<App>().applicationContext.getDrawable(R.drawable.ic_lock)
     }
+
+    fun onShowMapFabClicked() {
+
+    }
+
+    fun getSmallFabSize() = FloatingActionButton.SIZE_MINI
+
+    fun getBigFabSize() = FloatingActionButton.SIZE_NORMAL
+
+    fun getSearchTooltip() = getApplication<App>().getString(R.string.challenge_fab_search)
+
+    fun getNewChallengeTooltip() = getApplication<App>().getString(R.string.challenge_fab_newchallenge)
+
+    fun getShowMapTooltip() = getApplication<App>().getString(R.string.challenge_fab_showmap)
+
+    fun getSearchIcon() = getApplication<App>().applicationContext.getDrawable(R.drawable.ic_search)
+
+    fun getNewChallengeIcon() = getApplication<App>().applicationContext.getDrawable(R.drawable.ic_plus)
+
+    fun getMapIcon() = getApplication<App>().applicationContext.getDrawable(R.drawable.ic_map)
 
     /**
      * Retrieves a layout manager.

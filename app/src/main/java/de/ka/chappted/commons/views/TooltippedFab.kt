@@ -14,6 +14,8 @@ import de.ka.chappted.R
  */
 class TooltippedFab : LinearLayout {
 
+    private var tooltipWidth = 0
+
     /**
      * Creates a new tooltip fab.
      */
@@ -27,7 +29,7 @@ class TooltippedFab : LinearLayout {
      */
     constructor(context: Context, attrs: AttributeSet)
             : super(context, attrs) {
-        populate()
+        populate(attrs)
     }
 
     /**
@@ -35,14 +37,14 @@ class TooltippedFab : LinearLayout {
      */
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int)
             : super(context, attrs, defStyleAttr) {
-        populate()
+        populate(attrs, defStyleAttr)
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
         setFabClickListener { l }
     }
 
-    fun setFabSize(size: Int){
+    fun setFabSize(size: Int) {
         findViewById<FloatingActionButton>(R.id.fab)?.size = size
     }
 
@@ -70,7 +72,32 @@ class TooltippedFab : LinearLayout {
     /**
      * Populates the view.
      */
-    private fun populate() {
-        View.inflate(context, R.layout.laylout_tooltipped_fab, this)
+    private fun populate(attrs: AttributeSet? = null, defStyleAttr: Int = 0) {
+        View.inflate(context, R.layout.layout_tooltipped_fab, this)
+
+        attrs?.let {
+
+            val attributes = context.obtainStyledAttributes(
+                    it, R.styleable.TooltippedFab, defStyleAttr, 0)
+
+
+            tooltipWidth = attributes.getDimension(R.styleable.TooltippedFab_toolTipWidth,
+                    resources.getDimension(R.dimen.tooltip_default_width_normal)).toInt()
+
+            attributes.recycle()
+        }
+    }
+
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        val tooltip = findViewById<TextView>(R.id.tooltip)
+
+        val layoutParams = tooltip.layoutParams
+
+        layoutParams.width = tooltipWidth
+
+        tooltip.layoutParams = layoutParams
     }
 }
