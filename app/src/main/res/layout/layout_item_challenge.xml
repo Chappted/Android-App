@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.items.ChallengesItemViewModel" />
+            type="de.ka.chappted.main.screens.challenges.items.ContentItemViewModel" />
     </data>
 
     <RelativeLayout
@@ -37,7 +37,7 @@
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxLines="1"
-                android:text="@{viewModel.challenge.title}"
+                android:text="@{viewModel.challengeContent.challenge.title}"
                 tools:text="Jamit Labs Season 1" />
 
             <ImageView
@@ -63,7 +63,7 @@
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
-            android:text="@{viewModel.challenge.category}"
+            android:text="@{viewModel.challengeContent.challenge.category}"
             tools:text="FIFA 18" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
-            android:text="@{viewModel.challenge.description}"
+            android:text="@{viewModel.challengeContent.challenge.description}"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …" />
 
         <ProgressBar

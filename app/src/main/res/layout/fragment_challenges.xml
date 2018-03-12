@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.ChallengesFragmentViewModel" />
+            type="de.ka.chappted.main.screens.challenges.ChallengesViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

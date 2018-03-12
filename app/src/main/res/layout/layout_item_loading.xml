@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.items.ChallengesItemViewModel" />
+            type="de.ka.chappted.main.screens.challenges.items.ContentItemViewModel" />
     </data>
 
     <RelativeLayout

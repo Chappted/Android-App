@@ -14,34 +14,34 @@ import de.ka.chappted.main.screens.challenges.ChallengeListListener
  *
  * Created by Thomas Hofmann on 28.02.18.
  */
-class ChallengesItemViewModel : BaseItemViewModel() {
+class ContentItemViewModel : BaseItemViewModel() {
 
-    val challenge = MutableLiveData<Challenge>()
-    val titleDrawable = MutableLiveData<Drawable>()
+    private var challengesListListener: ChallengeListListener? = null
+
     val progressVisibility = MutableLiveData<Int>()
+    val challengeContent = MutableLiveData<ChallengeContentItem>()
+    val titleDrawable = MutableLiveData<Drawable>()
 
     init {
         progressVisibility.value = View.GONE
     }
 
-    private var challengesListListener: ChallengeListListener? = null
-
     /**
      * Sets up the view model.
-     * @param setupChallenge the challenge
+     * @param content the content of the  challenge
      * @param challengesListListener the listener
      */
-    fun setup(setupChallenge: Challenge, challengesListListener: ChallengeListListener) {
+    fun setup(content: ChallengeContentItem, challengesListListener: ChallengeListListener) {
 
-        this.challenge.value = setupChallenge
+        this.challengeContent.value = content
         this.challengesListListener = challengesListListener
 
-        if (setupChallenge.isProtected == true) {
+        if (content.challenge.isProtected == true) {
             titleDrawable.value = appContext.getDrawable(R.drawable.ic_lock)
         }
     }
 
-    fun onChallengeClick() = challenge.value?.let {
+    fun onChallengeClick() = challengeContent.value?.let {
         play()
         challengesListListener?.onChallengeClicked(it)
     }

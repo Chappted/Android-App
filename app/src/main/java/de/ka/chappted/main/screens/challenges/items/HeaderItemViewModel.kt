@@ -1,54 +1,39 @@
 package de.ka.chappted.main.screens.challenges.items
 
 import android.arch.lifecycle.MutableLiveData
-import android.graphics.drawable.Drawable
-import de.ka.chappted.R
-import de.ka.chappted.api.model.Challenge
+import android.support.v4.content.ContextCompat
 import de.ka.chappted.commons.arch.base.BaseItemViewModel
 import de.ka.chappted.main.screens.challenges.ChallengeListListener
 
 /**
- * A view model for showing a no connection item content.
+ * A view model for showing a header item content.
  *
  * Created by Thomas Hofmann on 28.02.18.
  */
 class HeaderItemViewModel : BaseItemViewModel() {
 
-    val challenge = MutableLiveData<Challenge>()
-
     private var challengesListListener: ChallengeListListener? = null
+
+    val headerItem = MutableLiveData<ChallengeHeaderItem>()
 
     /**
      * Sets up the view mode.
      *
-     * @param setupChallenge the challenge to setup
-     * @param challengesListListener the challengelistener
+     * @param item the item to setup
+     * @param challengesListListener the challenge listener
      */
-    fun setup(setupChallenge: Challenge, challengesListListener: ChallengeListListener) {
+    fun setup(item: ChallengeHeaderItem, challengesListListener: ChallengeListListener) {
 
-        this.challenge.value = setupChallenge
+        this.headerItem.value = item
         this.challengesListListener = challengesListListener
     }
 
     fun submit() {
-        challengesListListener?.onMoreClicked(challenge.value?.category)
+        challengesListListener?.onMoreClicked(headerItem.value?.title)
     }
 
     /**
      * Retrieves and return the header icon.
      */
-    fun headerIcon(): Drawable {
-
-        when (challenge.value?.headerType) {
-
-            appContext.getString(R.string.challenge_recommended) ->
-                return appContext.getDrawable(R.drawable.ic_recommended)
-            appContext.getString(R.string.challenge_nearby) ->
-                return appContext.getDrawable(R.drawable.ic_nearby)
-            appContext.getString(R.string.challenge_latest) ->
-                return appContext.getDrawable(R.drawable.ic_latest)
-        }
-
-        return appContext.getDrawable(R.drawable.ic_recommended)
-    }
+    fun headerIcon() = ContextCompat.getDrawable(appContext, (headerItem.value?.iconResid ?: 0))
 }
