@@ -29,17 +29,10 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesVie
 
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        // setup:
-        if (savedInstanceState == null) {
+        val adapter = ChallengesAdapter(this, challengesListListener = this)
 
-            val adapter = ChallengesAdapter(this, challengesListListener = this)
-
-            viewModel?.let {
-                it.initAdapter(adapter)
-                it.loadChallenges()
-                Toast.makeText(activity, "loading... ", Toast.LENGTH_SHORT).show()
-            }
-
+        viewModel?.let {
+            it.initAdapter(adapter)
         }
 
         return view

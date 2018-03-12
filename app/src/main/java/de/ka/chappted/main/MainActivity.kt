@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(),
         getBinding()?.apply {
             viewPager.addOnPageChangeListener(this@MainActivity)
             viewPager.adapter = MainPagesAdapter(supportFragmentManager, applicationContext)
-            viewPager.offscreenPageLimit = 5
+            viewPager.offscreenPageLimit = 2
             tabLayout.setupWithViewPager(getBinding()?.viewPager)
         }
     }

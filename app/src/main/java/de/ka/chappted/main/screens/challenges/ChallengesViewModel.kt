@@ -29,7 +29,12 @@ class ChallengesViewModel(application: Application) : BaseViewModel(application)
      * Initializes the adapter.
      */
     fun initAdapter(adapter: ChallengesAdapter) {
-        challengesAdapter.value = adapter // note that we don't postValue(), as this is immediately
+
+        if (challengesAdapter.value == null) {
+            challengesAdapter.value = adapter // note that we don't postValue(), as this is instant
+
+            loadChallenges()
+        }
     }
 
     /**
