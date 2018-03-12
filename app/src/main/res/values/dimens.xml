@@ -2,7 +2,7 @@
 
     <dimen name="loading_progress_default_size">50dp</dimen>
 
-    <dimen name="skeleton_challenge_item_size">79dp</dimen>
+    <dimen name="skeleton_challenge_item_size">80dp</dimen>
 
     <dimen name="challenge_mask_size">280dp</dimen>
 
@@ -11,6 +11,5 @@
     <dimen name="offset_top_challenges_list_item">-8dp</dimen>
 
     <dimen name="tooltip_default_width_normal">100dp</dimen>
-    <dimen name="tooltip_default_width_normal_small">68dp</dimen>
-
+    <dimen name="tooltip_default_width_normal_small">72dp</dimen>
 </resources>

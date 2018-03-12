@@ -43,15 +43,14 @@
         <Button
             android:id="@+id/submitButton"
             style="@style/DefaultSubButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="78dp"
             android:layout_height="22dp"
             android:layout_marginEnd="8dp"
             android:layout_alignBottom="@+id/headerText"
+            android:gravity="center"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:onClick="@{(v) -> viewModel.submit()}"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:text="@string/show_more"/>
 
     </RelativeLayout>
