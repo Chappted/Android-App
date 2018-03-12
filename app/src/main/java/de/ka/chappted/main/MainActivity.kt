@@ -20,9 +20,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(),
         super.onCreate(savedInstanceState)
 
         getBinding()?.apply {
-            tabLayout.setupWithViewPager(getBinding()?.viewPager)
             viewPager.addOnPageChangeListener(this@MainActivity)
             viewPager.adapter = MainPagesAdapter(supportFragmentManager, applicationContext)
+            viewPager.offscreenPageLimit = 2
+            tabLayout.setupWithViewPager(getBinding()?.viewPager)
         }
     }
 

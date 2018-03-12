@@ -8,54 +8,61 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import de.ka.chappted.BR
-import de.ka.chappted.api.model.Challenge
-import de.ka.chappted.api.model.Type
+import de.ka.chappted.R
+import de.ka.chappted.main.screens.challenges.items.*
 
 /**
  * Adapter class for displaying challenges.
  */
 class ChallengesAdapter(
         private val fragment: Fragment,
-        private val items: MutableList<Challenge> = mutableListOf(),
+        private val items: MutableList<ChallengeItem> = mutableListOf(),
         val challengesListListener: ChallengeListListener)
     : RecyclerView.Adapter<ChallengeViewHolder>() {
 
-    private val loadingChallenge = Challenge(Type.LOADING)
+    private val loadingChallenge = ChallengeLoadingItem(R.layout.layout_item_loading)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ChallengeViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChallengeViewHolder {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                LayoutInflater.from(parent?.context),
-                Type.values()[viewType].layoutResId,
+                LayoutInflater.from(parent.context),
+                viewType, // this is a neat trick ;)
                 parent,
                 false)
 
         return ChallengeViewHolder(binding)
     }
 
-    override fun getItemViewType(position: Int) = items[position].type.ordinal
+    override fun getItemViewType(position: Int) = items[position].layoutResId
 
-    override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: ChallengeViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ChallengeViewHolder, position: Int) {
 
-        val adapterPosition = holder?.adapterPosition ?: return
+        val adapterPosition = holder.adapterPosition
 
-        when {
-            getItemViewType(adapterPosition) == Type.DEFAULT.ordinal -> holder.let {
+        val item = items[adapterPosition]
+
+        when (item) {
+            is ChallengeHeaderItem -> holder.let {
 
                 val viewModel = ViewModelProviders.of(fragment).get(
-                        "chall" + it.adapterPosition.toString(),
-                        ChallengesItemViewModel::class.java)
-
-                val item = items[it.adapterPosition]
+                        "chall" + adapterPosition.toString(),
+                        HeaderItemViewModel::class.java)
 
                 viewModel.setup(item, challengesListListener)
 
                 bind(it.dataBinding, viewModel)
             }
-            getItemViewType(adapterPosition) == Type.NO_CONNECTION.ordinal -> holder.let {
+            is ChallengeContentItem -> holder.let {
 
+                val viewModel = ViewModelProviders.of(fragment).get(
+                        "chall" + adapterPosition.toString(),
+                        ContentItemViewModel::class.java)
+
+                viewModel.setup(item, challengesListListener)
+
+                bind(it.dataBinding, viewModel)
+            }
+            is ChallengeNoConnectionItem -> holder.let {
                 val viewModel = ViewModelProviders.of(fragment).get(
                         "chall",
                         NoConnectionItemViewModel::class.java)
@@ -64,18 +71,10 @@ class ChallengesAdapter(
 
                 bind(it.dataBinding, viewModel)
             }
-            getItemViewType(adapterPosition) == Type.HEADER.ordinal -> holder.let {
-
-                val viewModel = ViewModelProviders.of(fragment).get(
-                        "chall" + it.adapterPosition.toString(),
-                        HeaderItemViewModel::class.java)
-
-                viewModel.setup(items[it.adapterPosition], challengesListListener)
-
-                bind(it.dataBinding, viewModel)
-            }
         }
     }
+
+    override fun getItemCount() = items.size
 
     /**
      * Binds the view model to the view data binding.
@@ -89,7 +88,7 @@ class ChallengesAdapter(
     /**
      * Adds the given items to the list of displayed items.
      */
-    fun addAll(list: List<Challenge>) {
+    fun addAll(list: List<ChallengeItem>) {
 
         var was = items.size - 1
 
@@ -144,7 +143,7 @@ interface ChallengeListListener {
      * Called on a challenge click.
      * @param challenge the clicked challenge
      */
-    fun onChallengeClicked(challenge: Challenge)
+    fun onChallengeClicked(challengeContent: ChallengeContentItem)
 
     /**
      * Called on a retry click.

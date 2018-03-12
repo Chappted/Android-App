@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import de.ka.chappted.R
-import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseFragment
 import de.ka.chappted.databinding.FragmentChallengesBinding
+import de.ka.chappted.main.screens.challenges.items.ChallengeContentItem
 
 /**
  * The home fragment.
  */
-class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFragmentViewModel>(),
+class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesViewModel>(),
         ChallengeListListener {
 
-    override var viewModelClass = ChallengesFragmentViewModel::class.java
+    override var viewModelClass = ChallengesViewModel::class.java
     override var bindingLayoutId = R.layout.fragment_challenges
 
     companion object {
@@ -29,24 +29,17 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesFra
 
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        // setup:
-        if (savedInstanceState == null) {
+        val adapter = ChallengesAdapter(this, challengesListListener = this)
 
-            val adapter = ChallengesAdapter(this, challengesListListener = this)
-
-            viewModel?.let {
-                it.initAdapter(adapter)
-                it.loadChallenges()
-                Toast.makeText(activity, "loading... ", Toast.LENGTH_SHORT).show()
-            }
-
+        viewModel?.let {
+            it.initAdapter(adapter)
         }
 
         return view
     }
 
-    override fun onChallengeClicked(challenge: Challenge) {
-        Toast.makeText(activity, "challenge " + challenge.title, Toast.LENGTH_SHORT).show()
+    override fun onChallengeClicked(challengeContent: ChallengeContentItem) {
+        Toast.makeText(activity, "challenge " + challengeContent.challenge.title, Toast.LENGTH_SHORT).show()
 
     }
 
