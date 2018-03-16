@@ -2,55 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/challenges_section_skeleton"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <View
-        android:id="@+id/iconViewSkeleton"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/skeleton_text_light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/titleViewSkeleton"
-        android:layout_width="81dp"
-        android:layout_height="12dp"
-        android:layout_marginStart="4dp"
-        android:background="@drawable/skeleton_text_light"
-        app:layout_constraintStart_toEndOf="@+id/iconViewSkeleton"
-        app:layout_constraintTop_toTopOf="@+id/iconViewSkeleton" />
-
-    <include
-        android:id="@+id/include1"
-        layout="@layout/layout_item_challenge_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/skeleton_challenge_item_size"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iconViewSkeleton" />
-
-    <include
-        android:id="@+id/include2"
-        layout="@layout/layout_item_challenge_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/skeleton_challenge_item_size"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include1" />
-
-    <include
-        android:id="@+id/include3"
-        layout="@layout/layout_item_challenge_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/skeleton_challenge_item_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2" />
+    android:layout_height="248dp">
 
 </android.support.constraint.ConstraintLayout>
