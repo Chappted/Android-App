@@ -14,21 +14,22 @@
         android:layout_height="wrap_content">
 
         <include
+            android:id="@+id/collection_skeleton"
             layout="@layout/layout_collection_challenge_skeletons" />
 
-        <View
+       <!-- <View
             android:id="@+id/mask"
             android:layout_width="match_parent"
             android:layout_height="@dimen/challenge_mask_size"
-            android:background="@drawable/gradient_challenges" />
+            android:background="@drawable/gradient_challenges" /> -->
 
         <ProgressBar
             android:id="@+id/loadingProgress"
             android:layout_width="@dimen/loading_progress_default_size"
             android:layout_height="@dimen/loading_progress_default_size"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/mask"
-            android:layout_marginTop="12dp"
+            android:layout_below="@+id/collection_skeleton"
+            android:layout_marginTop="6dp"
             android:indeterminateTint="@color/secondary"
             android:visibility="visible" />
 
