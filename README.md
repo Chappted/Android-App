@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Chappted/Android-App/stable/icon.png"
-      width=400 height=400 alt="Chappted Icon">
+  <img src="https://raw.githubusercontent.com/Chappted/Android-App/stable/logo.png"
+      width=800 height=400 alt="Chappted Icon">
 </p>
 
 <p align="center">
