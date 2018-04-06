@@ -26,6 +26,7 @@ import de.ka.chappted.main.MainActivity;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,72 +35,84 @@ import retrofit2.Response;
  * A test suite for account management.
  * <p>
  * Uses an array of testing frameworks:
- * Android Instrumentation, MockWebServer, Mockito, JUnit
+ * Android Instrumentation, MockWebServer, JUnit
  * <p>
  * Created by Thomas Hofmann on 21.12.17.
  */
 @RunWith(AndroidJUnit4.class)
 public class AccountManagementTest extends InstrumentationTestCase {
 
-    private Context mContext;
-
     private TestInjector mTestInjector;
+    private MockWebServer mMockWebServer;
+    private Context mContext;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class, true, true);
-    private MockWebServer server;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        mContext = InstrumentationRegistry.getInstrumentation().getContext();
-
-        // enable server mocking
-        server = new MockWebServer();
-        server.start();
-
-        // delete the current user account
+        // completely delete the user account from the device, offer a clean start
         OAuthUtils.INSTANCE.deleteOAuthAccount(mActivityRule.getActivity().getApplicationContext());
 
-        HttpUrl baseUrl = server.url("/");
+        // save the instrumentation test context for easy access
+        mContext = InstrumentationRegistry.getInstrumentation().getContext();
+
+        // start server mocking
+        mMockWebServer = new MockWebServer();
+        mMockWebServer.start();
+        HttpUrl baseUrl = mMockWebServer.url("/");
+
+        // create an injector for dependency injection with a test repository,
+        // initialize it with the mocked web server url
         mTestInjector = new TestInjector(baseUrl.toString(), true);
+
+        // use the test injector as the one used in this application instead of
+        // the one defined on app startup
         mTestInjector.overrideInjection((App) mActivityRule.getActivity().getApplication());
     }
 
     @Test
-    public void test_login_after_401() throws Exception {
+    public void test_mock_get_user() throws Exception {
 
-        // here comes the test where we force a login, because the account is not there / deleted
-        final CountDownLatch latch1 = new CountDownLatch(1);
-        LoginActivityViewModel viewModel = new LoginActivityViewModel(mActivityRule.getActivity().getApplication());
+        // a simple mocked request on getUser() assuming that this will somehow return a 201 code:
 
-        server.enqueue(new MockResponse() // something unimportant, as we HAVE to login, but must need authorization
-                .setResponseCode(200) // we do not pass 401 to not confuse the interceptor
-                .setBody(MockUtil.getJsonFromFile(mContext, "authError.json")));
+        final CountDownLatch waitForGetUser = new CountDownLatch(1);
 
-        //triggering a call with the need of authentication, triggers a login
-        mTestInjector.getRepository().getUser(new Callback<Void>() {
+        mMockWebServer.enqueue(new MockResponse().setResponseCode(201)); // enqueue the mock
+
+        mTestInjector.getRepository().getUser(new Callback<Void>() { // fire request
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Assert.assertEquals("We get a 200", 200, response.code());
 
-                latch1.countDown();
+                Assert.assertEquals("This should give us the 201 status.",
+                        201,
+                        response.code());
+
+                waitForGetUser.countDown();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // should not fail..
-                latch1.countDown();
-
+                throw new RuntimeException("This should never be called!");
             }
         });
 
-        latch1.await();
+        waitForGetUser.await();
+    }
 
-        // here comes the test, if the submit button leads to a success!
-        final CountDownLatch latch2 = new CountDownLatch(1);
+
+    @Test
+    public void test_mock_login() throws InterruptedException {
+
+        LoginActivityViewModel viewModel
+                = new LoginActivityViewModel(mActivityRule.getActivity().getApplication());
+
+        // a login is made with the help of a o auth token.
+
+        final CountDownLatch waitForLogin = new CountDownLatch(1);
 
         final String userName = "TestUser";
 
@@ -107,6 +120,7 @@ public class AccountManagementTest extends InstrumentationTestCase {
                 new LoginActivityViewModel.LoginListener() {
                     @Override
                     public void onRegisterRequested() {
+                        // not in the testing scope
                     }
 
                     @Override
@@ -114,27 +128,47 @@ public class AccountManagementTest extends InstrumentationTestCase {
                         String actualToken = loginIntent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
                         String actualAccountName = loginIntent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 
-                        Assert.assertEquals("token should be 1234", "1234", actualToken);
-                        Assert.assertEquals("account name should be ", userName, actualAccountName);
+                        Assert.assertEquals(
+                                "Token should be 1234",
+                                "1234",
+                                actualToken);
 
-                        latch2.countDown();
+                        Assert.assertEquals(
+                                "Account name should be " + userName,
+                                userName,
+                                actualAccountName);
+
+                        waitForLogin.countDown();
                     }
                 });
 
-        server.enqueue(new MockResponse() // the user login mock
+        mMockWebServer.enqueue(new MockResponse() // the user login mock response
                 .setResponseCode(200)
                 .setBody(MockUtil.getJsonFromFile(mContext, "oauthtoken.json")));
 
-        viewModel.login(mActivityRule.getActivity().getApplicationContext(), userName, "adad");
+        // perform the login //TODO add mock ? verify?
+        viewModel.login(
+                mActivityRule.getActivity().getApplicationContext(),
+                userName,
+                "anyPassword");
 
-        latch2.await();
+        waitForLogin.await();
+
+        // Confirm that the app made the HTTP requests we were expecting
+        RecordedRequest request = mMockWebServer.takeRequest();
+        assertEquals(
+                "The path for logging in should be /oauth/token ",
+                "/oauth/token",
+                request.getPath());
     }
 
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        server.shutdown();
+
+        // shut down the mock web server: close the connection
+        mMockWebServer.shutdown();
     }
 
 }
