@@ -4,12 +4,12 @@
 </p>
 
 <p align="center">
-    <a href="https://www.bitrise.io/app/<TODO>">
-        <img src="https://www.bitrise.io/app/<TODO>.svg?token=<TODO>&branch=stable"
+    <a href="https://www.bitrise.io/app/6fe1acb6436bb231">
+        <img src="https://www.bitrise.io/app/6fe1acb6436bb231.svg?token=qdP4uJ4aGyjzU5pmhGInyA&branch=stable"
              alt="Build Status">
     </a>
-    <a href="https://codebeat.co/projects/github-com-chappted-android-app">
-        <img src="https://codebeat.co/badges/<TODO>"
+    <a href="https://codebeat.co/projects/github-com-chappted-android-app-stable">
+        <img src="https://codebeat.co/badges/879b28ef-7d21-4c1a-9e46-01e32b57f796"
              alt="Codebeat Badge">
     </a>
     <img src="https://img.shields.io/badge/Kotlin-1.2-FFAC45.svg"
