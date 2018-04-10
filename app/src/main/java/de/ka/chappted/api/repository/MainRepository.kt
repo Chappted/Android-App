@@ -1,6 +1,8 @@
-package de.ka.chappted.api
+package de.ka.chappted.api.repository
 
 import de.ka.chappted.BuildConfig
+import de.ka.chappted.api.Client
+import de.ka.chappted.api.ServiceGenerator
 import de.ka.chappted.api.model.OAuthToken
 import de.ka.chappted.api.model.User
 import retrofit2.Call
@@ -12,8 +14,9 @@ import java.util.ArrayList
  * A repository.
  * Created by Thomas Hofmann on 21.12.17.
  */
-class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
-                             private val logsEnabled: Boolean = BuildConfig.LOGS_ENABLED) {
+open class MainRepository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
+                                      private val logsEnabled: Boolean = BuildConfig.LOGS_ENABLED) :
+        Repository {
 
     private var nonAuthorizedClient: Client? = null
     private var authenticatedClient: Client? = null
@@ -27,12 +30,11 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
      * @param refreshToken the current refresh token, needed to fetch a new access token
      * @return the response with a new oauth token with the access token, if the call was successful
      */
-    fun getNewAccessTokenBlocking(refreshToken: String): Response<OAuthToken>? {
+    override fun getNewAccessTokenBlocking(refreshToken: String): Response<OAuthToken>? {
 
         val token = OAuthToken()
 
-        val caller: Call<OAuthToken>?
-                = getNonAuthenticatedClient()?.getNewAccessToken(
+        val caller: Call<OAuthToken>? = getNonAuthenticatedClient()?.getNewAccessToken(
                 refreshToken,
                 token.clientId,
                 token.clientSecret,
@@ -55,14 +57,13 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
      * @param password the password
      * @param callback the callback of the async call
      */
-    fun getNewTokens(username: String,
-                     password: String,
-                     callback: Callback<OAuthToken>) {
+    override fun getNewTokens(username: String,
+                          password: String,
+                          callback: Callback<OAuthToken>) {
 
         val token = OAuthToken()
 
-        val caller: Call<OAuthToken>?
-                = getNonAuthenticatedClient()?.getNewTokens(
+        val caller: Call<OAuthToken>? = getNonAuthenticatedClient()?.getNewTokens(
                 username,
                 password,
                 token.clientId,
@@ -91,7 +92,7 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
      *
      * @param callback the callback of the async call
      */
-    fun getUser(callback: Callback<Void>) {
+    override fun getUser(callback: Callback<Void>) {
 
         val caller: Call<Void>? = getAuthenticatedClient()?.getUser(2)
 
@@ -118,7 +119,7 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
      * @param user the user to register
      * @param callback the callback of the async call
      */
-    fun register(user: User, callback: Callback<User>) {
+    override fun register(user: User, callback: Callback<User>) {
 
         val caller: Call<User>? = getNonAuthenticatedClient()?.register(user)
 
@@ -142,7 +143,7 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
     /**
      * Stops fetching / executing all pending api calls.
      */
-    fun stop() {
+    override fun stop() {
         for (call: Call<*>? in pendingCalls) {
             call?.cancel()
         }
@@ -157,8 +158,8 @@ class Repository constructor(private val baseUrl: String = BuildConfig.BASE_URL,
     private fun getAuthenticatedClient(): Client? {
 
         if (authenticatedClient == null) {
-              authenticatedClient = ServiceGenerator.createAuthenticatedService(
-                       baseUrl, logsEnabled, Client::class.java)
+            authenticatedClient = ServiceGenerator.createAuthenticatedService(
+                    baseUrl, logsEnabled, Client::class.java)
         }
 
         return authenticatedClient

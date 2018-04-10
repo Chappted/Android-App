@@ -1,6 +1,7 @@
 package de.ka.chappted.api
 
 import android.content.Context
+import de.ka.chappted.api.repository.Repository
 import de.ka.chappted.auth.OAuthUtils
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient

@@ -1,22 +1,21 @@
 package de.ka.chappted.mock
 
 import de.ka.chappted.App
-import de.ka.chappted.api.Repository
-import de.ka.chappted.commons.arch.injection.userModule
-import org.koin.Koin
-import org.koin.android.ext.koin.init
+import de.ka.chappted.api.repository.MainRepository
+import de.ka.chappted.api.repository.Repository
 import org.koin.dsl.module.applicationContext
+import org.koin.standalone.StandAloneContext
 
 class TestInjector(url: String, logsEnabled: Boolean) {
 
-    val repository = Repository(url, logsEnabled)
+    val repository = MainRepository(url, logsEnabled)
 
     private val testModule = applicationContext {
-        provide { repository }
+        bean { repository as Repository }
     }
 
     fun overrideInjection(app: App) {
-        Koin().init(app).build(listOf(testModule, userModule))
+        StandAloneContext.loadKoinModules(testModule)
     }
 
 

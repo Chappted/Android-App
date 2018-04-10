@@ -40,7 +40,7 @@ import retrofit2.Response;
  * Created by Thomas Hofmann on 21.12.17.
  */
 @RunWith(AndroidJUnit4.class)
-public class AccountManagementTest extends InstrumentationTestCase {
+public class AccountManagementTest extends InstrumentationTestCase  {
 
     private TestInjector mTestInjector;
     private MockWebServer mMockWebServer;
@@ -65,14 +65,14 @@ public class AccountManagementTest extends InstrumentationTestCase {
         mMockWebServer.start();
         HttpUrl baseUrl = mMockWebServer.url("/");
 
-        // create an injector for dependency injection with a test repository,
-        // initialize it with the mocked web server url
+        // create an injector for dependency injection with a new repository,
+        // initialize it with the mocked web server
         mTestInjector = new TestInjector(baseUrl.toString(), true);
 
-        // use the test injector as the one used in this application instead of
-        // the one defined on app startup
+        // use the test injector to override/extend the koin dependency injection module
         mTestInjector.overrideInjection((App) mActivityRule.getActivity().getApplication());
     }
+
 
     @Test
     public void test_mock_get_user() throws Exception {
@@ -146,7 +146,7 @@ public class AccountManagementTest extends InstrumentationTestCase {
                 .setResponseCode(200)
                 .setBody(MockUtil.getJsonFromFile(mContext, "oauthtoken.json")));
 
-        // perform the login //TODO add mock ? verify?
+        // perform the login
         viewModel.login(
                 mActivityRule.getActivity().getApplicationContext(),
                 userName,
