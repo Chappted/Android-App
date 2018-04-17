@@ -23,6 +23,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="DefaultAppBarTitleStyle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/very_light_gray_text</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFamily">@font/rubikmedium</item>
+    </style>
+
     <style name="DefaultTitleStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/very_light_gray_text</item>

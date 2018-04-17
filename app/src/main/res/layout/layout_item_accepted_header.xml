@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.chappted.main.screens.accepted.items.AcceptedHeaderItemViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/categoryImage"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="18dp"
+            android:layout_alignBottom="@+id/headerText"
+            android:layout_marginBottom="3dp"
+            android:layout_alignParentStart="true"
+            android:src="@{viewModel.headerIcon()}"/>
+
+        <TextView
+            android:id="@+id/headerText"
+            style="@style/DefaultHeaderStyle"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="11dp"
+            android:layout_toEndOf="@+id/categoryImage"
+            android:ellipsize="end"
+            android:gravity="bottom|start"
+            android:maxLines="1"
+            android:text="@{viewModel.headerItem.title}"
+            tools:text="Recommended"/>
+
+    </RelativeLayout>
+</layout>

@@ -6,13 +6,13 @@
 
         <variable
             name="viewModel"
-            type="de.ka.chappted.main.screens.challenges.items.NoConnectionItemViewModel" />
+            type="de.ka.chappted.main.screens.accepted.items.AcceptedNoConnectionItemViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_challenges">
+        android:background="@drawable/gradient_challenges" >
 
         <include
             layout="@layout/layout_collection_challenge_skeletons" />

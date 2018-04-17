@@ -31,9 +31,7 @@ class ChallengesFragment : BaseFragment<FragmentChallengesBinding, ChallengesVie
 
         val adapter = ChallengesAdapter(this, challengesListListener = this)
 
-        viewModel?.let {
-            it.initAdapter(adapter)
-        }
+        viewModel?.initAdapter(adapter)
 
         return view
     }

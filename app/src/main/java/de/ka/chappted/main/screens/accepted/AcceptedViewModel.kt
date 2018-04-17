@@ -1,36 +1,45 @@
-package de.ka.chappted.main.screens.challenges
+package de.ka.chappted.main.screens.accepted
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import de.ka.chappted.App
 import de.ka.chappted.R
+import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.commons.views.OffsetItemDecoration
-import de.ka.chappted.main.screens.challenges.items.ChallengeContentItem
-import de.ka.chappted.main.screens.challenges.items.ChallengeHeaderItem
-import de.ka.chappted.main.screens.challenges.items.ChallengeItem
-import de.ka.chappted.main.screens.challenges.items.ChallengeNoConnectionItem
-import de.ka.chapptedapi.model.Challenge
+import de.ka.chappted.main.screens.accepted.items.AcceptedContentItem
+import de.ka.chappted.main.screens.accepted.items.AcceptedHeaderItem
+import de.ka.chappted.main.screens.accepted.items.AcceptedItem
+import de.ka.chappted.main.screens.accepted.items.AcceptedNoConnectionItem
+import retrofit2.Call
+import retrofit2.Response
+import timber.log.Timber
 
 /**
- * A view model for showing the challenges content.
- *
- * Created by Thomas Hofmann on 01.03.18.
+ * Created by th on 20.12.17.
  */
-class ChallengesViewModel(application: Application) : BaseViewModel(application) {
+class AcceptedViewModel(application: Application) : BaseViewModel(application) {
 
-    var challengesAdapter = MutableLiveData<ChallengesAdapter>()
+    var needsLogin: Boolean = false
+
+    val progressVisibility = MutableLiveData<Int>()
+
+    init {
+        progressVisibility.postValue(View.INVISIBLE)
+    }
+
+    var acceptedAdapter = MutableLiveData<AcceptedAdapter>()
 
     /**
      * Initializes the adapter.
      */
-    fun initAdapter(adapter: ChallengesAdapter) {
+    fun initAdapter(adapter: AcceptedAdapter) {
 
-        if (challengesAdapter.value == null) {
-            challengesAdapter.value = adapter // note that we don't postValue(), as this is instant
+        if (acceptedAdapter.value == null) {
+            acceptedAdapter.value = adapter // note that we don't postValue(), as this is instant
 
             loadChallenges()
         }
@@ -43,92 +52,117 @@ class ChallengesViewModel(application: Application) : BaseViewModel(application)
             .resources.getDimension(R.dimen.offset_top_challenges_list_item).toInt())
 
     /**
-     * Loads challenges and immediately displays them.
+     * Retrieves a layout manager.
      */
+    fun getChallengesLayoutManager() = LinearLayoutManager(getApplication())
+
     fun loadChallenges() {
 
-        challengesAdapter.value?.showLoading()
+        acceptedAdapter.value?.showLoading()
 
         val resources = getApplication<App>().resources
 
-        val list = mutableListOf<ChallengeItem>()
+        val list = mutableListOf<AcceptedItem>()
                 .apply {
-                    add(ChallengeHeaderItem(
-                            R.layout.layout_item_challenge_header,
+                    add(AcceptedHeaderItem(
+                            R.layout.layout_item_accepted_header,
                             resources.getString(R.string.challenge_recommended),
                             R.drawable.ic_recommended))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Friday Tournament",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
                                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …")))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Open Challenge",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
                                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …",
                                     isProtected = true)))
-                    add(ChallengeHeaderItem(
-                            R.layout.layout_item_challenge_header,
+                    add(AcceptedHeaderItem(
+                            R.layout.layout_item_accepted_header,
                             resources.getString(R.string.challenge_nearby),
                             R.drawable.ic_nearby))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Friday Tournament",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Open Challenge",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeHeaderItem(
-                            R.layout.layout_item_challenge_header,
+                    add(AcceptedHeaderItem(
+                            R.layout.layout_item_accepted_header,
                             resources.getString(R.string.challenge_latest),
                             R.drawable.ic_latest))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Friday Tournament",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
                                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …")))
-                    add(ChallengeContentItem(
-                            R.layout.layout_item_challenge,
+                    add(AcceptedContentItem(
+                            R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
-                    add(ChallengeNoConnectionItem(R.layout.layout_item_no_connection))
+                    add(AcceptedNoConnectionItem(R.layout.layout_item_accepted_no_connection))
                 }
 
-
         Handler().postDelayed({
-            challengesAdapter.value?.hideLoading()?.addAll(list)
+            acceptedAdapter.value?.hideLoading()?.addAll(list)
         }, 4_000)
-
     }
 
-    /**
-     * Retrieves a layout manager.
-     */
-    fun getChallengesLayoutManager() = LinearLayoutManager(getApplication())
+    fun onSubmit() {
+        repository.getUser(
+                object : retrofit2.Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        Timber.e("YAY!")
+
+                        needsLogin = response.code() == 401
+
+                        if (response.code() == 200) {
+                            // getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Timber.e(t, "YAY!")
+                    }
+                })
+
+        Handler().postDelayed({ progressVisibility.postValue(View.INVISIBLE) }, 10000)
+        progressVisibility.postValue(View.VISIBLE)
+    }
+
+    override fun onLoggedIn() {
+        if (needsLogin) {
+            onSubmit()
+        }
+    }
+
 }
