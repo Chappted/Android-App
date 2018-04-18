@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/skeleton_challenge_item_size"
+        android:layout_height="@dimen/skeleton_accepted_item_size"
         android:background="@drawable/challenge_list_selector"
         android:onClick="@{(v) -> viewModel.onChallengeClick()}">
 
@@ -21,24 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="18dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@+id/challengeCategory">
 
-        <TextView
-            android:id="@+id/challengeTitle"
-            style="@style/DefaultBigTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@{viewModel.titleDrawable}"
-            android:drawablePadding="8dp"
-            android:ellipsize="end"
-            android:gravity="start|center_vertical"
-            android:maxLines="1"
-            android:text="@{viewModel.acceptedContent.challenge.title}"
-            tools:drawableEnd="@drawable/ic_lock"
-            tools:text="Jamit Labs Season 1 Jamit Labs Season 1 Jamit Labs Season 1 Jamit Labs Season 1" />
+            <TextView
+                android:id="@+id/challengeTitle"
+                style="@style/DefaultBigTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@{viewModel.titleDrawable}"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxLines="1"
+                android:text="@{viewModel.acceptedContent.challenge.title}"
+                tools:drawableEnd="@drawable/ic_lock"
+                tools:text="Jamit Labs Season 1" />
 
         </LinearLayout>
 
@@ -47,37 +47,165 @@
             style="@style/DefaultSubTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="18dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="18dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
             android:text="@{viewModel.acceptedContent.challenge.category}"
             tools:text="FIFA 18" />
 
-        <TextView
-            android:id="@+id/challengeDesc"
-            style="@style/DefaultBodyStyle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="18dp"
-            android:layout_below="@+id/challengeTitleContainer"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="2"
-            android:text="@{viewModel.acceptedContent.challenge.description}"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibgulum nugnc in …" />
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/challengeTitleContainer">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                
+                <ImageView
+                    android:id="@+id/userRankIcon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_user_small"
+                    android:contentDescription="@string/accepted_title"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignTop="@+id/userRankText"
+                    android:layout_alignBottom="@+id/userRankText"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/userRankText"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_width="72dp"
+                    android:layout_height="16dp"
+                    android:text="Your rank:"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/userRankIcon"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/userRankValue"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_width="153dp"
+                    android:layout_height="16dp"
+                    android:text="@{viewModel.acceptedContent.challenge.userRank}"
+                    tools:text="5th (72 points)"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/userRankText"
+                    android:gravity="center_vertical"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/firstPlaceIcon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_first_place_small"
+                    android:contentDescription="@string/accepted_title"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignTop="@+id/firstPlaceText"
+                    android:layout_alignBottom="@+id/firstPlaceText"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/firstPlaceText"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_width="72dp"
+                    android:layout_height="16dp"
+                    android:text="1st rank:"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/firstPlaceIcon"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/firstPlaceValue"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_width="153dp"
+                    android:layout_height="16dp"
+                    android:text="@{viewModel.acceptedContent.challenge.challengeLeader}"
+                    tools:text="Maximilian Mustermann"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/firstPlaceText"
+                    android:gravity="center_vertical"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/endDateIcon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_end_small"
+                    android:contentDescription="@string/accepted_title"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignTop="@+id/endDateText"
+                    android:layout_alignBottom="@+id/endDateText"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/endDateText"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_width="72dp"
+                    android:layout_height="16dp"
+                    android:text="End:"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/endDateIcon"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/endDateValue"
+                    android:layout_width="153dp"
+                    style="@style/DefaultBodyStyle"
+                    android:layout_height="16dp"
+                    android:text="@{viewModel.acceptedContent.challenge.challengeEndDate}"
+                    tools:text="in 15 days (Mar, 22nd)"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toEndOf="@+id/endDateText"
+                    android:gravity="center_vertical"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
         <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/skeleton_challenge_item_size"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/loading_progress_default_size"
             android:indeterminateTint="@color/accent"
+            android:layout_centerInParent="true"
             android:padding="12dp"
             android:visibility="@{viewModel.progressVisibility}" />
+        
+        <ImageView
+            android:layout_width="99dp"
+            android:layout_height="74dp"
+            android:src="@{viewModel.categoryImage}"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="6.5dp"
+            android:layout_marginBottom="9dp"
+            android:alpha="50"
+            tools:src="@drawable/ic_soccer"/>
 
     </RelativeLayout>
 </layout>

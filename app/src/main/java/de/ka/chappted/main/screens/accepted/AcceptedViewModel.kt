@@ -70,20 +70,11 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                             R.drawable.ic_recommended))
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
-                            Challenge(title = "Jamit Labs Season 1",
+                            Challenge(title = "Jamit Labs Season 2",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
-                                    description = "You need to join the challenge to see the description.",
-                                    isProtected = true)))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Friday Tournament",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
-                                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …")))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Jamit Labs Open Challenge",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
-                                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …",
+                                    userRank = "5th (72 points)",
+                                    challengeLeader = "Maximilian Mustermann",
+                                    challengeEndDate = "in 15 days (Mar, 22nd)",
                                     isProtected = true)))
                     add(AcceptedHeaderItem(
                             R.layout.layout_item_accepted_header,
@@ -91,22 +82,12 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                             R.drawable.ic_nearby))
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
-                            Challenge(title = "Jamit Labs Season 1",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
-                                    description = "You need to join the challenge to see the description.",
-                                    isProtected = true)))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Friday Tournament",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
-                                    description = "You need to join the challenge to see the description.",
-                                    isProtected = true)))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Jamit Labs Open Challenge",
+                            Challenge(title = "Karlsruhe Open Challenge",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_mario_kart),
-                                    description = "You need to join the challenge to see the description.",
-                                    isProtected = true)))
+                                    userRank = "2nd (12 points)",
+                                    challengeLeader = "Larissa Huang",
+                                    challengeEndDate = "Never",
+                                    isProtected = false)))
                     add(AcceptedHeaderItem(
                             R.layout.layout_item_accepted_header,
                             resources.getString(R.string.challenge_latest),
@@ -114,19 +95,10 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
-                                    description = "You need to join the challenge to see the description.",
-                                    isProtected = true)))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Friday Tournament",
                                     category = getApplication<App>().resources.getString(R.string.challenge_category_table_tennis),
-                                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac massa vestibulum, vestibulum nunc in …")))
-                    add(AcceptedContentItem(
-                            R.layout.layout_item_accepted,
-                            Challenge(title = "Jamit Labs Season 1",
-                                    category = getApplication<App>().resources.getString(R.string.challenge_category_fifa),
-                                    description = "You need to join the challenge to see the description.",
+                                    userRank = "3rd (106 points)",
+                                    challengeLeader = "Max Mobil",
+                                    challengeEndDate = "2 months ago (Dec, 28th)",
                                     isProtected = true)))
                     add(AcceptedNoConnectionItem(R.layout.layout_item_accepted_no_connection))
                 }
