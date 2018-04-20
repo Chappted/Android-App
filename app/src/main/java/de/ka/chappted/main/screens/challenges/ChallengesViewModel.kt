@@ -3,7 +3,6 @@ package de.ka.chappted.main.screens.challenges
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import de.ka.chappted.App
 import de.ka.chappted.R
@@ -14,6 +13,7 @@ import de.ka.chappted.main.screens.challenges.items.ChallengeHeaderItem
 import de.ka.chappted.main.screens.challenges.items.ChallengeItem
 import de.ka.chappted.main.screens.challenges.items.ChallengeNoConnectionItem
 import de.ka.chapptedapi.model.Challenge
+import de.ka.chappted.main.screens.challenges.items.*
 
 /**
  * A view model for showing the challenges content.
@@ -118,6 +118,7 @@ class ChallengesViewModel(application: Application) : BaseViewModel(application)
                                     description = "You need to join the challenge to see the description.",
                                     isProtected = true)))
                     add(ChallengeNoConnectionItem(R.layout.layout_item_no_connection))
+                    add(ChallengeFooterItem(R.layout.layout_item_challenge_footer))
                 }
 
 

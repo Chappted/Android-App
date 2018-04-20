@@ -41,15 +41,18 @@ class AcceptedContentItemViewModel : BaseItemViewModel() {
             titleDrawable.value = appContext.getDrawable(R.drawable.ic_lock)
         }
 
-        when (content.challenge.category){
+        categoryImage.value = when (content.challenge.category) {
 
             appContext.getString(R.string.challenge_category_fifa)
-            -> categoryImage.value = ContextCompat.getDrawable(appContext, R.drawable.ic_soccer)
+            -> ContextCompat.getDrawable(appContext, R.drawable.ic_soccer)
             appContext.getString(R.string.challenge_category_mario_kart)
-            -> categoryImage.value = ContextCompat.getDrawable(appContext, R.drawable.ic_video_game)
+            -> ContextCompat.getDrawable(appContext, R.drawable.ic_video_game)
             appContext.getString(R.string.challenge_category_table_tennis)
-            -> categoryImage.value = ContextCompat.getDrawable(appContext, R.drawable.ic_table_tennis)
+            -> ContextCompat.getDrawable(appContext, R.drawable.ic_table_tennis)
 
+            else -> {
+                ContextCompat.getDrawable(appContext, R.drawable.ic_video_game)
+            }
         }
     }
 

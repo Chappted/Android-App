@@ -19,7 +19,6 @@
             android:id="@+id/challengesRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
             android:adapter="@{viewModel.acceptedAdapter}"
             app:addItemDecoration="@{viewModel.getItemDecoration()}"
             app:layoutManager="@{viewModel.challengesLayoutManager}"

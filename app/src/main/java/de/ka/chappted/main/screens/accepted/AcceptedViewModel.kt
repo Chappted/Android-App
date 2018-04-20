@@ -10,10 +10,7 @@ import de.ka.chappted.R
 import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.commons.views.OffsetItemDecoration
-import de.ka.chappted.main.screens.accepted.items.AcceptedContentItem
-import de.ka.chappted.main.screens.accepted.items.AcceptedHeaderItem
-import de.ka.chappted.main.screens.accepted.items.AcceptedItem
-import de.ka.chappted.main.screens.accepted.items.AcceptedNoConnectionItem
+import de.ka.chappted.main.screens.accepted.items.*
 import retrofit2.Call
 import retrofit2.Response
 import timber.log.Timber
@@ -66,8 +63,8 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                 .apply {
                     add(AcceptedHeaderItem(
                             R.layout.layout_item_accepted_header,
-                            resources.getString(R.string.challenge_recommended),
-                            R.drawable.ic_recommended))
+                            resources.getString(R.string.accepted_ongoing),
+                            R.drawable.ic_ongoing))
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 2",
@@ -78,8 +75,8 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                                     isProtected = true)))
                     add(AcceptedHeaderItem(
                             R.layout.layout_item_accepted_header,
-                            resources.getString(R.string.challenge_nearby),
-                            R.drawable.ic_nearby))
+                            resources.getString(R.string.accepted_completed),
+                            R.drawable.ic_completed))
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
                             Challenge(title = "Karlsruhe Open Challenge",
@@ -88,10 +85,6 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                                     challengeLeader = "Larissa Huang",
                                     challengeEndDate = "Never",
                                     isProtected = false)))
-                    add(AcceptedHeaderItem(
-                            R.layout.layout_item_accepted_header,
-                            resources.getString(R.string.challenge_latest),
-                            R.drawable.ic_latest))
                     add(AcceptedContentItem(
                             R.layout.layout_item_accepted,
                             Challenge(title = "Jamit Labs Season 1",
@@ -101,6 +94,7 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
                                     challengeEndDate = "2 months ago (Dec, 28th)",
                                     isProtected = true)))
                     add(AcceptedNoConnectionItem(R.layout.layout_item_accepted_no_connection))
+                    add(AcceptedFooterItem(R.layout.layout_item_accepted_footer))
                 }
 
         Handler().postDelayed({

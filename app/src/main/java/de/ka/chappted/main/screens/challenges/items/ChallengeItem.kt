@@ -16,3 +16,5 @@ data class ChallengeContentItem(val layout: Int,
 data class ChallengeNoConnectionItem(val layout: Int) : ChallengeItem(layout)
 
 data class ChallengeLoadingItem(val layout: Int) : ChallengeItem(layout)
+
+data class ChallengeFooterItem(val layout: Int) : ChallengeItem(layout)

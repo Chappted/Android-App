@@ -16,3 +16,5 @@ data class AcceptedContentItem(val layout: Int,
 data class AcceptedNoConnectionItem(val layout: Int) : AcceptedItem(layout)
 
 data class AcceptedLoadingItem(val layout: Int) : AcceptedItem(layout)
+
+data class AcceptedFooterItem(val layout: Int) : AcceptedItem(layout)
