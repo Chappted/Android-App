@@ -18,7 +18,7 @@ import de.ka.chappted.auth.login.LoginActivity
 import android.accounts.AccountManager.KEY_BOOLEAN_RESULT
 import android.accounts.AccountManager.get
 import android.os.Build
-import de.ka.chappted.api.Repository
+import de.ka.chappted.api.repository.Repository
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 

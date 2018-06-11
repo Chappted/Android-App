@@ -4,5 +4,5 @@
   "token_type": "1234",
   "expires_in": 1234,
   "client_id": "1234",
-  "client_sected": "hehe"
+  "client_secret": "hehe"
 }

@@ -8,7 +8,7 @@ import android.os.Bundle
 import de.ka.chappted.R
 
 import de.ka.chappted.api.model.OAuthToken
-import de.ka.chappted.api.Repository
+import de.ka.chappted.api.repository.Repository
 import retrofit2.Callback
 
 /**

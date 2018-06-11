@@ -2,7 +2,7 @@ package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import de.ka.chappted.api.Repository
+import de.ka.chappted.api.repository.Repository
 import de.ka.chappted.auth.UserManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

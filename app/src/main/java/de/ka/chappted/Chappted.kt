@@ -3,8 +3,7 @@ package de.ka.chappted
 import com.squareup.leakcanary.LeakCanary
 import de.ka.chappted.commons.arch.injection.apiModule
 import de.ka.chappted.commons.arch.injection.userModule
-import org.koin.Koin
-import org.koin.android.ext.koin.init
+import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -14,7 +13,8 @@ import timber.log.Timber.DebugTree
 object Chappted {
 
     fun initApp(app: App) {
-        Koin().init(app).build(listOf(apiModule, userModule))
+
+        app.startKoin(app, listOf(apiModule, userModule))
 
         if (!LeakCanary.isInAnalyzerProcess(app)) {
             LeakCanary.install(app)

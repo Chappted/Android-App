@@ -90,7 +90,7 @@ class TooltippedFab : LinearLayout {
 
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
+
 
         val tooltip = findViewById<TextView>(R.id.tooltip)
 
@@ -99,5 +99,7 @@ class TooltippedFab : LinearLayout {
         layoutParams.width = tooltipWidth
 
         tooltip.layoutParams = layoutParams
+
+        super.onLayout(changed, l, t, r, b)
     }
 }
