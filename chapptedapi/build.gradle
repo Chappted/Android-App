@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField "boolean", "LOGS_ENABLED", "true"
+            buildConfigField "String", "BASE_URL", "\"https://chappted.herokuapp.com/api/v1/\""
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "LOGS_ENABLED", "false"
+            buildConfigField "String", "BASE_URL", "\"https://chappted.herokuapp.com/api/v1/\""
+        }
+    }
+
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.41"
+
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    // logging
+    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    // networking
+    api "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
+}
+repositories {
+    mavenCentral()
+}

@@ -5,8 +5,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
 import android.view.View
 import de.ka.chappted.commons.arch.base.BaseViewModel
-import retrofit2.Call
-import retrofit2.Response
+import de.ka.chapptedapi.jlsapi.JlsError
+import de.ka.chapptedapi.jlsapi.JlsCallback
+import de.ka.chapptedapi.jlsapi.JlsResponse
 import timber.log.Timber
 
 /**
@@ -22,28 +23,28 @@ class AcceptedFragmentViewModel(application: Application) : BaseViewModel(applic
         progressVisibility.postValue(View.INVISIBLE)
     }
 
-
     fun onSubmit() {
+        progressVisibility.postValue(View.VISIBLE)
+
         repository.getUser(
-                object : retrofit2.Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                getApplication(),
+                object : JlsCallback<Void>() {
+
+                    override fun onSuccess(response: JlsResponse<Void>) {
                         Timber.e("YAY!")
 
-                        needsLogin = response.code() == 401
-
-                        if (response.code() == 200) {
-                            // getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
-                        }
+                        progressVisibility.postValue(View.INVISIBLE)
 
                     }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Timber.e(t, "YAY!")
+                    override fun onFailed(error: JlsError?) {
+
+                        progressVisibility.postValue(View.INVISIBLE)
                     }
+
+
                 })
 
-        Handler().postDelayed({ progressVisibility.postValue(View.INVISIBLE) }, 10000)
-        progressVisibility.postValue(View.VISIBLE)
     }
 
     override fun onLoggedIn() {

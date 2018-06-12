@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">chapptedapi</string>
+
+    <string name="account_type" translatable="false">Default Account Type</string>
+
+    <string name="account_error_multiple_accounts">Only one account is supported</string>
+    <string name="account_error_tokentype">Invalid token type</string>
+    <string name="account_token_label">Chappted Account</string>
+</resources>
