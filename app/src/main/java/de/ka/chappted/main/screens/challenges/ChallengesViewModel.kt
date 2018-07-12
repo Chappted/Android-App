@@ -2,19 +2,18 @@ package de.ka.chappted.main.screens.challenges
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import de.ka.chappted.App
 import de.ka.chappted.R
-import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.commons.views.OffsetItemDecoration
 import de.ka.chappted.main.screens.challenges.items.ChallengeContentItem
 import de.ka.chappted.main.screens.challenges.items.ChallengeHeaderItem
 import de.ka.chappted.main.screens.challenges.items.ChallengeItem
 import de.ka.chappted.main.screens.challenges.items.ChallengeNoConnectionItem
+import de.ka.chapptedapi.model.Challenge
 
 /**
  * A view model for showing the challenges content.

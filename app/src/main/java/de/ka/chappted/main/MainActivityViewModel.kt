@@ -1,8 +1,6 @@
 package de.ka.chappted.main
 
 import android.app.Application
-import android.arch.lifecycle.MutableLiveData
-import android.support.design.widget.BottomNavigationView
 import de.ka.chappted.commons.arch.base.BaseViewModel
 
 /**
@@ -12,14 +10,7 @@ import de.ka.chappted.commons.arch.base.BaseViewModel
  */
 class MainActivityViewModel(application: Application) : BaseViewModel(application) {
 
-    val selectedActionId = MutableLiveData<Int>()
 
-    fun navigationItemSelectionListener(): BottomNavigationView.OnNavigationItemSelectedListener {
-        return BottomNavigationView.OnNavigationItemSelectedListener {
-            navigationListener?.onNavigateTo(it.itemId)
-            true
-        }
-    }
 
 
 }

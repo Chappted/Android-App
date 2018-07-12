@@ -2,11 +2,8 @@ package de.ka.chappted.commons.arch.base
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import de.ka.chappted.api.repository.Repository
-import de.ka.chappted.auth.UserManager
-import io.reactivex.android.schedulers.AndroidSchedulers
+import de.ka.chapptedapi.repository.Repository
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
@@ -17,7 +14,6 @@ import org.koin.standalone.inject
  */
 abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComponent {
 
-    val userManager: UserManager by inject()
     val repository: Repository by inject()
 
     var navigationListener: NavigationListener? = null
@@ -33,14 +29,14 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app), KoinComp
 
         compositeDisposable = CompositeDisposable()
 
-        compositeDisposable?.let {
-            userManager.userJustLoggedIn
+       /* compositeDisposable?.let {
+            OAuthUtils.authorizedEvent
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         onLoggedIn()
                     }
                     .addTo(it)
-        }
+        }*/
     }
 
     /**

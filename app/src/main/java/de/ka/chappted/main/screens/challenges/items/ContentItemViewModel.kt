@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.View
 import de.ka.chappted.R
-import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseItemViewModel
 import de.ka.chappted.main.screens.challenges.ChallengeListListener
 
