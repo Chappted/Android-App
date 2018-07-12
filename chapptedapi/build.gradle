@@ -22,13 +22,17 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
             buildConfigField "boolean", "LOGS_ENABLED", "false"
             buildConfigField "String", "BASE_URL", "\"https://chappted.herokuapp.com/api/v1/\""
         }
     }
 
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+
+    lintOptions {
+        lintConfig rootProject.file('chapptedapi/lint.xml') //workaround for bug in retrofit (!)
+    }
 }
 
 dependencies {
@@ -44,12 +48,12 @@ dependencies {
 
     // logging
     implementation 'com.jakewharton.timber:timber:4.7.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     // networking
-    api "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
-    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
+    api "com.squareup.retrofit2:retrofit:2.4.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
 }
 repositories {
     mavenCentral()

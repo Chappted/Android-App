@@ -35,6 +35,8 @@
 -dontwarn com.squareup.okhttp.**
 -dontwarn okio.**
 
+-dontwarn android.support.**
+
 -keepclassmembers enum * { *; }
 
 # <all just for adjust :D>
