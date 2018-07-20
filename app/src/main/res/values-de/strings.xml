@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Chappted</string>
+    <!-- Misc -->
+    <string name="loading_default">Lade…</string>
+    <string name="error_connection_failed">Verbindung zum Server fehlgeschlagen.</string>
+    <string name="try_again">Erneut versuchen</string>
+    <string name="show_more">Zeige mehr</string>
+
+    <!-- challenges -->
+    <string name="challenges_title">Challenges</string>
+    <string name="challenge_recommended">Empfohlen</string>
+    <string name="challenge_nearby">In der Nähe</string>
+    <string name="challenge_latest">Letzte</string>
+    <string name="challenge_category_table_tennis">Tischtennis</string>
+    <string name="challenge_category_mario_kart">Mario Kart</string>
+    <string name="challenge_category_fifa">FIFA 18</string>
+
+    <string name="challenge_fab_search">Suche</string>
+    <string name="challenge_fab_newchallenge">Neue Challenge</string>
+    <string name="challenge_fab_showmap">Kartenansicht</string>
+
+    <!-- accepted -->
+    <string name="accepted_title">Accepted</string>
+
+</resources>
