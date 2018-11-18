@@ -1,14 +1,14 @@
 package de.ka.chappted.main
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import de.ka.chappted.R
 import de.ka.chappted.main.screens.accepted.AcceptedFragment
 import de.ka.chappted.main.screens.challenges.ChallengesFragment
 
-class MainPagesAdapter(fragmentManager: FragmentManager, context: Context)
+class MainPagesAdapter(fragmentManager: androidx.fragment.app.FragmentManager, context: Context)
     : FragmentPagerAdapter(fragmentManager) {
 
     var items: MutableList<MainItem> = mutableListOf<MainItem>().apply {
@@ -24,4 +24,4 @@ class MainPagesAdapter(fragmentManager: FragmentManager, context: Context)
 }
 
 
-data class MainItem(val fragment: Fragment, val title: String)
+data class MainItem(val fragment: androidx.fragment.app.Fragment, val title: String)

@@ -1,6 +1,6 @@
 package de.ka.chappted.main.screens.challenges.items
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.View

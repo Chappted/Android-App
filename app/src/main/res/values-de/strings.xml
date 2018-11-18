@@ -21,5 +21,7 @@
 
     <!-- accepted -->
     <string name="accepted_title">Accepted</string>
+    <string name="accepted_ongoing">Ongoing</string>
+    <string name="accepted_completed">Completed</string>
 
 </resources>

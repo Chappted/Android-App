@@ -1,7 +1,7 @@
 package de.ka.chappted.commons.arch.base
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
+import androidx.lifecycle.AndroidViewModel
 import de.ka.chapptedapi.repository.Repository
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent

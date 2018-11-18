@@ -10,7 +10,7 @@ android {
         targetSdkVersion "$targetsdk_version".toInteger()
         versionCode "$project_version_code".toInteger()
         versionName "$project_version_name"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -44,21 +44,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$androidsdk_version"
-    implementation "com.android.support:design:$androidsdk_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "androidx.appcompat:appcompat:$androidsdk_version"
+    implementation "com.google.android.material:material:$android_material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$android_constraint_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
-    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // testing
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'org.mockito:mockito-core:2.8.9'
+    androidTestImplementation "androidx.test:runner:$android_test_runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_espresso_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
 
     // logging
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation "com.jakewharton.timber:timber:$timber_version"
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
@@ -66,11 +66,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
 
     // dependency injection
-    implementation 'org.koin:koin-android:0.9.3'
+    implementation "org.koin:koin-android:$koin_version"
 
     // leak detection
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
 
     implementation project(':chapptedapi')
 

@@ -1,7 +1,7 @@
 package de.ka.chappted.commons.arch.navigation
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 import io.reactivex.subjects.PublishSubject
 

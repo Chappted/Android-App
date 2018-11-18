@@ -1,9 +1,9 @@
 package de.ka.chappted.main.screens.accepted.items
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseItemViewModel

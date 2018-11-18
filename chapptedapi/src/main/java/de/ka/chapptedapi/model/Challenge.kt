@@ -1,6 +1,6 @@
 package de.ka.chapptedapi.model
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 @Keep
 class Challenge(val title: String? = "",

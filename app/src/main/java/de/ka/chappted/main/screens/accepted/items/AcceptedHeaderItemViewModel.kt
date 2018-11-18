@@ -1,7 +1,7 @@
 package de.ka.chappted.main.screens.accepted.items
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.v4.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.core.content.ContextCompat
 import de.ka.chappted.commons.arch.base.BaseItemViewModel
 import de.ka.chappted.main.screens.accepted.AcceptedListListener
 

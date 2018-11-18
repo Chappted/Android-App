@@ -1,10 +1,10 @@
 package de.ka.chappted.main.screens.accepted
 
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import de.ka.chappted.BR
@@ -15,10 +15,10 @@ import de.ka.chappted.main.screens.accepted.items.*
  * Adapter class for displaying challenges.
  */
 class AcceptedAdapter(
-        private val fragment: Fragment,
+        private val fragment: androidx.fragment.app.Fragment,
         private val items: MutableList<AcceptedItem> = mutableListOf(),
         val acceptedListListener: AcceptedListListener)
-    : RecyclerView.Adapter<AcceptedViewHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<AcceptedViewHolder>() {
 
     private val loadingAccepted = AcceptedLoadingItem(R.layout.layout_item_loading)
 
@@ -131,7 +131,7 @@ class AcceptedAdapter(
  * A view holder for a challenge item.
  */
 class AcceptedViewHolder(val dataBinding: ViewDataBinding)
-    : RecyclerView.ViewHolder(dataBinding.root)
+    : androidx.recyclerview.widget.RecyclerView.ViewHolder(dataBinding.root)
 
 
 /**

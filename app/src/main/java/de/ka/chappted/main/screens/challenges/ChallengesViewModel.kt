@@ -1,9 +1,9 @@
 package de.ka.chappted.main.screens.challenges
 
 import android.app.Application
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.os.Handler
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.ka.chappted.App
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseViewModel
@@ -131,5 +131,5 @@ class ChallengesViewModel(application: Application) : BaseViewModel(application)
     /**
      * Retrieves a layout manager.
      */
-    fun getChallengesLayoutManager() = LinearLayoutManager(getApplication())
+    fun getChallengesLayoutManager() = androidx.recyclerview.widget.LinearLayoutManager(getApplication())
 }

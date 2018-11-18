@@ -1,8 +1,8 @@
 package de.ka.chappted.main.screens.accepted.items
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
-import de.ka.chappted.api.model.Challenge
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
+import de.ka.chapptedapi.model.Challenge
 
 open class AcceptedItem(@param:LayoutRes @field:LayoutRes val layoutResId: Int)
 

@@ -1,7 +1,7 @@
 package de.ka.chappted.main
 
 import android.app.Application
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.ka.chappted.App
 import de.ka.chappted.R
 import de.ka.chappted.commons.arch.base.BaseViewModel
@@ -25,9 +25,9 @@ class MainActivityViewModel(application: Application) : BaseViewModel(applicatio
 
     }
 
-    fun getSmallFabSize() = FloatingActionButton.SIZE_MINI
+    fun getSmallFabSize() = com.google.android.material.floatingactionbutton.FloatingActionButton.SIZE_MINI
 
-    fun getBigFabSize() = FloatingActionButton.SIZE_NORMAL
+    fun getBigFabSize() = com.google.android.material.floatingactionbutton.FloatingActionButton.SIZE_NORMAL
 
     fun getSearchTooltip() = getApplication<App>().getString(R.string.challenge_fab_search)
 

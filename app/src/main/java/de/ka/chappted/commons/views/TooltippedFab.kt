@@ -2,7 +2,7 @@ package de.ka.chappted.commons.views
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -45,14 +45,14 @@ class TooltippedFab : LinearLayout {
     }
 
     fun setFabSize(size: Int) {
-        findViewById<FloatingActionButton>(R.id.fab)?.size = size
+        findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.size = size
     }
 
     /**
      * Sets the icon of the fab.
      */
     fun setIcon(drawable: Drawable) {
-        findViewById<FloatingActionButton>(R.id.fab)?.setImageDrawable(drawable)
+        findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.setImageDrawable(drawable)
     }
 
     /**
@@ -66,7 +66,7 @@ class TooltippedFab : LinearLayout {
      * Sets the on click listener of the tooltipped fab.
      */
     private fun setFabClickListener(listener: (View) -> (Unit)) {
-        findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener(listener)
+        findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.setOnClickListener(listener)
     }
 
     /**

@@ -10,21 +10,21 @@
             type="de.ka.chappted.main.MainActivityViewModel"/>
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:background="@color/secondary">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,9 +53,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 style="@style/DefaultTabLayoutStyle"
                 android:layout_width="match_parent"
@@ -64,9 +64,9 @@
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"/>
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
 
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
@@ -114,5 +114,5 @@
             app:toolTipWidth="@dimen/tooltip_default_width_normal_small"/>
 
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

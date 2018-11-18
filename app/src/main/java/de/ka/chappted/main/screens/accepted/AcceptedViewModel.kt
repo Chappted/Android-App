@@ -1,18 +1,19 @@
 package de.ka.chappted.main.screens.accepted
 
 import android.app.Application
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.os.Handler
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import de.ka.chappted.App
 import de.ka.chappted.R
-import de.ka.chappted.api.model.Challenge
 import de.ka.chappted.commons.arch.base.BaseViewModel
 import de.ka.chappted.commons.views.OffsetItemDecoration
 import de.ka.chappted.main.screens.accepted.items.*
-import retrofit2.Call
-import retrofit2.Response
+import de.ka.chapptedapi.jlsapi.JlsCallback
+import de.ka.chapptedapi.jlsapi.JlsError
+import de.ka.chapptedapi.jlsapi.JlsResponse
+import de.ka.chapptedapi.model.Challenge
 import timber.log.Timber
 
 /**
@@ -51,7 +52,7 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
     /**
      * Retrieves a layout manager.
      */
-    fun getChallengesLayoutManager() = LinearLayoutManager(getApplication())
+    fun getChallengesLayoutManager() = androidx.recyclerview.widget.LinearLayoutManager(getApplication())
 
     fun loadChallenges() {
 
@@ -103,23 +104,20 @@ class AcceptedViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun onSubmit() {
-        repository.getUser(
-                object : retrofit2.Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        Timber.e("YAY!")
+        repository.getUser(getApplication(), object : JlsCallback<Void>() {
+            override fun onSuccess(response: JlsResponse<Void>) {
+                Timber.e("YAY!")
 
-                        needsLogin = response.code() == 401
+                needsLogin = response.code == 401
 
-                        if (response.code() == 200) {
-                            // getApplication<Application>().startActivity(Intent(getApplication(), TesterActivity::class.java))
-                        }
-
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Timber.e(t, "YAY!")
-                    }
-                })
+                if (response.code == 200) {
+                    Timber.e("user exists and can login")
+                }
+            }
+            override fun onFailed(error: JlsError?) {
+                Timber.e(error.toString(), "YAY!")
+            }
+        })
 
         Handler().postDelayed({ progressVisibility.postValue(View.INVISIBLE) }, 10000)
         progressVisibility.postValue(View.VISIBLE)

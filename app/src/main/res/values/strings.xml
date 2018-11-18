@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Chappted</string>
 
-
-
     <!-- Misc -->
     <string name="loading_default">Loading…</string>
     <string name="error_connection_failed">Connection to server failed.</string>

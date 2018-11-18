@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/challenges_section_skeleton"
-    android:layout_marginTop="11dp"
-    android:layout_width="match_parent"
-    android:layout_height="248dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   android:background="@drawable/challenges_section_skeleton"
+                                                   android:layout_marginTop="11dp"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="248dp">
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

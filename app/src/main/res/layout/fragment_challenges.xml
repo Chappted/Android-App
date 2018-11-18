@@ -10,12 +10,12 @@
             type="de.ka.chappted.main.screens.challenges.ChallengesViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/challengesRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,5 +25,5 @@
 
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
